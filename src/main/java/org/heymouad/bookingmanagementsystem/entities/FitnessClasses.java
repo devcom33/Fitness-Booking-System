@@ -22,7 +22,7 @@ public class FitnessClasses {
     @Column(nullable = false, length = 100)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String description;
 
     @Column(nullable = false)
