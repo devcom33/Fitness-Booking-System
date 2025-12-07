@@ -1,4 +1,6 @@
 package org.heymouad.bookingmanagementsystem.dtos;
 
-public record InstructorDto(UserResponseDto userResponseDtoDto, String bio, String specialization) {
+import java.util.UUID;
+
+public record InstructorDto(UUID id, UserResponseDto userResponseDtoDto, String bio, String specialization) {
 }
