@@ -33,17 +33,14 @@ public class ClassSchedules {
     private FitnessClasses fitnessClasses;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private DayOfWeek dayOfWeek;
-
-    @Column(nullable = false)
     private ZonedDateTime startTime;
 
     @Column(nullable = false)
     private ZonedDateTime endTime;
 
-    @Column(nullable = false)
-    private boolean recurring;
+    @ManyToOne
+    @JoinColumn(name = "recurring_template_id")
+    private RecurringScheduleTemplate template;
 
     @CreatedDate
     private Instant createdAt;
