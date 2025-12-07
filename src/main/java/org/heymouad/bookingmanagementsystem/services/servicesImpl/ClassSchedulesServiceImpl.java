@@ -3,7 +3,6 @@ package org.heymouad.bookingmanagementsystem.services.servicesImpl;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.heymouad.bookingmanagementsystem.dtos.ClassSchedulesDto;
-import org.heymouad.bookingmanagementsystem.dtos.InstructorDto;
 import org.heymouad.bookingmanagementsystem.entities.ClassSchedules;
 import org.heymouad.bookingmanagementsystem.exceptions.InstructorBusyException;
 import org.heymouad.bookingmanagementsystem.exceptions.InvalidScheduleException;
