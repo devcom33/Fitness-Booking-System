@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.heymouad.bookingmanagementsystem.enums.BookingsStatus;
+import org.heymouad.bookingmanagementsystem.enums.BookingStatus;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.Instant;
@@ -18,7 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Bookings {
+public class Booking {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Id
     private UUID id;
@@ -44,7 +44,7 @@ public class Bookings {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private BookingsStatus status;
+    private BookingStatus status;
 
     @CreatedDate
     private Instant createdAt;

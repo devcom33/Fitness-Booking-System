@@ -1,5 +1,5 @@
 package org.heymouad.bookingmanagementsystem.enums;
 
-public enum BookingsStatus {
+public enum BookingStatus {
     PENDING, CONFIRMED, CANCELLED
 }
