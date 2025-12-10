@@ -23,24 +23,14 @@ public class Booking {
     @Id
     private UUID id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "class_schedule_id")
     private ClassSchedules classSchedules;
-
-    @ManyToOne
-    @JoinColumn(name = "instructor_id")
-    private Instructor instructor;
-
-    @Column(nullable = false)
-    private ZonedDateTime startTime;
-
-    @Column(nullable = false)
-    private ZonedDateTime endTime;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
