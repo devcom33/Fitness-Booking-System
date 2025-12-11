@@ -13,77 +13,63 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
 
-
 @Transactional
 @RequiredArgsConstructor
 @Service
 public class FitnessClassesServiceImpl implements FitnessClassesService {
     private final FitnessClassesRepository fitnessClassesRepository;
-    private final FitnessClassesMapper fitnessClassesMapper;
 
     /**
-     * Persists a new Fitness Class entity based on the provided DTO
-     * * @param fitnessClassesDto The DTO containing the details of the fitnessclass to be created
-     * @return The DTO representation of the newly created and saved FitnessClass
+     * Create a new Fitness Class entity
+     * @param fitnessClass The Entity containing the details of the fitnessclass to be created
+     * @return The newly created and saved FitnessClasses Entity
      */
     @Override
-    public FitnessClassesDto createFitnessClasses(FitnessClassesDto fitnessClassesDto) {
-        FitnessClasses fitnessClasses = fitnessClassesMapper.toFitnessClasses(fitnessClassesDto);
-        FitnessClasses savedEntity = fitnessClassesRepository.save(fitnessClasses);
-
-        return fitnessClassesMapper.toFitnessClassesDto(savedEntity);
+    public FitnessClasses createFitnessClasses(FitnessClasses fitnessClass) {
+        return fitnessClassesRepository.save(fitnessClass);
     }
 
     /**
-     * Updates an existing FitnessClass entity identified by its ID
-     * * @param id The unique id of the FitnessClass to update
-     * @param fitnessClassesDto The DTO containing the updated fields for the fitness class
-     * @return The DTO of the updated FitnessClass
+     * updates an existing FitnessClass entity identified by its ID
+     * @param id The unique id of the FitnessClass to update
+     * @param fitnessClass the Entity containing the updated fields for the fitness class
+     * @return The updated FitnessClasses Entity
      * @throws ResourceNotFoundException If no Fitness Class is found with the given ID
      */
     @Override
-    public FitnessClassesDto updateFitnessClasses(UUID id, FitnessClassesDto fitnessClassesDto) {
+    public FitnessClasses updateFitnessClasses(UUID id, FitnessClasses fitnessClass) {
         FitnessClasses entityToUpdate = fitnessClassesRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Fitness Class", id));
 
-        entityToUpdate.setName(fitnessClassesDto.name());
-        entityToUpdate.setDescription(fitnessClassesDto.description());
-        entityToUpdate.setCategory(fitnessClassesDto.category());
-        entityToUpdate.setCapacity(fitnessClassesDto.capacity());
-        entityToUpdate.setDurationMinutes(fitnessClassesDto.durationMinutes());
+        entityToUpdate.setName(fitnessClass.getName());
+        entityToUpdate.setDescription(fitnessClass.getDescription());
+        entityToUpdate.setCategory(fitnessClass.getCategory());
+        entityToUpdate.setCapacity(fitnessClass.getCapacity());
+        entityToUpdate.setDurationMinutes(fitnessClass.getDurationMinutes());
 
-        fitnessClassesRepository.save(entityToUpdate);
-
-        return fitnessClassesMapper.toFitnessClassesDto(entityToUpdate);
+        return fitnessClassesRepository.save(entityToUpdate);
     }
 
     /**
      * Retrieves a single Fitness Class by its unique id
-     * * @param id The ID of the Fitness Class to retrieve
-     * @return The DTO of the requested Fitness Class
+     * @param id The ID of the Fitness Class to retrieve
+     * @return The requested FitnessClasses Entity
      * @throws ResourceNotFoundException If no Fitness Class is found with the given ID
      */
     @Transactional(readOnly = true)
     @Override
-    public FitnessClassesDto getFitnessClassesById(UUID id) {
-        FitnessClasses fitnessClasses = fitnessClassesRepository.findById(id).orElseThrow(
+    public FitnessClasses getFitnessClassesById(UUID id) {
+        return fitnessClassesRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Fitness Class", id));
-
-        return fitnessClassesMapper.toFitnessClassesDto(fitnessClasses);
     }
 
     /**
      * Retrieves all Fitness Class entities from the database
-     * * @return A list of DTOs
+     * @return A list of all FitnessClasses Entities
      */
     @Transactional(readOnly = true)
     @Override
-    public List<FitnessClassesDto> getAllFitnessClasses() {
-        List<FitnessClasses> fitnessClassesList = fitnessClassesRepository.findAll();
-        return fitnessClassesList
-                .stream()
-                .map(fitnessClassesMapper::toFitnessClassesDto)
-                .toList();
+    public List<FitnessClasses> getAllFitnessClasses() {
+        return fitnessClassesRepository.findAll();
     }
-
 }
