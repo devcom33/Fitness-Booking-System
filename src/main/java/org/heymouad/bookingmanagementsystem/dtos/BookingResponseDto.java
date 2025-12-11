@@ -6,10 +6,7 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 public record BookingResponseDto(UUID id,
-                                 UserRegistrationRequestDto userRegistrationRequestDto,
-                                 ClassSchedulesDto classSchedulesDto,
-                                 InstructorDto instructorDto,
-                                 ZonedDateTime startTime,
-                                 ZonedDateTime endTime,
+                                 UserDto userDto,
+                                 ClassScheduleSummaryDto classSchedulesDto,
                                  BookingStatus status) {
 }

@@ -1,10 +1,11 @@
 package org.heymouad.bookingmanagementsystem.dtos;
 
-import org.heymouad.bookingmanagementsystem.enums.DayOfWeek;
 
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
-public record ClassSchedulesDto(InstructorDto instructorDto,
+public record ClassSchedulesDto(UUID id,
+                                InstructorDto instructorDto,
                                 FitnessClassesDto fitnessClassesDto,
                                 ZonedDateTime startTime,
                                 ZonedDateTime endTime,
