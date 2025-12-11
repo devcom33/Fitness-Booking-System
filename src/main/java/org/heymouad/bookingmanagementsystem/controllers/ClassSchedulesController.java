@@ -6,13 +6,14 @@ import org.heymouad.bookingmanagementsystem.dtos.ClassSchedulesDto;
 import org.heymouad.bookingmanagementsystem.entities.ClassSchedules;
 import org.heymouad.bookingmanagementsystem.mappers.ClassSchedulesMapper;
 import org.heymouad.bookingmanagementsystem.services.ClassSchedulesService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("/api/v1/ClassSchedules/")
+@RequestMapping("/api/v1/class-schedules")
 @RestController
 @RequiredArgsConstructor
 public class ClassSchedulesController {
@@ -30,7 +31,7 @@ public class ClassSchedulesController {
                 .map(classSchedulesMapper::toClassSchedulesDto)
                 .toList();
 
-        return ResponseEntity.ok(savedClassSchedulesDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedClassSchedulesDto);
     }
 
     @GetMapping("/{id}")
