@@ -2,10 +2,7 @@ package org.heymouad.bookingmanagementsystem.entities;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.heymouad.bookingmanagementsystem.enums.BookingStatus;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -13,6 +10,7 @@ import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor
