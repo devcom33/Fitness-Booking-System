@@ -22,7 +22,7 @@ public class Instructor {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    // optional = false - cannot have an instructor record without a corresponding user
+    // optional = false --> cannot have an instructor record without a corresponding user
     @OneToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
