@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-public interface ClassSchedulesRepository extends JpaRepository<ClassSchedules, UUID> {
+public interface ClassScheduleRepository extends JpaRepository<ClassSchedules, UUID> {
     @Query("""
         SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END
             FROM ClassSchedules c
