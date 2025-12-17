@@ -1,17 +1,16 @@
 package org.heymouad.bookingmanagementsystem.services.servicesImpl;
 
 import lombok.RequiredArgsConstructor;
-import org.heymouad.bookingmanagementsystem.dtos.BookingRequestDto;
-import org.heymouad.bookingmanagementsystem.dtos.ClassSchedulesDto;
 import org.heymouad.bookingmanagementsystem.entities.Booking;
 import org.heymouad.bookingmanagementsystem.entities.ClassSchedules;
 import org.heymouad.bookingmanagementsystem.entities.User;
 import org.heymouad.bookingmanagementsystem.enums.BookingStatus;
 import org.heymouad.bookingmanagementsystem.exceptions.CapacityExceededException;
+import org.heymouad.bookingmanagementsystem.exceptions.InvalidInputException;
 import org.heymouad.bookingmanagementsystem.exceptions.ResourceNotFoundException;
 import org.heymouad.bookingmanagementsystem.repositories.BookingRepository;
 import org.heymouad.bookingmanagementsystem.services.BookingService;
-import org.heymouad.bookingmanagementsystem.services.ClassSchedulesService;
+import org.heymouad.bookingmanagementsystem.services.ClassScheduleService;
 import org.heymouad.bookingmanagementsystem.services.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +25,7 @@ import java.util.UUID;
 public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final UserService userService;
-    private final ClassSchedulesService classSchedulesService;
+    private final ClassScheduleService classScheduleService;
 
     /**
      * Creates a new booking, checks capacity, and links persistent entities
@@ -36,14 +35,21 @@ public class BookingServiceImpl implements BookingService {
      */
     @Override
     public Booking createBooking(Booking booking) {
+        if (booking.getUser() == null || booking.getUser().getId() == null) {
+            throw new InvalidInputException("User information is required for creating a booking.");
+        }
         UUID userId = booking.getUser().getId();
+
+        if (booking.getClassSchedules() == null || booking.getClassSchedules().getId() == null) {
+            throw new InvalidInputException("Class schedule information is required for creating a booking.");
+        }
         UUID scheduleId = booking.getClassSchedules().getId();
 
         User user = userService.getUserById(userId);
-        ClassSchedules classSchedules = classSchedulesService.getClassScheduleById(scheduleId);
+        ClassSchedules classSchedules = classScheduleService.getClassScheduleById(scheduleId);
 
         // Capacity Check
-        int maxCapacity = classSchedules.getFitnessClasses().getCapacity();
+        int maxCapacity = classSchedules.getFitnessClass().getCapacity();
         List<BookingStatus> holdingStatuses = List.of(BookingStatus.CONFIRMED, BookingStatus.PENDING);
         long bookedCount = bookingRepository.countByClassSchedulesIdAndStatusIn(scheduleId, holdingStatuses);
 

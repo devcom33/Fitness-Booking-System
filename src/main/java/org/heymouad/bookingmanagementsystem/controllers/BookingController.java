@@ -24,17 +24,17 @@ public class BookingController {
     @PostMapping
     public ResponseEntity<BookingResponseDto> createBooking(@RequestBody BookingRequestDto bookingRequestDto)
     {
-        Booking booking = bookingMapper.toBooking(bookingRequestDto);
+        Booking booking = bookingMapper.toEntity(bookingRequestDto);
         Booking createdBooking = bookingService.createBooking(booking);
 
-        return ResponseEntity.ok(bookingMapper.toBookingResponseDto(createdBooking));
+        return ResponseEntity.ok(bookingMapper.toResponseDto(createdBooking));
     }
 
     @PatchMapping("/{id}/status")
     public ResponseEntity<BookingResponseDto> updateBookingStatus(@PathVariable UUID id, @RequestBody BookingStatus newStatus) {
         Booking booking = bookingService.updateBookingStatus(id, newStatus);
 
-        return ResponseEntity.ok(bookingMapper.toBookingResponseDto(booking));
+        return ResponseEntity.ok(bookingMapper.toResponseDto(booking));
     }
 
     @GetMapping("/{id}")
@@ -42,13 +42,13 @@ public class BookingController {
     {
         Booking booking = bookingService.getBookingById(id);
 
-        return ResponseEntity.ok(bookingMapper.toBookingResponseDto(booking));
+        return ResponseEntity.ok(bookingMapper.toResponseDto(booking));
     }
 
     @GetMapping
     public ResponseEntity<List<BookingResponseDto>> getAllBookings()
     {
-        List<BookingResponseDto> bookingResponseDtoList = bookingService.getAllBookings().stream().map(bookingMapper::toBookingResponseDto).toList();
+        List<BookingResponseDto> bookingResponseDtoList = bookingService.getAllBookings().stream().map(bookingMapper::toResponseDto).toList();
         return ResponseEntity.ok(bookingResponseDtoList);
     }
 }
