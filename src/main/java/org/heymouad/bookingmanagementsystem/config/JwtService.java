@@ -4,6 +4,7 @@ package org.heymouad.bookingmanagementsystem.config;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -37,6 +38,11 @@ public class JwtService {
         return extractExpiration(token).before(new Date());
     }
 
+    public boolean isTokenValid(String token, UserDetails userDetails)
+    {
+        final String username = extractUsername(token);
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+    }
 
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
