@@ -3,11 +3,16 @@ package org.heymouad.bookingmanagementsystem.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.Instant;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -24,7 +29,8 @@ import java.util.UUID;
                 @Index(name = "idx_user_email", columnList = "email")
         }
 )
-public class User {
+@EntityListeners(AuditingEntityListener.class)
+public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Id
     private UUID id;
@@ -38,14 +44,24 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Role role;
 
     @CreatedDate
+    @Column(updatable = false)
     private Instant createdAt;
 
     @LastModifiedDate
     private Instant modifiedAt;
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
 }
