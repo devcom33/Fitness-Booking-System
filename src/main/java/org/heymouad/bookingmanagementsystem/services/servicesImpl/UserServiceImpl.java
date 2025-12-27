@@ -2,7 +2,6 @@ package org.heymouad.bookingmanagementsystem.services.servicesImpl;
 
 import lombok.RequiredArgsConstructor;
 import org.heymouad.bookingmanagementsystem.entities.User;
-import org.heymouad.bookingmanagementsystem.mappers.UserMapper;
 import org.heymouad.bookingmanagementsystem.repositories.UserRepository;
 import org.heymouad.bookingmanagementsystem.services.UserService;
 import org.springframework.stereotype.Service;
@@ -25,5 +24,10 @@ public class UserServiceImpl implements UserService {
     public User getUserById(UUID id) {
 
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found: "+ email));
     }
 }
