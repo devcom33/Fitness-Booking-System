@@ -4,6 +4,7 @@ package org.heymouad.bookingmanagementsystem.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -13,8 +14,9 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Entity
-public class FitnessClasses {
+public class FitnessClass {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Id
     private UUID id;

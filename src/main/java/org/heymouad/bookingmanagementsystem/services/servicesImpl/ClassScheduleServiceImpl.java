@@ -2,19 +2,20 @@ package org.heymouad.bookingmanagementsystem.services.servicesImpl;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.fortuna.ical4j.model.Recur;
 import org.heymouad.bookingmanagementsystem.entities.ClassSchedules;
-import org.heymouad.bookingmanagementsystem.entities.FitnessClasses;
+import org.heymouad.bookingmanagementsystem.entities.FitnessClass;
 import org.heymouad.bookingmanagementsystem.entities.Instructor;
 import org.heymouad.bookingmanagementsystem.entities.RecurringScheduleTemplate;
 import org.heymouad.bookingmanagementsystem.exceptions.InstructorBusyException;
 import org.heymouad.bookingmanagementsystem.exceptions.InvalidScheduleException;
 import org.heymouad.bookingmanagementsystem.exceptions.ResourceNotFoundException;
-import org.heymouad.bookingmanagementsystem.repositories.ClassSchedulesRepository;
-import org.heymouad.bookingmanagementsystem.repositories.FitnessClassesRepository;
+import org.heymouad.bookingmanagementsystem.repositories.ClassScheduleRepository;
+import org.heymouad.bookingmanagementsystem.repositories.FitnessClassRepository;
 import org.heymouad.bookingmanagementsystem.repositories.InstructorRepository;
 import org.heymouad.bookingmanagementsystem.repositories.RecurringScheduleTemplateRepository;
-import org.heymouad.bookingmanagementsystem.services.ClassSchedulesService;
+import org.heymouad.bookingmanagementsystem.services.ClassScheduleService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,13 +25,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+
+@Slf4j
 @Transactional
 @RequiredArgsConstructor
 @Service
-public class ClassSchedulesServiceImpl implements ClassSchedulesService {
-    private final ClassSchedulesRepository classSchedulesRepository;
+public class ClassScheduleServiceImpl implements ClassScheduleService {
+    private final ClassScheduleRepository classScheduleRepository;
     private final InstructorRepository instructorRepository;
-    private final FitnessClassesRepository fitnessClassesRepository;
+    private final FitnessClassRepository fitnessClassRepository;
     private final RecurringScheduleTemplateRepository recurringScheduleTemplateRepository;
 
     /**
@@ -55,8 +58,8 @@ public class ClassSchedulesServiceImpl implements ClassSchedulesService {
             throw new EntityNotFoundException("Instructor with ID " + instructorId + " not found.");
         }
 
-        UUID classId = classSchedules.getFitnessClasses().getId();
-        if (!fitnessClassesRepository.existsById(classId)) {
+        UUID classId = classSchedules.getFitnessClass().getId();
+        if (!fitnessClassRepository.existsById(classId)) {
             throw new EntityNotFoundException("Fitness Class with ID " + classId + " not found.");
         }
 
@@ -77,7 +80,7 @@ public class ClassSchedulesServiceImpl implements ClassSchedulesService {
     @Transactional(readOnly = true)
     @Override
     public ClassSchedules getClassScheduleById(UUID id) {
-        return classSchedulesRepository.findById(id)
+        return classScheduleRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Class Schedule", id));
     }
 
@@ -89,7 +92,7 @@ public class ClassSchedulesServiceImpl implements ClassSchedulesService {
     @Transactional(readOnly = true)
     @Override
     public List<ClassSchedules> getAllClassSchedules() {
-        return classSchedulesRepository.findAll();
+        return classScheduleRepository.findAll();
     }
 
     /**
@@ -102,14 +105,15 @@ public class ClassSchedulesServiceImpl implements ClassSchedulesService {
         ZonedDateTime startTime = classSchedules.getStartTime();
         ZonedDateTime endTime = classSchedules.getEndTime();
         UUID instructorId = classSchedules.getInstructor().getId();
-        boolean overlap = classSchedulesRepository.existsClassSchedulesByInstructorIdAndOverlap(startTime, endTime, instructorId);
+
+        boolean overlap = classScheduleRepository.existsClassSchedulesByInstructorIdAndOverlap(startTime, endTime, instructorId);
 
         if (overlap)
         {
             throw new InstructorBusyException("Instructor is already scheduled during this time slot.");
         }
-
-        return List.of(classSchedulesRepository.save(classSchedules));
+        classSchedules.setTemplate(null);
+        return List.of(classScheduleRepository.save(classSchedules));
     }
 
     /**
@@ -132,7 +136,7 @@ public class ClassSchedulesServiceImpl implements ClassSchedulesService {
 
         List<ClassSchedules> schedulesToSave = new ArrayList<>();
 
-        FitnessClasses fitnessClass = classSchedules.getFitnessClasses();
+        FitnessClass fitnessClass = classSchedules.getFitnessClass();
         Instructor instructor = classSchedules.getInstructor();
 
         for (var date : dates)
@@ -142,7 +146,7 @@ public class ClassSchedulesServiceImpl implements ClassSchedulesService {
             ZonedDateTime instantEnd = instantStart.plus(duration);
 
             // Overlap check
-            boolean overlap = classSchedulesRepository.existsClassSchedulesByInstructorIdAndOverlap(
+            boolean overlap = classScheduleRepository.existsClassSchedulesByInstructorIdAndOverlap(
                     instantStart,
                     instantEnd,
                     classSchedules.getInstructor().getId()
@@ -154,7 +158,7 @@ public class ClassSchedulesServiceImpl implements ClassSchedulesService {
             }
             ClassSchedules classScheduleInstance = new ClassSchedules();
 
-            classScheduleInstance.setFitnessClasses(fitnessClass);
+            classScheduleInstance.setFitnessClass(fitnessClass);
             classScheduleInstance.setInstructor(instructor);
             classScheduleInstance.setTemplate(savedTemplate);
             classScheduleInstance.setStartTime(instantStart);
@@ -163,6 +167,6 @@ public class ClassSchedulesServiceImpl implements ClassSchedulesService {
             schedulesToSave.add(classScheduleInstance);
         }
 
-        return classSchedulesRepository.saveAll(schedulesToSave);
+        return classScheduleRepository.saveAll(schedulesToSave);
     }
 }

@@ -1,12 +1,10 @@
 package org.heymouad.bookingmanagementsystem.services.servicesImpl;
 
 import lombok.RequiredArgsConstructor;
-import org.heymouad.bookingmanagementsystem.dtos.FitnessClassesDto;
-import org.heymouad.bookingmanagementsystem.entities.FitnessClasses;
+import org.heymouad.bookingmanagementsystem.entities.FitnessClass;
 import org.heymouad.bookingmanagementsystem.exceptions.ResourceNotFoundException;
-import org.heymouad.bookingmanagementsystem.mappers.FitnessClassesMapper;
-import org.heymouad.bookingmanagementsystem.repositories.FitnessClassesRepository;
-import org.heymouad.bookingmanagementsystem.services.FitnessClassesService;
+import org.heymouad.bookingmanagementsystem.repositories.FitnessClassRepository;
+import org.heymouad.bookingmanagementsystem.services.FitnessClassService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,8 +14,8 @@ import java.util.UUID;
 @Transactional
 @RequiredArgsConstructor
 @Service
-public class FitnessClassesServiceImpl implements FitnessClassesService {
-    private final FitnessClassesRepository fitnessClassesRepository;
+public class FitnessClassServiceImpl implements FitnessClassService {
+    private final FitnessClassRepository fitnessClassRepository;
 
     /**
      * Create a new Fitness Class entity
@@ -25,8 +23,8 @@ public class FitnessClassesServiceImpl implements FitnessClassesService {
      * @return The newly created and saved FitnessClasses Entity
      */
     @Override
-    public FitnessClasses createFitnessClasses(FitnessClasses fitnessClass) {
-        return fitnessClassesRepository.save(fitnessClass);
+    public FitnessClass createFitnessClasses(FitnessClass fitnessClass) {
+        return fitnessClassRepository.save(fitnessClass);
     }
 
     /**
@@ -37,8 +35,8 @@ public class FitnessClassesServiceImpl implements FitnessClassesService {
      * @throws ResourceNotFoundException If no Fitness Class is found with the given ID
      */
     @Override
-    public FitnessClasses updateFitnessClasses(UUID id, FitnessClasses fitnessClass) {
-        FitnessClasses entityToUpdate = fitnessClassesRepository.findById(id).orElseThrow(
+    public FitnessClass updateFitnessClasses(UUID id, FitnessClass fitnessClass) {
+        FitnessClass entityToUpdate = fitnessClassRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Fitness Class", id));
 
         entityToUpdate.setName(fitnessClass.getName());
@@ -47,7 +45,7 @@ public class FitnessClassesServiceImpl implements FitnessClassesService {
         entityToUpdate.setCapacity(fitnessClass.getCapacity());
         entityToUpdate.setDurationMinutes(fitnessClass.getDurationMinutes());
 
-        return fitnessClassesRepository.save(entityToUpdate);
+        return fitnessClassRepository.save(entityToUpdate);
     }
 
     /**
@@ -58,8 +56,8 @@ public class FitnessClassesServiceImpl implements FitnessClassesService {
      */
     @Transactional(readOnly = true)
     @Override
-    public FitnessClasses getFitnessClassesById(UUID id) {
-        return fitnessClassesRepository.findById(id).orElseThrow(
+    public FitnessClass getFitnessClassesById(UUID id) {
+        return fitnessClassRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Fitness Class", id));
     }
 
@@ -69,7 +67,7 @@ public class FitnessClassesServiceImpl implements FitnessClassesService {
      */
     @Transactional(readOnly = true)
     @Override
-    public List<FitnessClasses> getAllFitnessClasses() {
-        return fitnessClassesRepository.findAll();
+    public List<FitnessClass> getAllFitnessClasses() {
+        return fitnessClassRepository.findAll();
     }
 }
