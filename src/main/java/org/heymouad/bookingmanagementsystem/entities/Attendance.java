@@ -4,6 +4,7 @@ package org.heymouad.bookingmanagementsystem.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 public class Attendance {
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -21,7 +23,7 @@ public class Attendance {
 
     @OneToOne
     @JoinColumn(name = "booking_id")
-    private Bookings booking;
+    private Booking booking;
 
     @CreatedDate
     private Instant attendanceAt;
