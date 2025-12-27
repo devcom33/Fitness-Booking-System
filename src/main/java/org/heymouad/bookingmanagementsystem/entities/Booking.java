@@ -5,9 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.heymouad.bookingmanagementsystem.enums.BookingStatus;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
-import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Builder
@@ -16,6 +16,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Booking {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Id
