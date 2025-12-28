@@ -3,10 +3,9 @@ package org.heymouad.bookingmanagementsystem.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.antlr.v4.runtime.misc.NotNull;
-import org.heymouad.bookingmanagementsystem.enums.DayOfWeek;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 import java.time.ZonedDateTime;
@@ -18,6 +17,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 public class ClassSchedules {
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -30,7 +30,7 @@ public class ClassSchedules {
 
     @ManyToOne
     @JoinColumn(name = "fitness_classes_id", nullable = false)
-    private FitnessClasses fitnessClasses;
+    private FitnessClass fitnessClass;
 
     @Column(nullable = false)
     private ZonedDateTime startTime;
