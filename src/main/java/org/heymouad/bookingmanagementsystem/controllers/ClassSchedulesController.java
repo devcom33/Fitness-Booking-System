@@ -2,10 +2,11 @@ package org.heymouad.bookingmanagementsystem.controllers;
 
 
 import lombok.RequiredArgsConstructor;
-import org.heymouad.bookingmanagementsystem.dtos.ClassSchedulesDto;
+import org.heymouad.bookingmanagementsystem.dtos.ClassScheduleRequestDto;
+import org.heymouad.bookingmanagementsystem.dtos.ClassScheduleResponseDto;
 import org.heymouad.bookingmanagementsystem.entities.ClassSchedules;
-import org.heymouad.bookingmanagementsystem.mappers.ClassSchedulesMapper;
-import org.heymouad.bookingmanagementsystem.services.ClassSchedulesService;
+import org.heymouad.bookingmanagementsystem.mappers.ClassScheduleMapper;
+import org.heymouad.bookingmanagementsystem.services.ClassScheduleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,35 +18,35 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 public class ClassSchedulesController {
-    private final ClassSchedulesService classSchedulesService;
-    private final ClassSchedulesMapper classSchedulesMapper;
+    private final ClassScheduleService classScheduleService;
+    private final ClassScheduleMapper classScheduleMapper;
 
 
     @PostMapping
-    public ResponseEntity<List<ClassSchedulesDto>> createClassSchedules(@RequestBody ClassSchedulesDto classSchedulesDto)
+    public ResponseEntity<List<ClassScheduleResponseDto>> createClassSchedules(@RequestBody ClassScheduleRequestDto classScheduleRequestDto)
     {
-        ClassSchedules classSchedules = classSchedulesMapper.toClassSchedules(classSchedulesDto);
+        ClassSchedules classSchedules = classScheduleMapper.toEntity(classScheduleRequestDto);
 
-        List<ClassSchedulesDto> savedClassSchedulesDto = classSchedulesService.createClassSchedules(classSchedules)
+        List<ClassScheduleResponseDto> savedClassScheduleRequestDto = classScheduleService.createClassSchedules(classSchedules)
                 .stream()
-                .map(classSchedulesMapper::toClassSchedulesDto)
+                .map(classScheduleMapper::toResponseDto)
                 .toList();
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedClassSchedulesDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedClassScheduleRequestDto);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClassSchedulesDto> getClassScheduleById(@PathVariable UUID id)
+    public ResponseEntity<ClassScheduleResponseDto> getClassScheduleById(@PathVariable UUID id)
     {
-        return ResponseEntity.ok(classSchedulesMapper.toClassSchedulesDto(classSchedulesService.getClassScheduleById(id)));
+        return ResponseEntity.ok(classScheduleMapper.toResponseDto(classScheduleService.getClassScheduleById(id)));
     }
 
     @GetMapping
-    public ResponseEntity<List<ClassSchedulesDto>> getAllClassSchedules()
+    public ResponseEntity<List<ClassScheduleResponseDto>> getAllClassSchedules()
     {
-        return ResponseEntity.ok(classSchedulesService.getAllClassSchedules()
+        return ResponseEntity.ok(classScheduleService.getAllClassSchedules()
                 .stream()
-                .map(classSchedulesMapper::toClassSchedulesDto)
+                .map(classScheduleMapper::toResponseDto)
                 .toList());
     }
 
