@@ -3,9 +3,9 @@ package org.heymouad.bookingmanagementsystem.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.heymouad.bookingmanagementsystem.dtos.FitnessClassesDto;
-import org.heymouad.bookingmanagementsystem.entities.FitnessClasses;
+import org.heymouad.bookingmanagementsystem.entities.FitnessClass;
 import org.heymouad.bookingmanagementsystem.mappers.FitnessClassesMapper;
-import org.heymouad.bookingmanagementsystem.services.FitnessClassesService;
+import org.heymouad.bookingmanagementsystem.services.FitnessClassService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +17,14 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 public class FitnessClassesController {
-    private final FitnessClassesService fitnessClassesService;
+    private final FitnessClassService fitnessClassService;
     private final FitnessClassesMapper fitnessClassesMapper;
 
     @PostMapping
     public ResponseEntity<FitnessClassesDto> createFitnessClass(@RequestBody FitnessClassesDto fitnessClassesDto)
     {
-        FitnessClasses fitnessClass = fitnessClassesMapper.toFitnessClasses(fitnessClassesDto);
-        FitnessClasses createdClass = fitnessClassesService.createFitnessClasses(fitnessClass);
+        FitnessClass fitnessClass = fitnessClassesMapper.toFitnessClasses(fitnessClassesDto);
+        FitnessClass createdClass = fitnessClassService.createFitnessClasses(fitnessClass);
         FitnessClassesDto savedFitnessClassesDto = fitnessClassesMapper.toFitnessClassesDto(createdClass);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(savedFitnessClassesDto);
@@ -33,7 +33,7 @@ public class FitnessClassesController {
     @PutMapping("/{id}")
     public ResponseEntity<FitnessClassesDto> updateFitnessClass(@PathVariable UUID id, @RequestBody FitnessClassesDto fitnessClassesDto)
     {
-        FitnessClasses updatedClass = fitnessClassesService.updateFitnessClasses(id, fitnessClassesMapper.toFitnessClasses(fitnessClassesDto));
+        FitnessClass updatedClass = fitnessClassService.updateFitnessClasses(id, fitnessClassesMapper.toFitnessClasses(fitnessClassesDto));
 
         return ResponseEntity.ok(fitnessClassesMapper.toFitnessClassesDto(updatedClass));
     }
@@ -41,15 +41,15 @@ public class FitnessClassesController {
     @GetMapping("/{id}")
     public ResponseEntity<FitnessClassesDto> getFitnessClassById(@PathVariable UUID id)
     {
-        FitnessClasses fitnessClasses = fitnessClassesService.getFitnessClassesById(id);
+        FitnessClass fitnessClass = fitnessClassService.getFitnessClassesById(id);
 
-        return ResponseEntity.ok(fitnessClassesMapper.toFitnessClassesDto(fitnessClasses));
+        return ResponseEntity.ok(fitnessClassesMapper.toFitnessClassesDto(fitnessClass));
     }
 
     @GetMapping
     public ResponseEntity<List<FitnessClassesDto>> getAllFitnessClasses()
     {
-        List<FitnessClassesDto> fitnessClassesDtos = fitnessClassesService.getAllFitnessClasses()
+        List<FitnessClassesDto> fitnessClassesDtos = fitnessClassService.getAllFitnessClasses()
                 .stream()
                 .map(fitnessClassesMapper::toFitnessClassesDto)
                 .toList();
