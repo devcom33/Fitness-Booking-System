@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("/api/v1/fitnessClasses")
+@RequestMapping(path = "/api/v1/fitnessClasses", produces = "application/json")
 @RestController
 @RequiredArgsConstructor
 public class FitnessClassesController {

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/api/v1/instructors")
+@RequestMapping(path="/api/v1/instructors", produces = "application/json")
 @RestController
 @RequiredArgsConstructor
 public class InstructorController {

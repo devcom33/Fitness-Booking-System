@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("/api/v1/class-schedules")
+@RequestMapping(path="/api/v1/class-schedules", produces = "application/json")
 @RestController
 @RequiredArgsConstructor
 public class ClassSchedulesController {
