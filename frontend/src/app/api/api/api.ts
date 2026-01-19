@@ -1,0 +1,13 @@
+export * from './authenticationController.service';
+import { AuthenticationControllerService } from './authenticationController.service';
+export * from './bookingController.service';
+import { BookingControllerService } from './bookingController.service';
+export * from './classSchedulesController.service';
+import { ClassSchedulesControllerService } from './classSchedulesController.service';
+export * from './fitnessClassesController.service';
+import { FitnessClassesControllerService } from './fitnessClassesController.service';
+export * from './instructorController.service';
+import { InstructorControllerService } from './instructorController.service';
+export * from './userController.service';
+import { UserControllerService } from './userController.service';
+export const APIS = [AuthenticationControllerService, BookingControllerService, ClassSchedulesControllerService, FitnessClassesControllerService, InstructorControllerService, UserControllerService];
