@@ -19,6 +19,9 @@ public class RoleSeeder implements CommandLineRunner {
         if (roleRepository.findByName(UserRole.CLIENT).isEmpty())
             roleRepository.save(new Role(null, UserRole.CLIENT));
 
+        if (roleRepository.findByName(UserRole.INSTRUCTOR).isEmpty())
+            roleRepository.save(new Role(null, UserRole.INSTRUCTOR));
+
         if (roleRepository.findByName(UserRole.ADMIN).isEmpty())
             roleRepository.save(new Role(null, UserRole.ADMIN));
 
