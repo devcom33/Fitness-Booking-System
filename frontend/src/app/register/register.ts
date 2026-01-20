@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthenticationControllerService, UserRegistrationRequestDto } from '../api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -10,6 +11,8 @@ import { AuthenticationControllerService, UserRegistrationRequestDto } from '../
 })
 export class Register {
   private authService = inject(AuthenticationControllerService);
+  private router = inject(Router);
+
   registerRequest: UserRegistrationRequestDto = { name: '', email: '', password: '' };
 
   register() {
@@ -17,6 +20,7 @@ export class Register {
       next: (res: any) => {
         localStorage.setItem('token', res.accessToken);
         console.log('about to navigate ...');
+        this.router.navigate(['/dashboard']);
       },
     });
   }

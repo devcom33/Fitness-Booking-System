@@ -21,7 +21,7 @@ export class Login {
       next: (res: any) => {
         localStorage.setItem('token', res.accessToken);
         console.log('about to navigate ...');
-        //this.router.navigate(['/home']);
+        this.router.navigate(['/dashboard']);
       },
     });
   }
