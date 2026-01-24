@@ -1,15 +1,20 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { ClassScheduleResponseDto, ClassSchedulesControllerService } from '../api';
+import { Component, inject, signal } from '@angular/core';
+import {
+  BookingControllerService,
+  ClassScheduleResponseDto,
+  ClassSchedulesControllerService,
+} from '../api';
 import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-classes',
+  selector: 'app-class-list',
   imports: [DatePipe],
-  templateUrl: './classes.html',
-  styleUrl: './classes.css',
+  templateUrl: './class-list.html',
+  styleUrl: './class-list.css',
 })
-export class Classes implements OnInit {
+export class ClassList {
   private classSchedulesService = inject(ClassSchedulesControllerService);
+  private bookingService = inject(BookingControllerService);
   classes = signal<ClassScheduleResponseDto[]>([]);
   errorMsg = signal<string>('');
 
@@ -31,6 +36,7 @@ export class Classes implements OnInit {
   }
 
   bookClass() {
+    //this.bookingService.createBooking().subscribe({});
     throw new Error('Method not implemented.');
   }
 }
