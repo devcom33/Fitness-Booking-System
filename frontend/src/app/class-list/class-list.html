@@ -8,57 +8,55 @@
 
     <!-- Classes Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      @for (class of classes(); track $index) {
+      @for (item of classes(); track item.id) {
         <!-- Class Card -->
         <div class="bg-[#111827] rounded-lg shadow-xl p-6">
-          <!-- Category Badge -->
+          <!-- Category Badge ----->
           <div class="mb-4">
             <span
               class="inline-block bg-[#F97316] text-white text-xs font-bold px-3 py-1 rounded-full"
             >
-              {{ class.fitnessClassDto?.category }}
+              {{ item.fitnessClassDto?.category }}
             </span>
           </div>
 
-          <!-- Class Info -->
-          <h3 class="text-2xl font-bold text-white mb-2">{{ class.fitnessClassDto?.name }}</h3>
+          <h3 class="text-2xl font-bold text-white mb-2">{{ item.fitnessClassDto?.name }}</h3>
           <p class="text-gray-400 text-sm mb-4">
-            {{ class.fitnessClassDto?.description }}
+            {{ item.fitnessClassDto?.description }}
           </p>
 
-          <!-- Details -->
           <div class="space-y-2 mb-6">
             <div class="flex items-center text-gray-300 text-sm">
               <span class="font-medium text-[#F97316] mr-2">Duration:</span>
-              <span>{{ class.fitnessClassDto?.durationMinutes }} minutes</span>
+              <span>{{ item.fitnessClassDto?.durationMinutes }} minutes</span>
             </div>
             <div class="flex items-center text-gray-300 text-sm">
               <span class="font-medium text-[#F97316] mr-2">Capacity:</span>
-              <span>{{ class.fitnessClassDto?.capacity }} spots</span>
+              <span>{{ item.fitnessClassDto?.capacity }} spots</span>
             </div>
             <div class="flex items-center text-gray-300 text-sm">
               <span class="font-medium text-[#F97316] mr-2">Time:</span>
               <span
-                >{{ class.startTime | date: 'shortTime' }} -
-                {{ class.endTime | date: 'shortTime' }}</span
+                >{{ item.startTime | date: 'shortTime' }} -
+                {{ item.endTime | date: 'shortTime' }}</span
               >
             </div>
             <div class="flex items-center text-gray-300 text-sm">
               <span class="font-medium text-[#F97316] mr-2">Date:</span>
-              <span>{{ class.startTime | date: 'MMM d, y' }}</span>
+              <span>{{ item.startTime | date: 'MMM d, y' }}</span>
             </div>
           </div>
 
-          <!-- Instructor -->
+          <!----- Instructor -->
           <div class="border-t border-gray-700 pt-4 mb-6">
             <p class="text-gray-400 text-sm mb-1">Instructor</p>
-            <p class="text-white font-medium">{{ class.instructorDto?.specialization }}</p>
-            <p class="text-gray-400 text-xs">{{ class.instructorDto?.bio }}</p>
+            <p class="text-white font-medium">{{ item.instructorDto?.specialization }}</p>
+            <p class="text-gray-400 text-xs">{{ item.instructorDto?.bio }}</p>
           </div>
 
           <!-- Book Button -->
           <button
-            (click)="bookClass()"
+            (click)="bookClass(item.id)"
             type="button"
             class="w-full bg-[#F97316] hover:bg-[#E11D48] text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200"
           >
