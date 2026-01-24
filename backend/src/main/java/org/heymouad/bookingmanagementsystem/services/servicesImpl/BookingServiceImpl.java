@@ -29,12 +29,17 @@ public class BookingServiceImpl implements BookingService {
 
     /**
      * Creates a new booking, checks capacity, and links persistent entities
-     * @param booking The initial Booking entity containing User and Schedule IDs
+     * @param userEmail the unique email identifier of the user making the booking
+     * @param scheduleId the UUID of the specific class time slot
      * @return The newly created and saved Booking entity
      * @throws CapacityExceededException If the class is full
      */
     @Override
-    public Booking createBooking(Booking booking) {
+    public Booking createBooking(String userEmail, UUID scheduleId) {
+        User user = userService.getUserByEmail(userEmail);
+        ClassSchedules classSchedules = classScheduleService.getClassScheduleById(scheduleId);
+
+    /*
         if (booking.getUser() == null || booking.getUser().getId() == null) {
             throw new InvalidInputException("User information is required for creating a booking.");
         }
@@ -47,7 +52,7 @@ public class BookingServiceImpl implements BookingService {
 
         User user = userService.getUserById(userId);
         ClassSchedules classSchedules = classScheduleService.getClassScheduleById(scheduleId);
-
+*/
         // Capacity Check
         int maxCapacity = classSchedules.getFitnessClass().getCapacity();
         List<BookingStatus> holdingStatuses = List.of(BookingStatus.CONFIRMED, BookingStatus.PENDING);
@@ -56,7 +61,7 @@ public class BookingServiceImpl implements BookingService {
         if (bookedCount >= maxCapacity) {
             throw new CapacityExceededException("No remaining booking capacity for class ID: " + scheduleId);
         }
-
+        Booking booking = new Booking();
         booking.setStatus(BookingStatus.CONFIRMED);
         booking.setUser(user);
         booking.setClassSchedules(classSchedules);

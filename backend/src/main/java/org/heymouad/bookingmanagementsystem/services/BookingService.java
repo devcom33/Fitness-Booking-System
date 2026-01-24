@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface BookingService {
-    Booking createBooking(Booking booking);
+    Booking createBooking(String userEmail, UUID scheduleId);
     Booking updateBookingStatus(UUID id, BookingStatus newStatus);
     Booking getBookingById(UUID id);
     List<Booking> getAllBookings();

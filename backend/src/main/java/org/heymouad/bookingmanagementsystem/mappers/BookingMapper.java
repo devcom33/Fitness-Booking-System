@@ -1,6 +1,5 @@
 package org.heymouad.bookingmanagementsystem.mappers;
 
-import org.heymouad.bookingmanagementsystem.dtos.BookingRequestDto;
 import org.heymouad.bookingmanagementsystem.dtos.BookingResponseDto;
 import org.heymouad.bookingmanagementsystem.entities.Booking;
 import org.heymouad.bookingmanagementsystem.entities.ClassSchedules;
@@ -13,11 +12,6 @@ import java.util.UUID;
 
 @Mapper(componentModel = "spring", uses = {UserMapper.class, ClassScheduleMapper.class})
 public interface BookingMapper {
-
-    @Mapping(target = "user", source = "userId")
-    @Mapping(target = "classSchedules", source = "classScheduleId")
-    Booking toEntity(BookingRequestDto dto);
-
 
     @Mapping(target = "userId", source = "user.id")
     @Mapping(target = "userName", source = "user.name")

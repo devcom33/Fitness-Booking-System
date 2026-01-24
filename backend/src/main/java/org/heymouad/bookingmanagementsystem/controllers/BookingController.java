@@ -10,6 +10,7 @@ import org.heymouad.bookingmanagementsystem.services.BookingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,10 +23,11 @@ public class BookingController {
     private final BookingMapper bookingMapper;
 
     @PostMapping
-    public ResponseEntity<BookingResponseDto> createBooking(@RequestBody BookingRequestDto bookingRequestDto)
+    public ResponseEntity<BookingResponseDto> createBooking(@RequestBody BookingRequestDto bookingRequestDto, Principal principal)
     {
-        Booking booking = bookingMapper.toEntity(bookingRequestDto);
-        Booking createdBooking = bookingService.createBooking(booking);
+        String userEmail = principal.getName();
+
+        Booking createdBooking = bookingService.createBooking(userEmail, bookingRequestDto.classScheduleId());
 
         return ResponseEntity.ok(bookingMapper.toResponseDto(createdBooking));
     }
