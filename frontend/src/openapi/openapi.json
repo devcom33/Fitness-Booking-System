@@ -408,10 +408,7 @@
       },
       "BookingRequestDto": {
         "type": "object",
-        "properties": {
-          "userId": { "type": "string", "format": "uuid" },
-          "classScheduleId": { "type": "string", "format": "uuid" }
-        }
+        "properties": { "classScheduleId": { "type": "string", "format": "uuid" } }
       },
       "BookingResponseDto": {
         "type": "object",

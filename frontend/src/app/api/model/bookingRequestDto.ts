@@ -10,7 +10,6 @@
 
 
 export interface BookingRequestDto { 
-    userId?: string;
     classScheduleId?: string;
 }
 
