@@ -1,17 +1,17 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ClassScheduleRequestDto, ClassSchedulesControllerService } from '../api';
+import { ClassScheduleResponseDto, ClassSchedulesControllerService } from '../api';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-classes',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './classes.html',
   styleUrl: './classes.css',
 })
 export class Classes implements OnInit {
   private classSchedulesService = inject(ClassSchedulesControllerService);
-  classes = signal<ClassScheduleRequestDto[]>([]);
+  classes = signal<ClassScheduleResponseDto[]>([]);
   errorMsg = signal<string>('');
-  parsedClasses: any;
 
   ngOnInit() {
     this.loadClasses();
@@ -19,14 +19,18 @@ export class Classes implements OnInit {
 
   loadClasses() {
     this.classSchedulesService.getAllClassSchedules().subscribe({
-      next: async (data) => {
+      next: (data) => {
         this.classes.set(data);
-        console.log('[+] Classes : ', this.classes);
+        console.log('[+] Classes loaded successfully');
       },
       error: (err) => {
         this.errorMsg.set('Failed to load classes. Make sure you are logged in!');
         console.error(err);
       },
     });
+  }
+
+  bookClass() {
+    throw new Error('Method not implemented.');
   }
 }
