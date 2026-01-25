@@ -3,6 +3,7 @@ package org.heymouad.bookingmanagementsystem.controllers;
 import lombok.RequiredArgsConstructor;
 import org.heymouad.bookingmanagementsystem.dtos.BookingRequestDto;
 import org.heymouad.bookingmanagementsystem.dtos.BookingResponseDto;
+import org.heymouad.bookingmanagementsystem.dtos.StatusUpdateRequest;
 import org.heymouad.bookingmanagementsystem.entities.Booking;
 import org.heymouad.bookingmanagementsystem.enums.BookingStatus;
 import org.heymouad.bookingmanagementsystem.mappers.BookingMapper;
@@ -33,8 +34,10 @@ public class BookingController {
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<BookingResponseDto> updateBookingStatus(@PathVariable UUID id, @RequestBody BookingStatus newStatus) {
-        Booking booking = bookingService.updateBookingStatus(id, newStatus);
+    public ResponseEntity<BookingResponseDto> updateBookingStatus(@PathVariable UUID id, @RequestBody StatusUpdateRequest statusUpdateRequest) {
+
+        BookingStatus bookingStatus = BookingStatus.valueOf(statusUpdateRequest.status());
+        Booking booking = bookingService.updateBookingStatus(id, bookingStatus);
 
         return ResponseEntity.ok(bookingMapper.toResponseDto(booking));
     }
@@ -51,6 +54,14 @@ public class BookingController {
     public ResponseEntity<List<BookingResponseDto>> getAllBookings()
     {
         List<BookingResponseDto> bookingResponseDtoList = bookingService.getAllBookings().stream().map(bookingMapper::toResponseDto).toList();
+        return ResponseEntity.ok(bookingResponseDtoList);
+    }
+
+    @GetMapping("/my-bookings")
+    public ResponseEntity<List<BookingResponseDto>> getMyBookings(Principal principal)
+    {
+        String userEmail = principal.getName();
+        List<BookingResponseDto> bookingResponseDtoList = bookingService.getMyBookings(userEmail).stream().map(bookingMapper::toResponseDto).toList();
         return ResponseEntity.ok(bookingResponseDtoList);
     }
 }
