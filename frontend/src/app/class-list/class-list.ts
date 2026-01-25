@@ -2,12 +2,11 @@ import { Component, inject, OnInit, signal, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DatePipe } from '@angular/common';
 import {
-  AuthenticationControllerService,
   BookingControllerService,
   ClassScheduleResponseDto,
   ClassSchedulesControllerService,
 } from '../api';
-import { jwtDecode } from 'jwt-decode';
+import { ToastService } from '../services/toast-service';
 
 @Component({
   selector: 'app-class-list',
@@ -20,11 +19,11 @@ export class ClassList implements OnInit {
   private readonly classSchedulesService = inject(ClassSchedulesControllerService);
   private readonly bookingService = inject(BookingControllerService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly toast = inject(ToastService);
 
   // State signals
   classes = signal<ClassScheduleResponseDto[]>([]);
   errorMsg = signal<string>('');
-  token = localStorage.getItem('token');
 
   ngOnInit(): void {
     this.loadClasses();
@@ -44,18 +43,28 @@ export class ClassList implements OnInit {
   }
 
   bookClass(scheduleId: string | undefined): void {
-    if (this.token) {
-      const decodedToken: any = jwtDecode(this.token);
-      console.log('Decoded token:', decodedToken);
-    }
     if (!scheduleId) {
       console.error('Cannot book: Schedule ID is missing');
       return;
     }
 
     this.bookingService.createBooking({ classScheduleId: scheduleId }).subscribe({
-      next: () => alert('Booked!'),
-      error: (err) => console.error(err),
+      next: () => this.toast.show('Booking Confirmed!', 'success'),
+      error: (err) => {
+        switch (err.status) {
+          case 400:
+            this.toast.show('This class is full! Try another time slot.', 'error');
+            break;
+          case 409:
+            this.toast.show('You already have a spot in this class.', 'warning');
+            break;
+          case 401:
+            this.toast.show('Please log in to book a class.', 'warning');
+            break;
+          default:
+            this.toast.show('Something went wrong. Please try again later.', 'error');
+        }
+      },
     });
   }
 }
