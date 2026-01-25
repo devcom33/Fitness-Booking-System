@@ -1,0 +1,13 @@
+<div class="fixed top-5 right-5 z-100 flex flex-col gap-3">
+  @for (t of toastService.toasts(); track t.id) {
+    <div
+      [class]="getStyles(t.type)"
+      class="flex items-center p-4 rounded-lg shadow-2xl border min-w-300px animate-fade-in-left"
+    >
+      <span class="flex-1 text-sm font-medium">{{ t.message }}</span>
+      <button (click)="toastService.dimiss(t.id)" class="ml-4 opacity-70 hover:opacity-100">
+        &times;
+      </button>
+    </div>
+  }
+</div>
