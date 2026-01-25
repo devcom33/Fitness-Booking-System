@@ -1,11 +1,45 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { BookingControllerService, BookingResponseDto } from '../api';
+import { DatePipe } from '@angular/common';
+import { ToastService } from '../services/toast-service';
 
 @Component({
   selector: 'app-my-bookings',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './my-bookings.html',
   styleUrl: './my-bookings.css',
 })
-export class MyBookings {
+export class MyBookings implements OnInit {
+  private myBookingService = inject(BookingControllerService);
+  errorMsg = signal<string>('');
+  myBookingsList = signal<BookingResponseDto[]>([]);
+  private readonly toast = inject(ToastService);
 
+  ngOnInit(): void {
+    this.loadMyBookings();
+  }
+
+  loadMyBookings() {
+    this.myBookingService.getMyBookings().subscribe({
+      next: (data) => this.myBookingsList.set(data),
+      error: (err) => {
+        this.errorMsg.set('Failed to load bookings. Please check your connection.');
+        console.error('[!] Fetch error:', err);
+      },
+    });
+  }
+  updateBookingStatus(bookingId: string | undefined): void {
+    if (!bookingId) {
+      console.error('Booking ID is missing');
+      return;
+    }
+    this.myBookingService.updateBookingStatus(bookingId, { status: 'CANCELLED' } as any).subscribe({
+      next: () => {
+        this.toast.show('Booking Cancelled Succcessfully!', 'success');
+        this.loadMyBookings();
+      },
+    });
+    {
+    }
+  }
 }
