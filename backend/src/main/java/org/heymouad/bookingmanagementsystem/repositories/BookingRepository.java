@@ -23,6 +23,8 @@ public interface BookingRepository extends JpaRepository<Booking, UUID> {
 """)
     List<Booking> findAllWithDetails();
     long countByClassSchedulesIdAndStatusIn(UUID scheduleId, List<BookingStatus> bookingStatusList);
-
     boolean existsByClassSchedulesAndUserAndStatusIn(ClassSchedules classSchedules, User user, List<BookingStatus> status);
+
+    List<Booking> findByUser(User user);
+
 }

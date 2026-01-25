@@ -52,8 +52,6 @@ public class BookingServiceImpl implements BookingService {
         if (bookedCount >= maxCapacity) {
             throw new CapacityExceededException("No remaining booking capacity for class ID: " + scheduleId);
         }
-
-
         Booking booking = new Booking();
         booking.setStatus(BookingStatus.CONFIRMED);
         booking.setUser(user);
@@ -104,5 +102,15 @@ public class BookingServiceImpl implements BookingService {
     public List<Booking> getAllBookings()
     {
         return bookingRepository.findAll();
+    }
+
+    /**
+     * Retrieves all existing bookings from the database
+     * @return A list of all Booking entities
+     */
+    public List<Booking> getMyBookings(String userEmail)
+    {
+        User user = userService.getUserByEmail(userEmail);
+        return bookingRepository.findByUser(user);
     }
 }

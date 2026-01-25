@@ -11,4 +11,5 @@ public interface BookingService {
     Booking updateBookingStatus(UUID id, BookingStatus newStatus);
     Booking getBookingById(UUID id);
     List<Booking> getAllBookings();
+    List<Booking> getMyBookings(String userEmail);
 }
