@@ -1,6 +1,8 @@
 package org.heymouad.bookingmanagementsystem.repositories;
 
 import org.heymouad.bookingmanagementsystem.entities.Booking;
+import org.heymouad.bookingmanagementsystem.entities.ClassSchedules;
+import org.heymouad.bookingmanagementsystem.entities.User;
 import org.heymouad.bookingmanagementsystem.enums.BookingStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,4 +23,6 @@ public interface BookingRepository extends JpaRepository<Booking, UUID> {
 """)
     List<Booking> findAllWithDetails();
     long countByClassSchedulesIdAndStatusIn(UUID scheduleId, List<BookingStatus> bookingStatusList);
+
+    boolean existsByClassSchedulesAndUserAndStatusIn(ClassSchedules classSchedules, User user, List<BookingStatus> status);
 }

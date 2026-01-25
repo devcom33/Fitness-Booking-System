@@ -38,29 +38,22 @@ public class BookingServiceImpl implements BookingService {
     public Booking createBooking(String userEmail, UUID scheduleId) {
         User user = userService.getUserByEmail(userEmail);
         ClassSchedules classSchedules = classScheduleService.getClassScheduleById(scheduleId);
+        List<BookingStatus> holdingStatuses = List.of(BookingStatus.CONFIRMED, BookingStatus.PENDING);
 
-    /*
-        if (booking.getUser() == null || booking.getUser().getId() == null) {
-            throw new InvalidInputException("User information is required for creating a booking.");
+        if (bookingRepository.existsByClassSchedulesAndUserAndStatusIn(classSchedules, user, holdingStatuses))
+        {
+            throw new IllegalStateException("You've Already booked this class");
         }
-        UUID userId = booking.getUser().getId();
 
-        if (booking.getClassSchedules() == null || booking.getClassSchedules().getId() == null) {
-            throw new InvalidInputException("Class schedule information is required for creating a booking.");
-        }
-        UUID scheduleId = booking.getClassSchedules().getId();
-
-        User user = userService.getUserById(userId);
-        ClassSchedules classSchedules = classScheduleService.getClassScheduleById(scheduleId);
-*/
         // Capacity Check
         int maxCapacity = classSchedules.getFitnessClass().getCapacity();
-        List<BookingStatus> holdingStatuses = List.of(BookingStatus.CONFIRMED, BookingStatus.PENDING);
         long bookedCount = bookingRepository.countByClassSchedulesIdAndStatusIn(scheduleId, holdingStatuses);
 
         if (bookedCount >= maxCapacity) {
             throw new CapacityExceededException("No remaining booking capacity for class ID: " + scheduleId);
         }
+
+
         Booking booking = new Booking();
         booking.setStatus(BookingStatus.CONFIRMED);
         booking.setUser(user);
