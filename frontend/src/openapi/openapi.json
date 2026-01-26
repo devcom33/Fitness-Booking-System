@@ -269,9 +269,7 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
-              "schema": { "type": "string", "enum": ["PENDING", "CONFIRMED", "CANCELLED"] }
-            }
+            "application/json": { "schema": { "$ref": "#/components/schemas/StatusUpdateRequest" } }
           },
           "required": true
         },
@@ -339,6 +337,14 @@
       "get": {
         "tags": ["booking-controller"],
         "operationId": "getMyBookings",
+        "parameters": [
+          {
+            "name": "pageable",
+            "in": "query",
+            "required": true,
+            "schema": { "$ref": "#/components/schemas/Pageable" }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -455,6 +461,15 @@
       "AuthRequestDto": {
         "type": "object",
         "properties": { "email": { "type": "string" }, "password": { "type": "string" } }
+      },
+      "StatusUpdateRequest": { "type": "object", "properties": { "status": { "type": "string" } } },
+      "Pageable": {
+        "type": "object",
+        "properties": {
+          "page": { "type": "integer", "format": "int32", "minimum": 0 },
+          "size": { "type": "integer", "format": "int32", "minimum": 1 },
+          "sort": { "type": "array", "items": { "type": "string" } }
+        }
       }
     }
   }
