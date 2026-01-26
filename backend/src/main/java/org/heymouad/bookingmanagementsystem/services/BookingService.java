@@ -2,8 +2,8 @@ package org.heymouad.bookingmanagementsystem.services;
 
 import org.heymouad.bookingmanagementsystem.entities.Booking;
 import org.heymouad.bookingmanagementsystem.enums.BookingStatus;
+import org.springframework.data.domain.Pageable;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.UUID;
 

@@ -8,11 +8,11 @@ import org.heymouad.bookingmanagementsystem.entities.Booking;
 import org.heymouad.bookingmanagementsystem.enums.BookingStatus;
 import org.heymouad.bookingmanagementsystem.mappers.BookingMapper;
 import org.heymouad.bookingmanagementsystem.services.BookingService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
 import java.security.Principal;
 import java.util.List;
 import java.util.UUID;

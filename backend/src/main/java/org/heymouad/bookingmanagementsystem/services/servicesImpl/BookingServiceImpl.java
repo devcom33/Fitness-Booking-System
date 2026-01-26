@@ -6,7 +6,6 @@ import org.heymouad.bookingmanagementsystem.entities.ClassSchedules;
 import org.heymouad.bookingmanagementsystem.entities.User;
 import org.heymouad.bookingmanagementsystem.enums.BookingStatus;
 import org.heymouad.bookingmanagementsystem.exceptions.CapacityExceededException;
-import org.heymouad.bookingmanagementsystem.exceptions.InvalidInputException;
 import org.heymouad.bookingmanagementsystem.exceptions.ResourceNotFoundException;
 import org.heymouad.bookingmanagementsystem.repositories.BookingRepository;
 import org.heymouad.bookingmanagementsystem.services.BookingService;
@@ -14,8 +13,8 @@ import org.heymouad.bookingmanagementsystem.services.ClassScheduleService;
 import org.heymouad.bookingmanagementsystem.services.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Pageable;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.UUID;
 
