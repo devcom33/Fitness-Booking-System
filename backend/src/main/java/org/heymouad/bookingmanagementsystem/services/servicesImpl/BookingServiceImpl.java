@@ -15,6 +15,7 @@ import org.heymouad.bookingmanagementsystem.services.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.UUID;
 
@@ -108,9 +109,9 @@ public class BookingServiceImpl implements BookingService {
      * Retrieves all existing bookings from the database
      * @return A list of all Booking entities
      */
-    public List<Booking> getMyBookings(String userEmail)
+    public List<Booking> getMyBookings(String userEmail, Pageable pageable)
     {
         User user = userService.getUserByEmail(userEmail);
-        return bookingRepository.findByUser(user);
+        return bookingRepository.findByUser(user, pageable);
     }
 }

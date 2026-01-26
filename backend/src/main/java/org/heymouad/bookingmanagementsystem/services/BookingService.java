@@ -3,6 +3,7 @@ package org.heymouad.bookingmanagementsystem.services;
 import org.heymouad.bookingmanagementsystem.entities.Booking;
 import org.heymouad.bookingmanagementsystem.enums.BookingStatus;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,5 +12,5 @@ public interface BookingService {
     Booking updateBookingStatus(UUID id, BookingStatus newStatus);
     Booking getBookingById(UUID id);
     List<Booking> getAllBookings();
-    List<Booking> getMyBookings(String userEmail);
+    List<Booking> getMyBookings(String userEmail, Pageable pageable);
 }
