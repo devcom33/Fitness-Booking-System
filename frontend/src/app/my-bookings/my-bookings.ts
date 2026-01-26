@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { BookingControllerService, BookingResponseDto } from '../api';
+import { BookingControllerService, BookingResponseDto, Pageable } from '../api';
 import { DatePipe } from '@angular/common';
 import { ToastService } from '../services/toast-service';
 
@@ -14,13 +14,21 @@ export class MyBookings implements OnInit {
   errorMsg = signal<string>('');
   myBookingsList = signal<BookingResponseDto[]>([]);
   private readonly toast = inject(ToastService);
+  currentPage = signal(0);
+  pageSize = signal(5);
 
   ngOnInit(): void {
     this.loadMyBookings();
   }
 
   loadMyBookings() {
-    this.myBookingService.getMyBookings().subscribe({
+    const pageParams: Pageable = {
+      page: this.currentPage() - 1,
+      size: this.pageSize(),
+      sort: ['id'],
+    };
+
+    this.myBookingService.getMyBookings(pageParams).subscribe({
       next: (data) => this.myBookingsList.set(data),
       error: (err) => {
         this.errorMsg.set('Failed to load bookings. Please check your connection.');
@@ -41,5 +49,9 @@ export class MyBookings implements OnInit {
     });
     {
     }
+  }
+  changePage(delta: number) {
+    this.currentPage.update((p) => Math.max(0, p + delta));
+    this.loadMyBookings();
   }
 }

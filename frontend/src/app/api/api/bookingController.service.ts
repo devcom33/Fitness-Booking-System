@@ -20,6 +20,10 @@ import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 import { BookingRequestDto } from '../model/bookingRequestDto';
 // @ts-ignore
 import { BookingResponseDto } from '../model/bookingResponseDto';
+// @ts-ignore
+import { Pageable } from '../model/pageable';
+// @ts-ignore
+import { StatusUpdateRequest } from '../model/statusUpdateRequest';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -210,14 +214,29 @@ export class BookingControllerService extends BaseService {
 
     /**
      * @endpoint get /api/v1/bookings/my-bookings
+     * @param pageable 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public getMyBookings(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<BookingResponseDto>>;
-    public getMyBookings(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<BookingResponseDto>>>;
-    public getMyBookings(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<BookingResponseDto>>>;
-    public getMyBookings(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getMyBookings(pageable: Pageable, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<BookingResponseDto>>;
+    public getMyBookings(pageable: Pageable, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<BookingResponseDto>>>;
+    public getMyBookings(pageable: Pageable, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<BookingResponseDto>>>;
+    public getMyBookings(pageable: Pageable, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (pageable === null || pageable === undefined) {
+            throw new Error('Required parameter pageable was null or undefined when calling getMyBookings.');
+        }
+
+        let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            'pageable',
+            <any>pageable,
+            QueryParamStyle.Form,
+            true,
+        );
+
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -249,6 +268,7 @@ export class BookingControllerService extends BaseService {
         return this.httpClient.request<Array<BookingResponseDto>>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters.toHttpParams(),
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
@@ -262,20 +282,20 @@ export class BookingControllerService extends BaseService {
     /**
      * @endpoint patch /api/v1/bookings/{id}/status
      * @param id 
-     * @param body 
+     * @param statusUpdateRequest 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public updateBookingStatus(id: string, body: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<BookingResponseDto>;
-    public updateBookingStatus(id: string, body: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<BookingResponseDto>>;
-    public updateBookingStatus(id: string, body: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<BookingResponseDto>>;
-    public updateBookingStatus(id: string, body: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public updateBookingStatus(id: string, statusUpdateRequest: StatusUpdateRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<BookingResponseDto>;
+    public updateBookingStatus(id: string, statusUpdateRequest: StatusUpdateRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<BookingResponseDto>>;
+    public updateBookingStatus(id: string, statusUpdateRequest: StatusUpdateRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<BookingResponseDto>>;
+    public updateBookingStatus(id: string, statusUpdateRequest: StatusUpdateRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling updateBookingStatus.');
         }
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling updateBookingStatus.');
+        if (statusUpdateRequest === null || statusUpdateRequest === undefined) {
+            throw new Error('Required parameter statusUpdateRequest was null or undefined when calling updateBookingStatus.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -317,7 +337,7 @@ export class BookingControllerService extends BaseService {
         return this.httpClient.request<BookingResponseDto>('patch', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: body,
+                body: statusUpdateRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
