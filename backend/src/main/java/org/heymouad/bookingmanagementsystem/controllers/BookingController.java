@@ -11,6 +11,7 @@ import org.heymouad.bookingmanagementsystem.services.BookingService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -25,6 +26,7 @@ public class BookingController {
     private final BookingService bookingService;
     private final BookingMapper bookingMapper;
 
+    @PreAuthorize("hasRole('CLIENT')")
     @PostMapping
     public ResponseEntity<BookingResponseDto> createBooking(@RequestBody BookingRequestDto bookingRequestDto, Principal principal)
     {
@@ -58,7 +60,7 @@ public class BookingController {
         List<BookingResponseDto> bookingResponseDtoList = bookingService.getAllBookings().stream().map(bookingMapper::toResponseDto).toList();
         return ResponseEntity.ok(bookingResponseDtoList);
     }
-
+    @PreAuthorize("hasRole('CLIENT')")
     @GetMapping("/my-bookings")
     public ResponseEntity<List<BookingResponseDto>> getMyBookings(Principal principal, @PageableDefault(sort = "id") Pageable pageable)
     {

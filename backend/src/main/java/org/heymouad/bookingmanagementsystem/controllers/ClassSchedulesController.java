@@ -9,6 +9,7 @@ import org.heymouad.bookingmanagementsystem.mappers.ClassScheduleMapper;
 import org.heymouad.bookingmanagementsystem.services.ClassScheduleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,6 +42,7 @@ public class ClassSchedulesController {
         return ResponseEntity.ok(classScheduleMapper.toResponseDto(classScheduleService.getClassScheduleById(id)));
     }
 
+    @PreAuthorize("hasRole('CLIENT')")
     @GetMapping
     public ResponseEntity<List<ClassScheduleResponseDto>> getAllClassSchedules()
     {
