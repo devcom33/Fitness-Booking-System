@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,6 +48,16 @@ public class ClassSchedulesController {
     public ResponseEntity<List<ClassScheduleResponseDto>> getAllClassSchedules()
     {
         return ResponseEntity.ok(classScheduleService.getAllClassSchedules()
+                .stream()
+                .map(classScheduleMapper::toResponseDto)
+                .toList());
+    }
+
+    @PreAuthorize("hasRole('INSTRUCTOR')")
+    @GetMapping
+    public ResponseEntity<List<ClassScheduleResponseDto>> getMyClassSchedules(Principal principal)
+    {
+        return ResponseEntity.ok(classScheduleService.getMyClassSchedules(principal.getName())
                 .stream()
                 .map(classScheduleMapper::toResponseDto)
                 .toList());

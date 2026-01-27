@@ -11,4 +11,5 @@ public interface ClassScheduleService {
     List<ClassSchedules> createClassSchedules(ClassSchedules classSchedules);
     ClassSchedules getClassScheduleById(UUID id);
     List<ClassSchedules> getAllClassSchedules();
+    List<ClassSchedules> getMyClassSchedules(String userEmail);
 }

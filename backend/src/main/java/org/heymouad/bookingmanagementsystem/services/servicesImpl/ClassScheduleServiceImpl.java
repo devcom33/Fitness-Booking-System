@@ -4,10 +4,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.fortuna.ical4j.model.Recur;
-import org.heymouad.bookingmanagementsystem.entities.ClassSchedules;
-import org.heymouad.bookingmanagementsystem.entities.FitnessClass;
-import org.heymouad.bookingmanagementsystem.entities.Instructor;
-import org.heymouad.bookingmanagementsystem.entities.RecurringScheduleTemplate;
+import org.heymouad.bookingmanagementsystem.entities.*;
+import org.heymouad.bookingmanagementsystem.enums.UserRole;
 import org.heymouad.bookingmanagementsystem.exceptions.InstructorBusyException;
 import org.heymouad.bookingmanagementsystem.exceptions.InvalidScheduleException;
 import org.heymouad.bookingmanagementsystem.exceptions.ResourceNotFoundException;
@@ -16,6 +14,7 @@ import org.heymouad.bookingmanagementsystem.repositories.FitnessClassRepository;
 import org.heymouad.bookingmanagementsystem.repositories.InstructorRepository;
 import org.heymouad.bookingmanagementsystem.repositories.RecurringScheduleTemplateRepository;
 import org.heymouad.bookingmanagementsystem.services.ClassScheduleService;
+import org.heymouad.bookingmanagementsystem.services.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +33,7 @@ public class ClassScheduleServiceImpl implements ClassScheduleService {
     private final ClassScheduleRepository classScheduleRepository;
     private final InstructorRepository instructorRepository;
     private final FitnessClassRepository fitnessClassRepository;
+    private final UserService userService;
     private final RecurringScheduleTemplateRepository recurringScheduleTemplateRepository;
 
     /**
@@ -94,6 +94,7 @@ public class ClassScheduleServiceImpl implements ClassScheduleService {
     public List<ClassSchedules> getAllClassSchedules() {
         return classScheduleRepository.findAll();
     }
+
 
     /**
      * Handles the persistence and validation for a single class schedule
@@ -168,5 +169,16 @@ public class ClassScheduleServiceImpl implements ClassScheduleService {
         }
 
         return classScheduleRepository.saveAll(schedulesToSave);
+    }
+
+
+    /**
+     * Retrieves my class schedules from the database
+     * @return A list of all entities
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public List<ClassSchedules> getMyClassSchedules(String userEmail) {
+        return classScheduleRepository.findAllByUserEmail(userEmail);
     }
 }
