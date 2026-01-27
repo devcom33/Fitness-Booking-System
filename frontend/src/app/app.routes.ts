@@ -1,12 +1,17 @@
 import { Routes } from '@angular/router';
 import { Login } from './login/login';
 import { Register } from './register/register';
-import { Dashboard } from './dashboard/dashboard';
+import { Dashboard } from './client/dashboard/dashboard';
 import { authGuard } from './guards/auth-guard';
-import { ClassList } from './class-list/class-list';
-import { MyBookings } from './my-bookings/my-bookings';
+import { ClassList } from './client/class-list/class-list';
+import { MyBookings } from './client/my-bookings/my-bookings';
+import { Landing } from './landing/landing';
 
 export const routes: Routes = [
+  {
+    path: '',
+    component: Landing,
+  },
   {
     path: 'login',
     component: Login,
