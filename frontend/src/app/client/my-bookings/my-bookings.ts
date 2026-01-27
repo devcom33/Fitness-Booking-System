@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { BookingControllerService, BookingResponseDto, Pageable } from '../api';
+import { BookingControllerService, BookingResponseDto, Pageable } from '../../api';
 import { DatePipe } from '@angular/common';
-import { ToastService } from '../services/toast-service';
+import { ToastService } from '../../services/toast-service';
 
 @Component({
   selector: 'app-my-bookings',

@@ -5,8 +5,8 @@ import {
   BookingControllerService,
   ClassScheduleResponseDto,
   ClassSchedulesControllerService,
-} from '../api';
-import { ToastService } from '../services/toast-service';
+} from '../../api';
+import { ToastService } from '../../services/toast-service';
 
 @Component({
   selector: 'app-class-list',
