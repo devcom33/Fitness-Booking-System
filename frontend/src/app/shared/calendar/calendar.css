@@ -1,0 +1,115 @@
+/* FullCalendar Variables */
+::ng-deep .fc {
+  --fc-bg-event-opacity: 1;
+  --fc-border-color: #374151;
+  --fc-button-bg-color: #f97316;
+  --fc-button-border-color: #f97316;
+  --fc-button-hover-bg-color: #e11d48;
+  --fc-button-hover-border-color: #e11d48;
+  --fc-button-active-bg-color: #e11d48;
+  --fc-button-active-border-color: #e11d48;
+  --fc-event-bg-color: #f97316;
+  --fc-event-border-color: #f97316;
+  --fc-today-bg-color: rgba(249, 115, 22, 0.1);
+}
+
+/* Calendar Header */
+::ng-deep .fc .fc-toolbar-title {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+::ng-deep .fc .fc-col-header-cell-cushion {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Day Numbers */
+::ng-deep .fc .fc-daygrid-day-number {
+  color: #9ca3af;
+}
+
+::ng-deep .fc .fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
+  color: #f97316;
+  font-weight: bold;
+}
+
+/* Calendar Grid */
+::ng-deep .fc-theme-standard td,
+::ng-deep .fc-theme-standard th {
+  border-color: #374151;
+}
+
+::ng-deep .fc .fc-daygrid-day-frame {
+  background-color: #020617;
+}
+
+::ng-deep .fc .fc-scrollgrid {
+  border-color: #374151;
+}
+
+/* Events */
+::ng-deep .fc-event {
+  cursor: pointer;
+}
+
+::ng-deep .fc-event:hover {
+  background-color: #e11d48 !important;
+  border-color: #e11d48 !important;
+}
+
+::ng-deep .fc-daygrid-event,
+::ng-deep .fc-daygrid-event-harness {
+  overflow: hidden !important;
+}
+
+/* Event Content */
+::ng-deep .fc-event-content-custom {
+  color: #ffffff !important;
+  padding: 2px 4px;
+  overflow: hidden;
+  width: 100%;
+}
+
+::ng-deep .fc-event-content-custom b {
+  color: #ffffff !important;
+  display: block;
+  font-size: 0.75rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+::ng-deep .fc-event-content-custom i {
+  color: #ffffff !important;
+  display: block;
+  font-size: 0.875rem;
+  font-style: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+::ng-deep .fc-event-title,
+::ng-deep .fc-event-time {
+  color: #ffffff !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020617;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #f97316;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #e11d48;
+}
