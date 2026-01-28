@@ -7,11 +7,12 @@ import {
   ClassSchedulesControllerService,
 } from '../../api';
 import { ToastService } from '../../services/toast-service';
+import { Navbar } from '../../components/navbar/navbar';
 
 @Component({
   selector: 'app-class-list',
   standalone: true,
-  imports: [DatePipe],
+  imports: [DatePipe, Navbar],
   templateUrl: './class-list.html',
   styleUrl: './class-list.css',
 })
