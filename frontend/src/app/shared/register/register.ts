@@ -1,23 +1,22 @@
 import { Component, inject } from '@angular/core';
-import { AuthenticationControllerService, AuthRequestDto } from '../api';
-import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { AuthenticationControllerService, UserRegistrationRequestDto } from '../../api';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-register',
   imports: [FormsModule],
-  templateUrl: './login.html',
-  styleUrl: './login.css',
+  templateUrl: './register.html',
+  styleUrl: './register.css',
 })
-export class Login {
+export class Register {
   private authService = inject(AuthenticationControllerService);
   private router = inject(Router);
-  authRequest: AuthRequestDto = { email: '', password: '' };
-  errorMsg: Array<String> = [];
 
-  login() {
-    localStorage.removeItem('token');
-    this.authService.login(this.authRequest).subscribe({
+  registerRequest: UserRegistrationRequestDto = { name: '', email: '', password: '' };
+
+  register() {
+    this.authService.register(this.registerRequest).subscribe({
       next: (res: any) => {
         localStorage.setItem('token', res.accessToken);
         console.log('about to navigate ...');
