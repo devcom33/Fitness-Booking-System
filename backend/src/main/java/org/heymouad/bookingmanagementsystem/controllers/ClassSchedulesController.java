@@ -10,10 +10,12 @@ import org.heymouad.bookingmanagementsystem.services.ClassScheduleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @RequestMapping(path="/api/v1/class-schedules", produces = "application/json")
@@ -23,7 +25,9 @@ public class ClassSchedulesController {
     private final ClassScheduleService classScheduleService;
     private final ClassScheduleMapper classScheduleMapper;
 
-
+    /**
+     * Create one or more class schedules
+     */
     @PostMapping
     public ResponseEntity<List<ClassScheduleResponseDto>> createClassSchedules(@RequestBody ClassScheduleRequestDto classScheduleRequestDto)
     {
@@ -37,27 +41,37 @@ public class ClassSchedulesController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedClassScheduleRequestDto);
     }
 
+    /**
+     * Get a single class schedule by ID
+     */
     @GetMapping("/{id}")
     public ResponseEntity<ClassScheduleResponseDto> getClassScheduleById(@PathVariable UUID id)
     {
         return ResponseEntity.ok(classScheduleMapper.toResponseDto(classScheduleService.getClassScheduleById(id)));
     }
 
-    @PreAuthorize("hasRole('CLIENT')")
+    /**
+     *
+     * CLIENT     -> sees all class schedules
+     * INSTRUCTOR -> sees only assigned schedules
+     */
     @GetMapping
-    public ResponseEntity<List<ClassScheduleResponseDto>> getAllClassSchedules()
+    public ResponseEntity<List<ClassScheduleResponseDto>> getAllClassSchedules(Authentication authentication)
     {
-        return ResponseEntity.ok(classScheduleService.getAllClassSchedules()
+        String email = authentication.getName();
+        boolean isInstructor = authentication.getAuthorities()
                 .stream()
-                .map(classScheduleMapper::toResponseDto)
-                .toList());
-    }
+                .anyMatch(a -> Objects.equals(a.getAuthority(), "ROLE_INSTRUCTOR"));
 
-    @PreAuthorize("hasRole('INSTRUCTOR')")
-    @GetMapping
-    public ResponseEntity<List<ClassScheduleResponseDto>> getMyClassSchedules(Principal principal)
-    {
-        return ResponseEntity.ok(classScheduleService.getMyClassSchedules(principal.getName())
+        if (isInstructor)
+        {
+            return ResponseEntity.ok(classScheduleService.getMyClassSchedules(email)
+                    .stream()
+                    .map(classScheduleMapper::toResponseDto)
+                    .toList());
+        }
+
+        return ResponseEntity.ok(classScheduleService.getAllClassSchedules()
                 .stream()
                 .map(classScheduleMapper::toResponseDto)
                 .toList());
