@@ -13,8 +13,4 @@ export class Dashboard {
   authService = inject(AuthService);
 
   role = this.authService.getUserRoles();
-
-  constructor() {
-    console.log(this.role);
-  }
 }
