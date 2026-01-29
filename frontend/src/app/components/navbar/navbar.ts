@@ -9,6 +9,7 @@ import { AuthService } from '../../services/AuthService';
 })
 export class Navbar {
   authService = inject(AuthService);
+  role = this.authService.getUserRoles();
 
   onLogout() {
     this.authService.logout();
