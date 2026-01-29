@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { Login } from './shared/login/login';
 import { Register } from './shared/register/register';
-import { Dashboard } from './client/dashboard/dashboard';
+import { Dashboard } from './shared/dashboard/dashboard';
 import { authGuard } from './guards/auth-guard';
 import { ClassList } from './client/class-list/class-list';
 import { MyBookings } from './client/my-bookings/my-bookings';
