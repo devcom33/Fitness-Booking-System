@@ -1,0 +1,20 @@
+import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { Navbar } from '../../components/navbar/navbar';
+import { AuthService } from '../../services/AuthService';
+
+@Component({
+  selector: 'app-dashboard',
+  imports: [RouterLink, Navbar],
+  templateUrl: './dashboard.html',
+  styleUrl: './dashboard.css',
+})
+export class Dashboard {
+  authService = inject(AuthService);
+
+  role = this.authService.getUserRoles();
+
+  constructor() {
+    console.log(this.role);
+  }
+}
