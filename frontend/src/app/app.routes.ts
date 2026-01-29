@@ -7,6 +7,7 @@ import { ClassList } from './client/class-list/class-list';
 import { MyBookings } from './client/my-bookings/my-bookings';
 import { Landing } from './landing/landing';
 import { Schedule } from './trainer/schedule/schedule';
+import { Unauthorized } from './shared/unauthorized/unauthorized';
 
 export const routes: Routes = [
   {
@@ -20,6 +21,10 @@ export const routes: Routes = [
   {
     path: 'register',
     component: Register,
+  },
+  {
+    path: 'unauthorized',
+    component: Unauthorized,
   },
   {
     path: 'dashboard',
@@ -38,5 +43,7 @@ export const routes: Routes = [
   {
     path: 'trainer/schedule',
     component: Schedule,
+    canActivate: [authGuard],
+    data: { expectedRole: 'ROLE_INSTRUCTOR' },
   },
 ];
