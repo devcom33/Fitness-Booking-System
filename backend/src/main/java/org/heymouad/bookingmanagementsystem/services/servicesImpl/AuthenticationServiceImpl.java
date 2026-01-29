@@ -13,6 +13,7 @@ import org.heymouad.bookingmanagementsystem.services.AuthenticationService;
 import org.heymouad.bookingmanagementsystem.services.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +23,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserService userService;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public AuthResponseDto register(UserRegistrationRequestDto userRegistrationRequestDto) {
@@ -37,7 +39,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         var user = User.builder()
                 .name(userRegistrationRequestDto.name())
                 .email(userRegistrationRequestDto.email())
-                .password(userRegistrationRequestDto.password())
+                .password(passwordEncoder.encode(userRegistrationRequestDto.password()))
                 .role(assignedRole)
                 .build();
 
