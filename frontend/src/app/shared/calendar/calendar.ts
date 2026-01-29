@@ -29,12 +29,12 @@ export class Calendar {
       initialView: 'dayGridMonth',
       events: this.eventsData(),
       weekends: true,
-      editable: true,
-      selectable: true,
+      editable: false,
+      selectable: false,
       selectMirror: true,
       dayMaxEvents: true,
       select: this.handleDateSelect.bind(this),
-      eventClick: this.handleEventClick.bind(this),
+      //eventClick: this.handleEventClick.bind(this),
       eventsSet: this.handleEvents.bind(this),
       /* you can update a remote database when these fire:
     eventAdd:

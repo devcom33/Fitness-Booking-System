@@ -113,3 +113,57 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #e11d48;
 }
+
+/* time grid */
+::ng-deep .fc-timegrid-axis-cushion {
+  color: #ffffff !important;
+}
+
+::ng-deep .fc-timegrid-slot {
+  color: #ffffff !important;
+}
+
+/* List View Styles */
+::ng-deep .fc-list {
+  border-color: #374151 !important;
+}
+
+::ng-deep .fc-list-table {
+  background-color: #020617;
+}
+
+::ng-deep .fc-list-day-cushion {
+  background-color: #111827 !important;
+  color: #ffffff !important;
+}
+
+::ng-deep .fc-list-event {
+  background-color: #020617 !important;
+  border-color: #374151 !important;
+}
+::ng-deep .fc-list-event-dot {
+  border-color: #f97316 !important;
+  background-color: #f97316 !important;
+}
+
+::ng-deep .fc-list-event-time {
+  color: #f97316 !important;
+}
+
+::ng-deep .fc-list-event-title > .fc-event-content-custom > i {
+  color: #ffffff !important;
+}
+
+::ng-deep .fc-list-event:hover .fc-list-event-title .fc-event-content-custom > i {
+  color: #f97316 !important;
+}
+
+::ng-deep .fc-list-day-text,
+::ng-deep .fc-list-day-side-text {
+  color: #ffffff !important;
+}
+
+::ng-deep .fc-list-empty {
+  background-color: #020617 !important;
+  color: #9ca3af !important;
+}

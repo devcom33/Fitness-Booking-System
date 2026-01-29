@@ -1,7 +1,5 @@
 import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
-import { ClassScheduleResponseDto, ClassSchedulesControllerService } from '../../api';
-import { EventClickArg, EventInput } from '@fullcalendar/core';
-import { CalendarEventsStore } from '../../services/CalendarEventsStore';
+import { ClassSchedulesControllerService } from '../../api';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Calendar } from '../../shared/calendar/calendar';
 import { Navbar } from '../../components/navbar/navbar';
