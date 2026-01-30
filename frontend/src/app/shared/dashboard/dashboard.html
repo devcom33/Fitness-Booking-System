@@ -3,43 +3,44 @@
   <div class="min-h-screen bg-[#020617] p-4">
     <div class="max-w-7xl mx-auto">
       <div class="bg-[#111827] rounded-lg shadow-xl p-8 mb-6">
-        <h1 class="text-4xl font-bold text-white mb-2">Welcome Back!</h1>
-        <p class="text-gray-400">Ready to crush your workout today?</p>
+        <h1 class="text-4xl font-bold text-white mb-2">Instructor Dashboard</h1>
+        <p class="text-gray-400">Manage your classes and schedule</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="bg-[#111827] rounded-lg shadow-xl p-6">
-          <h3 class="text-xl font-bold text-white mb-4">Book a Class</h3>
-          <p class="text-gray-400 mb-6">Schedule your next workout session</p>
+          <h3 class="text-xl font-bold text-white mb-4">Create Class</h3>
+          <p class="text-gray-400 mb-6">Schedule a new workout session</p>
           <button
-            routerLink="/browse-classes"
+            routerLink="/trainer/create-class"
             type="button"
             class="w-full bg-[#F97316] hover:bg-[#E11D48] text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200"
           >
-            Book Now
+            Create New Class
           </button>
         </div>
 
         <div class="bg-[#111827] rounded-lg shadow-xl p-6">
-          <h3 class="text-xl font-bold text-white mb-4">My Calendar</h3>
-          <p class="text-gray-400 mb-6">View your scheduled classes</p>
+          <h3 class="text-xl font-bold text-white mb-4">My Schedule</h3>
+          <p class="text-gray-400 mb-6">View and manage your classes</p>
           <button
             routerLink="/trainer/schedule"
             type="button"
             class="w-full bg-[#020617] hover:bg-[#F97316] border border-[#F97316] text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200"
           >
-            View Calendar
+            View Schedule
           </button>
         </div>
 
         <div class="bg-[#111827] rounded-lg shadow-xl p-6">
-          <h3 class="text-xl font-bold text-white mb-4">My Profile</h3>
-          <p class="text-gray-400 mb-6">Update your information</p>
+          <h3 class="text-xl font-bold text-white mb-4">Class Bookings</h3>
+          <p class="text-gray-400 mb-6">Manage participant bookings</p>
           <button
+            routerLink="/trainer/bookings"
             type="button"
             class="w-full bg-[#020617] hover:bg-[#F97316] border border-[#F97316] text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200"
           >
-            Edit Profile
+            View Bookings
           </button>
         </div>
       </div>

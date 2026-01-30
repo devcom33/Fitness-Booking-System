@@ -8,6 +8,7 @@ import { MyBookings } from './client/my-bookings/my-bookings';
 import { Landing } from './landing/landing';
 import { Schedule } from './trainer/schedule/schedule';
 import { Unauthorized } from './shared/unauthorized/unauthorized';
+import { FitnessClassStepper } from './trainer/fitness-class-stepper/fitness-class-stepper';
 
 export const routes: Routes = [
   {
@@ -43,6 +44,12 @@ export const routes: Routes = [
   {
     path: 'trainer/schedule',
     component: Schedule,
+    canActivate: [authGuard],
+    data: { expectedRole: 'ROLE_INSTRUCTOR' },
+  },
+  {
+    path: 'trainer/create-class',
+    component: FitnessClassStepper,
     canActivate: [authGuard],
     data: { expectedRole: 'ROLE_INSTRUCTOR' },
   },
