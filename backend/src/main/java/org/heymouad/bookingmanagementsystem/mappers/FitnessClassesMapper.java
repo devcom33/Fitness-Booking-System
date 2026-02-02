@@ -1,6 +1,7 @@
 package org.heymouad.bookingmanagementsystem.mappers;
 
 import org.heymouad.bookingmanagementsystem.dtos.FitnessClassesDto;
+import org.heymouad.bookingmanagementsystem.dtos.FitnessClassesResponseDto;
 import org.heymouad.bookingmanagementsystem.entities.FitnessClass;
 import org.mapstruct.Mapper;
 
@@ -8,4 +9,5 @@ import org.mapstruct.Mapper;
 public interface FitnessClassesMapper {
     FitnessClass toFitnessClasses(FitnessClassesDto fitnessClassesDto);
     FitnessClassesDto toFitnessClassesDto(FitnessClass fitnessClass);
+    FitnessClassesResponseDto toFitnessClassesResponseDto(FitnessClass fitnessClass);
 }

@@ -1,5 +1,6 @@
 package org.heymouad.bookingmanagementsystem.services.servicesImpl;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.heymouad.bookingmanagementsystem.entities.User;
 import org.heymouad.bookingmanagementsystem.repositories.UserRepository;
@@ -27,7 +28,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(UUID id) {
 
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User Not Found"));
+        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User Not Found"));
     }
 
     @Override

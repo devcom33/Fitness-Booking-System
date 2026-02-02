@@ -1,11 +1,14 @@
 package org.heymouad.bookingmanagementsystem.controllers;
 
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.heymouad.bookingmanagementsystem.dtos.ClassScheduleRequestDto;
 import org.heymouad.bookingmanagementsystem.dtos.ClassScheduleResponseDto;
 import org.heymouad.bookingmanagementsystem.entities.ClassSchedules;
+import org.heymouad.bookingmanagementsystem.entities.Instructor;
 import org.heymouad.bookingmanagementsystem.mappers.ClassScheduleMapper;
+import org.heymouad.bookingmanagementsystem.repositories.InstructorRepository;
 import org.heymouad.bookingmanagementsystem.services.ClassScheduleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +27,21 @@ import java.util.UUID;
 public class ClassSchedulesController {
     private final ClassScheduleService classScheduleService;
     private final ClassScheduleMapper classScheduleMapper;
+    private final InstructorRepository instructorRepository;
 
     /**
      * Create one or more class schedules
      */
+    @PreAuthorize("hasRole('INSTRUCTOR')")
     @PostMapping
-    public ResponseEntity<List<ClassScheduleResponseDto>> createClassSchedules(@RequestBody ClassScheduleRequestDto classScheduleRequestDto)
+    public ResponseEntity<List<ClassScheduleResponseDto>> createClassSchedules(@RequestBody ClassScheduleRequestDto classScheduleRequestDto, Principal principal)
     {
+        String userEmail = principal.getName();
+        Instructor instructor = instructorRepository.findByUserEmail(userEmail)
+                .orElseThrow(() -> new EntityNotFoundException("Instructor not found"));
+
         ClassSchedules classSchedules = classScheduleMapper.toEntity(classScheduleRequestDto);
+        classSchedules.setInstructor(instructor);
 
         List<ClassScheduleResponseDto> savedClassScheduleRequestDto = classScheduleService.createClassSchedules(classSchedules)
                 .stream()

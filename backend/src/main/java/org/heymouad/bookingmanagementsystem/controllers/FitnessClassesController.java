@@ -3,11 +3,13 @@ package org.heymouad.bookingmanagementsystem.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.heymouad.bookingmanagementsystem.dtos.FitnessClassesDto;
+import org.heymouad.bookingmanagementsystem.dtos.FitnessClassesResponseDto;
 import org.heymouad.bookingmanagementsystem.entities.FitnessClass;
 import org.heymouad.bookingmanagementsystem.mappers.FitnessClassesMapper;
 import org.heymouad.bookingmanagementsystem.services.FitnessClassService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,14 +22,15 @@ public class FitnessClassesController {
     private final FitnessClassService fitnessClassService;
     private final FitnessClassesMapper fitnessClassesMapper;
 
+    @PreAuthorize("hasRole('INSTRUCTOR')")
     @PostMapping
-    public ResponseEntity<FitnessClassesDto> createFitnessClass(@RequestBody FitnessClassesDto fitnessClassesDto)
+    public ResponseEntity<FitnessClassesResponseDto> createFitnessClass(@RequestBody FitnessClassesDto fitnessClassesDto)
     {
         FitnessClass fitnessClass = fitnessClassesMapper.toFitnessClasses(fitnessClassesDto);
         FitnessClass createdClass = fitnessClassService.createFitnessClasses(fitnessClass);
-        FitnessClassesDto savedFitnessClassesDto = fitnessClassesMapper.toFitnessClassesDto(createdClass);
+        FitnessClassesResponseDto fitnessClassesResponseDto = fitnessClassesMapper.toFitnessClassesResponseDto(createdClass);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedFitnessClassesDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(fitnessClassesResponseDto);
     }
 
     @PutMapping("/{id}")

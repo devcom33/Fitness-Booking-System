@@ -20,7 +20,6 @@ import java.util.UUID;
 public interface ClassScheduleMapper {
 
     @Mapping(target = "fitnessClass", source = "fitnessClassId")
-    @Mapping(target = "instructor", source = "instructorId")
     @Mapping(target = "template", source = "templateDto")
     ClassSchedules toEntity(ClassScheduleRequestDto classScheduleRequestDto);
 
