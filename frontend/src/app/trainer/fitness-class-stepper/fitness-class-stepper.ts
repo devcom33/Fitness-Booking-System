@@ -5,6 +5,8 @@ import {
   ClassSchedulesControllerService,
   FitnessClassesControllerService,
   FitnessClassesDto,
+  FitnessClassesResponseDto,
+  RecurringScheduleTemplateDto,
 } from '../../api';
 import { FormsModule } from '@angular/forms';
 
@@ -25,16 +27,36 @@ export class FitnessClassStepper {
     capacity: 0,
     category: '',
   };
+  fitnessClassesResponseDto: FitnessClassesResponseDto = {
+    id: '',
+    name: '',
+    description: '',
+    durationMinutes: 0,
+    capacity: 0,
+    category: '',
+  };
+
   scheduleClassDto: ClassScheduleRequestDto = {
     fitnessClassId: '',
-    instructorId: '',
     startTime: '',
     endTime: '',
   };
 
+  payloadScheduleClassDto: ClassScheduleRequestDto = {
+    fitnessClassId: this.scheduleClassDto.fitnessClassId,
+    startTime: new Date(this.scheduleClassDto.startTime || new Date()).toISOString(),
+    endTime: new Date(this.scheduleClassDto.endTime || new Date()).toISOString(),
+  };
+
+  steps = [
+    { number: 1, label: 'Class Details' },
+    { number: 2, label: 'Schedule' },
+    { number: 3, label: 'Review' },
+  ];
+
   nextStep() {
     if (this.currentStep == 1) {
-      this.createClass();
+      this.createFitnessClass();
     }
     if (this.currentStep < 3) {
       this.currentStep++;
@@ -47,16 +69,28 @@ export class FitnessClassStepper {
     }
   }
 
-  createClass() {
+  createFitnessClass() {
     this.fitnessClassService.createFitnessClass(this.fitnessClassesDto).subscribe({
       next: (data) => {
+        this.scheduleClassDto.fitnessClassId = data.id;
         console.log('data : ', data);
       },
     });
   }
 
   createClassSchedule() {
-    this.scheduleClassService.createClassSchedules(this.scheduleClassDto).subscribe({
+    const recurring: RecurringScheduleTemplateDto = {
+      rrule: '',
+      startDateTime: new Date().toISOString(),
+      endDateTime: new Date().toISOString(),
+    };
+    const payload: ClassScheduleRequestDto = {
+      fitnessClassId: this.scheduleClassDto.fitnessClassId,
+      startTime: new Date(this.scheduleClassDto.startTime || new Date()).toISOString(),
+      endTime: new Date(this.scheduleClassDto.endTime || new Date()).toISOString(),
+      templateDto: recurring,
+    };
+    this.scheduleClassService.createClassSchedules(payload).subscribe({
       next: (data) => {
         console.log('data : ', data);
       },
