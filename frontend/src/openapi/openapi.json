@@ -124,7 +124,9 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/FitnessClassesDto" } }
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/FitnessClassesResponseDto" }
+              }
             }
           }
         }
@@ -402,11 +404,21 @@
           "specialization": { "type": "string" }
         }
       },
+      "FitnessClassesResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "durationMinutes": { "type": "integer", "format": "int32" },
+          "capacity": { "type": "integer", "format": "int32" },
+          "category": { "type": "string" }
+        }
+      },
       "ClassScheduleRequestDto": {
         "type": "object",
         "properties": {
           "fitnessClassId": { "type": "string", "format": "uuid" },
-          "instructorId": { "type": "string", "format": "uuid" },
           "startTime": { "type": "string", "format": "date-time" },
           "endTime": { "type": "string", "format": "date-time" },
           "templateDto": { "$ref": "#/components/schemas/RecurringScheduleTemplateDto" }

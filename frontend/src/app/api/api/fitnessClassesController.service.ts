@@ -18,6 +18,8 @@ import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 
 // @ts-ignore
 import { FitnessClassesDto } from '../model/fitnessClassesDto';
+// @ts-ignore
+import { FitnessClassesResponseDto } from '../model/fitnessClassesResponseDto';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -42,9 +44,9 @@ export class FitnessClassesControllerService extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public createFitnessClass(fitnessClassesDto: FitnessClassesDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<FitnessClassesDto>;
-    public createFitnessClass(fitnessClassesDto: FitnessClassesDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<FitnessClassesDto>>;
-    public createFitnessClass(fitnessClassesDto: FitnessClassesDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<FitnessClassesDto>>;
+    public createFitnessClass(fitnessClassesDto: FitnessClassesDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<FitnessClassesResponseDto>;
+    public createFitnessClass(fitnessClassesDto: FitnessClassesDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<FitnessClassesResponseDto>>;
+    public createFitnessClass(fitnessClassesDto: FitnessClassesDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<FitnessClassesResponseDto>>;
     public createFitnessClass(fitnessClassesDto: FitnessClassesDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (fitnessClassesDto === null || fitnessClassesDto === undefined) {
             throw new Error('Required parameter fitnessClassesDto was null or undefined when calling createFitnessClass.');
@@ -86,7 +88,7 @@ export class FitnessClassesControllerService extends BaseService {
 
         let localVarPath = `/api/v1/fitnessClasses`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<FitnessClassesDto>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<FitnessClassesResponseDto>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: fitnessClassesDto,
