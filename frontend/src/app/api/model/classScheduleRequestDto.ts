@@ -12,7 +12,6 @@ import { RecurringScheduleTemplateDto } from './recurringScheduleTemplateDto';
 
 export interface ClassScheduleRequestDto { 
     fitnessClassId?: string;
-    instructorId?: string;
     startTime?: string;
     endTime?: string;
     templateDto?: RecurringScheduleTemplateDto;
