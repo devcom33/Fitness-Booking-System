@@ -9,6 +9,7 @@ import {
   RecurringScheduleTemplateDto,
 } from '../../api';
 import { FormsModule } from '@angular/forms';
+import { datetime, RRule, RRuleSet } from 'rrule';
 
 @Component({
   selector: 'app-fitness-class-stepper',
@@ -35,17 +36,17 @@ export class FitnessClassStepper {
     capacity: 0,
     category: '',
   };
+  recurring: RecurringScheduleTemplateDto = {
+    rrule: '',
+    startDateTime: new Date().toISOString(),
+    endDateTime: new Date().toISOString(),
+  };
 
   scheduleClassDto: ClassScheduleRequestDto = {
     fitnessClassId: '',
     startTime: '',
     endTime: '',
-  };
-
-  payloadScheduleClassDto: ClassScheduleRequestDto = {
-    fitnessClassId: this.scheduleClassDto.fitnessClassId,
-    startTime: new Date(this.scheduleClassDto.startTime || new Date()).toISOString(),
-    endTime: new Date(this.scheduleClassDto.endTime || new Date()).toISOString(),
+    templateDto: this.recurring,
   };
 
   steps = [
@@ -79,11 +80,18 @@ export class FitnessClassStepper {
   }
 
   createClassSchedule() {
+    const rule = new RRule({
+      freq: RRule.WEEKLY,
+      byweekday: [RRule.MO, RRule.FR]
+    });
+    var index = rule.toString().indexOf(':');
+    var ruleFormatted = rule.toString().substring(index + 1);
     const recurring: RecurringScheduleTemplateDto = {
-      rrule: '',
-      startDateTime: new Date().toISOString(),
-      endDateTime: new Date().toISOString(),
+      rrule: ruleFormatted,
+      startDateTime: datetime(2026, 2, 15, 10, 30).toISOString(),
+      endDateTime: datetime(2026, 12, 31).toISOString(),
     };
+
     const payload: ClassScheduleRequestDto = {
       fitnessClassId: this.scheduleClassDto.fitnessClassId,
       startTime: new Date(this.scheduleClassDto.startTime || new Date()).toISOString(),
