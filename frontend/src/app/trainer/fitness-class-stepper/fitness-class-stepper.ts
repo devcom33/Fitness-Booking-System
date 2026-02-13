@@ -56,6 +56,12 @@ export class FitnessClassStepper {
     { number: 3, label: 'Review' },
   ];
 
+
+  DAY_MAP: { [key: string]: any } = {
+  'Mon': RRule.MO, 'Tue': RRule.TU, 'Wed': RRule.WE, 
+  'Thu': RRule.TH, 'Fri': RRule.FR, 'Sat': RRule.SA, 'Sun': RRule.SU
+  };
+
   selectedDays: string[] = [];
 
   toggleDay(day: string): void {
@@ -66,48 +72,28 @@ export class FitnessClassStepper {
       this.selectedDays.push(day);
     }
   }
+
   rruleDays : Weekday[] = [];
+
   toRrule(selectedDays: string[])
   {
-    for (let selectday of selectedDays)
-    {
-    switch (selectday)
-    {
-      case "Mon":
-        this.rruleDays.push(RRule.MO);
-        break
-      case "Tue":
-        this.rruleDays.push(RRule.TU);
-        break
-      case "Wed":
-        this.rruleDays.push(RRule.WE);
-        break
-      case "Thu":
-        this.rruleDays.push(RRule.TH);
-        break
-      case "Fri":
-        this.rruleDays.push(RRule.FR);
-        break
-      case "Sat":
-        this.rruleDays.push(RRule.SA);
-        break
-      case "Sun":
-        this.rruleDays.push(RRule.SU);
-        break
-      default:
-        this.rruleDays.push(RRule.MO);
-    }
-    }
+   this.rruleDays = selectedDays
+    .map(day => this.DAY_MAP[day])
+    .filter(day => day !== undefined);
   }
+
+
   selectedRecurring = RRule.DAILY;
   typeRecurringTime = [
     {'code': null, 'option': "None"},
     {'code': RRule.DAILY, 'option': "DAILY" },
     {'code': RRule.WEEKLY, 'option': "WEEKLY"}
   ] ; 
+
+
   nextStep() {
     if (this.currentStep == 1) {
-      //this.createFitnessClass();
+      this.createFitnessClass();
     }
     if (this.currentStep < 3) {
       this.currentStep++;
@@ -135,12 +121,17 @@ export class FitnessClassStepper {
     // Build the Rule
     const options: any = { freq: this.selectedRecurring };
 
-    if (this.selectedRecurring === RRule.WEEKLY) {
+    console.log("this.selectedRecurring", this.selectedRecurring.toString())
+
+    if (this.selectedRecurring == RRule.WEEKLY) {
       this.toRrule(this.selectedDays);
       options.byweekday = this.rruleDays;
       rule = new RRule(options);
-    } else if (this.selectedRecurring === RRule.DAILY) {
+      console.log("pass weekly");
+    } else if (this.selectedRecurring == RRule.DAILY) {
       rule = new RRule(options);
+      console.log("pass daily");
+
     }
 
     if (!rule) {

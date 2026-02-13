@@ -5,6 +5,7 @@ export * from './bookingResponseDto';
 export * from './classScheduleRequestDto';
 export * from './classScheduleResponseDto';
 export * from './fitnessClassesDto';
+export * from './fitnessClassesResponseDto';
 export * from './instructorDto';
 export * from './pageable';
 export * from './recurringScheduleTemplateDto';
