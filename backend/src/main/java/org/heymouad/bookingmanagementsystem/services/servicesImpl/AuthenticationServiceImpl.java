@@ -39,7 +39,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         var user = User.builder()
                 .name(userRegistrationRequestDto.name())
                 .email(userRegistrationRequestDto.email())
-                .password(passwordEncoder.encode(userRegistrationRequestDto.password()))
+                .password(userRegistrationRequestDto.password())
                 .role(assignedRole)
                 .build();
 
