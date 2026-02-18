@@ -45,7 +45,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(name = "user_status", nullable = false)
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus = UserStatus.ACTIVE;
 
@@ -68,5 +68,15 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return email;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.userStatus == UserStatus.ACTIVE;
+    }
+
+    @Override
+    public boolean isAccountNonLocked(){
+        return this.userStatus != UserStatus.BLOCKED;
     }
 }
