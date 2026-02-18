@@ -2,9 +2,11 @@ package org.heymouad.bookingmanagementsystem.services.servicesImpl;
 
 import lombok.RequiredArgsConstructor;
 import org.heymouad.bookingmanagementsystem.config.JwtService;
+import org.heymouad.bookingmanagementsystem.dtos.auth.ApplicationResponseDto;
 import org.heymouad.bookingmanagementsystem.dtos.auth.AuthRequestDto;
 import org.heymouad.bookingmanagementsystem.dtos.auth.AuthResponseDto;
 import org.heymouad.bookingmanagementsystem.dtos.UserRegistrationRequestDto;
+import org.heymouad.bookingmanagementsystem.dtos.instructor.InstructorApplicationRequest;
 import org.heymouad.bookingmanagementsystem.entities.Role;
 import org.heymouad.bookingmanagementsystem.entities.User;
 import org.heymouad.bookingmanagementsystem.enums.UserRole;
@@ -19,36 +21,28 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
-    private final RoleRepository roleRepository;
     private final UserService userService;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final PasswordEncoder passwordEncoder;
 
     @Override
     public AuthResponseDto register(UserRegistrationRequestDto userRegistrationRequestDto) {
-        var role = userRegistrationRequestDto.roleDto() != null
-                ? userRegistrationRequestDto.roleDto().name()
-                : UserRole.CLIENT;
 
-
-        Role assignedRole = roleRepository.findByName(role).orElseThrow(() ->
-                        new IllegalStateException("Role not found: " + role)
-                );
-
-        var user = User.builder()
-                .name(userRegistrationRequestDto.name())
-                .email(userRegistrationRequestDto.email())
-                .password(userRegistrationRequestDto.password())
-                .role(assignedRole)
-                .build();
-
-        userService.createUser(user);
+        var user = userService.registerClient(userRegistrationRequestDto);
 
         var jwtToken = jwtService.generateToken(user);
 
         return AuthResponseDto.builder().accessToken(jwtToken).build();
     }
+
+    @Override
+    public ApplicationResponseDto apply(InstructorApplicationRequest request) {
+        userService.applyAsInstructor(request);
+        return ApplicationResponseDto.builder()
+                .message("Application submitted. Awaiting admin approval.")
+                .build();
+    }
+
 
     @Override
     public AuthResponseDto login(AuthRequestDto requestDto) {
