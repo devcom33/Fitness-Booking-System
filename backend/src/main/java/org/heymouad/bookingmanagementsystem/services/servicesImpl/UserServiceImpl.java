@@ -17,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.UUID;
 
 @Transactional
 @Service
@@ -58,10 +57,6 @@ public class UserServiceImpl implements UserService {
                 .role(assignedRole)
                 .userStatus(UserStatus.PENDING)
                 .build();
-
-        if (userRepository.existsByEmail(request.email())) {
-            throw new IllegalArgumentException("Email already registered");
-        }
 
         var savedUser = userRepository.save(user);
 
