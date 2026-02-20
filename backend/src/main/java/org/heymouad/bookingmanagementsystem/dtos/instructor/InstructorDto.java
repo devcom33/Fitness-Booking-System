@@ -1,4 +1,4 @@
-package org.heymouad.bookingmanagementsystem.dtos;
+package org.heymouad.bookingmanagementsystem.dtos.instructor;
 
 import java.util.UUID;
 
