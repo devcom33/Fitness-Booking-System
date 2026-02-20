@@ -3,8 +3,10 @@ package org.heymouad.bookingmanagementsystem.controllers.Auth;
 
 import lombok.RequiredArgsConstructor;
 import org.heymouad.bookingmanagementsystem.dtos.UserRegistrationRequestDto;
+import org.heymouad.bookingmanagementsystem.dtos.auth.ApplicationResponseDto;
 import org.heymouad.bookingmanagementsystem.dtos.auth.AuthRequestDto;
 import org.heymouad.bookingmanagementsystem.dtos.auth.AuthResponseDto;
+import org.heymouad.bookingmanagementsystem.dtos.instructor.InstructorApplicationRequest;
 import org.heymouad.bookingmanagementsystem.services.AuthenticationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,9 +21,15 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping(path = "/register", produces = "application/json")
-    public ResponseEntity<AuthResponseDto> register(@RequestBody UserRegistrationRequestDto userRegistrationRequestDto)
+    public ResponseEntity<AuthResponseDto> register(@RequestBody UserRegistrationRequestDto request)
     {
-        return ResponseEntity.ok(authenticationService.register(userRegistrationRequestDto));
+        return ResponseEntity.ok(authenticationService.register(request));
+    }
+
+    @PostMapping(path = "/register-instructor", produces = "application/json")
+    public ResponseEntity<ApplicationResponseDto> applyAsInstructor(@RequestBody InstructorApplicationRequest request)
+    {
+        return ResponseEntity.ok(authenticationService.apply(request));
     }
 
     @PostMapping(path = "/login", produces = "application/json")

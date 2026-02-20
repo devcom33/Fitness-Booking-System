@@ -7,15 +7,11 @@ import org.heymouad.bookingmanagementsystem.dtos.auth.AuthRequestDto;
 import org.heymouad.bookingmanagementsystem.dtos.auth.AuthResponseDto;
 import org.heymouad.bookingmanagementsystem.dtos.UserRegistrationRequestDto;
 import org.heymouad.bookingmanagementsystem.dtos.instructor.InstructorApplicationRequest;
-import org.heymouad.bookingmanagementsystem.entities.Role;
 import org.heymouad.bookingmanagementsystem.entities.User;
-import org.heymouad.bookingmanagementsystem.enums.UserRole;
-import org.heymouad.bookingmanagementsystem.repositories.RoleRepository;
 import org.heymouad.bookingmanagementsystem.services.AuthenticationService;
 import org.heymouad.bookingmanagementsystem.services.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,7 +28,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         var jwtToken = jwtService.generateToken(user);
 
-        return AuthResponseDto.builder().accessToken(jwtToken).build();
+        return AuthResponseDto.builder()
+                .accessToken(jwtToken)
+                .name(user.getName())
+                .email(user.getEmail())
+                .role(user.getRole().getName())
+                .build();
     }
 
     @Override
