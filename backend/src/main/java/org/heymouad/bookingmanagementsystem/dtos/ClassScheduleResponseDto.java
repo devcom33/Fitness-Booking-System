@@ -2,6 +2,7 @@ package org.heymouad.bookingmanagementsystem.dtos;
 
 
 import lombok.Builder;
+import org.heymouad.bookingmanagementsystem.dtos.instructor.InstructorDto;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;
