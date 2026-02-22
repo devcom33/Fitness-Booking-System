@@ -1,6 +1,6 @@
 package org.heymouad.bookingmanagementsystem.mappers;
 
-import org.heymouad.bookingmanagementsystem.dtos.InstructorDto;
+import org.heymouad.bookingmanagementsystem.dtos.instructor.InstructorDto;
 import org.heymouad.bookingmanagementsystem.entities.Instructor;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

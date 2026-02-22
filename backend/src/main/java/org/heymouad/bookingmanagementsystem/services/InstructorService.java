@@ -7,5 +7,5 @@ import java.util.UUID;
 
 @Service
 public interface InstructorService {
-    Instructor createInstructor(Instructor instructor, UUID userId) ;
+    Instructor createInstructor(Instructor instructor, UUID userId);
 }
