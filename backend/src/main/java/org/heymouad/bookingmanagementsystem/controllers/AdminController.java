@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 
-@RequestMapping("/api/v1/admin")
+@RequestMapping(path = "/api/v1/admin", produces = "application/json")
 @RestController
 @RequiredArgsConstructor
 public class AdminController {
