@@ -10,6 +10,7 @@
 
 
 export interface InstructorResponseDto { 
+    instructorId?: string;
     name?: string;
     email?: string;
     bio?: string;
