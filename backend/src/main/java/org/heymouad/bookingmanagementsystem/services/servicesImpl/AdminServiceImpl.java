@@ -46,6 +46,7 @@ public class AdminServiceImpl implements AdminService {
         return instructorRepository.findAllByUserStatus(UserStatus.PENDING)
                 .stream()
                 .map(i -> new InstructorResponseDto(
+                        i.getId(),
                         i.getUser().getName(),
                         i.getUser().getEmail(),
                         i.getBio(),
