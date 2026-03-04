@@ -39,4 +39,11 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getPendingInstructors());
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/instructors")
+    public ResponseEntity<List<InstructorResponseDto>> getInstructors()
+    {
+        return ResponseEntity.ok(adminService.getInstructors());
+    }
+
 }

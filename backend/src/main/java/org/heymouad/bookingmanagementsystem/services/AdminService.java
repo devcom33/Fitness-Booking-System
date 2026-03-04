@@ -9,4 +9,5 @@ import java.util.UUID;
 public interface AdminService {
     void updateInstructorStatus(UUID instructorId, UserStatus newStatus);
     List<InstructorResponseDto> getPendingInstructors();
+    List<InstructorResponseDto> getInstructors();
 }

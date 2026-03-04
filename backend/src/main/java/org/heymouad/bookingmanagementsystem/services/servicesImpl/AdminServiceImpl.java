@@ -54,4 +54,19 @@ public class AdminServiceImpl implements AdminService {
                 ))
                 .toList();
     }
+
+    @Override
+    public List<InstructorResponseDto> getInstructors()
+    {
+        return instructorRepository.findAllByUserStatus(UserStatus.ACTIVE)
+                .stream()
+                .map(i -> new InstructorResponseDto(
+                        i.getId(),
+                        i.getUser().getName(),
+                        i.getUser().getEmail(),
+                        i.getBio(),
+                        i.getSpecialization()
+                ))
+                .toList();
+    }
 }
