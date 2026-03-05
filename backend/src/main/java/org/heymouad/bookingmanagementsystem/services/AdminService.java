@@ -8,6 +8,8 @@ import java.util.UUID;
 
 public interface AdminService {
     void updateInstructorStatus(UUID instructorId, UserStatus newStatus);
+    void updateAccountState(UUID id, UserStatus status);
     List<InstructorResponseDto> getPendingInstructors();
-    List<InstructorResponseDto> getInstructors();
+    List<InstructorResponseDto> getActivatedInstructors();
+    List<InstructorResponseDto> getDeactivatedInstructors();
 }

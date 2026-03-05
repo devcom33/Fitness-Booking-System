@@ -12,7 +12,6 @@ import org.heymouad.bookingmanagementsystem.services.AdminService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,33 +39,59 @@ public class AdminServiceImpl implements AdminService {
         user.setUserStatus(newStatus);
     }
 
+    @Transactional
     @Override
-    public List<InstructorResponseDto> getPendingInstructors()
+    public void updateAccountState(UUID instructorId, UserStatus newStatus)
     {
-        return instructorRepository.findAllByUserStatus(UserStatus.PENDING)
-                .stream()
-                .map(i -> new InstructorResponseDto(
-                        i.getId(),
-                        i.getUser().getName(),
-                        i.getUser().getEmail(),
-                        i.getBio(),
-                        i.getSpecialization()
-                ))
-                .toList();
+        Instructor instructor = instructorRepository.findById(instructorId).orElseThrow(() -> new ResourceNotFoundException("Instructor not found ", instructorId));
+        User user = instructor.getUser();
+        UserStatus currentStatus = user.getUserStatus();
+
+        if (currentStatus != UserStatus.ACTIVE && currentStatus != UserStatus.BLOCKED) {
+            throw new IllegalStateException("Only active or blocked instructors can be updated. Current status: " + currentStatus);
+        }
+
+        if (newStatus != UserStatus.ACTIVE && newStatus != UserStatus.BLOCKED) {
+            throw new IllegalArgumentException("Invalid target status for account management: " + newStatus);
+        }
+
+        user.setUserStatus(newStatus);
     }
 
     @Override
-    public List<InstructorResponseDto> getInstructors()
+    public List<InstructorResponseDto> getPendingInstructors()
     {
-        return instructorRepository.findAllByUserStatus(UserStatus.ACTIVE)
+        return getInstructorsByStatus(UserStatus.PENDING);
+    }
+
+    @Override
+    public List<InstructorResponseDto> getDeactivatedInstructors()
+    {
+        return getInstructorsByStatus(UserStatus.BLOCKED);
+    }
+
+    @Override
+    public List<InstructorResponseDto> getActivatedInstructors()
+    {
+        return getInstructorsByStatus(UserStatus.ACTIVE);
+    }
+
+
+    private List<InstructorResponseDto> getInstructorsByStatus(UserStatus status)
+    {
+        return instructorRepository.findAllByUserStatus(status)
                 .stream()
-                .map(i -> new InstructorResponseDto(
-                        i.getId(),
-                        i.getUser().getName(),
-                        i.getUser().getEmail(),
-                        i.getBio(),
-                        i.getSpecialization()
-                ))
+                .map(this::mapToResponseDto)
                 .toList();
+    }
+
+    private InstructorResponseDto mapToResponseDto(Instructor instructor) {
+        return new InstructorResponseDto(
+                instructor.getId(),
+                instructor.getUser().getName(),
+                instructor.getUser().getEmail(),
+                instructor.getBio(),
+                instructor.getSpecialization()
+        );
     }
 }
