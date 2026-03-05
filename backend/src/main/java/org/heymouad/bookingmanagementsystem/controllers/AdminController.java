@@ -42,7 +42,7 @@ public class AdminController {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/instructors/{instructorId}/access")
+    @PatchMapping("/{instructorId}/access")
     public ResponseEntity<Void> toggleAccountAccess(@PathVariable UUID instructorId, @RequestBody @Valid UserStatusUpdateRequest userStatusUpdateRequest)
     {
         UserStatus userStatus = userStatusUpdateRequest.userStatus();
