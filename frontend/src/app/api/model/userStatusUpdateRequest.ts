@@ -10,6 +10,16 @@
 
 
 export interface UserStatusUpdateRequest { 
-    userStatus?: string;
+    userStatus: UserStatusUpdateRequest.UserStatusEnum;
 }
+export namespace UserStatusUpdateRequest {
+    export const UserStatusEnum = {
+        Pending: 'PENDING',
+        Active: 'ACTIVE',
+        Rejected: 'REJECTED',
+        Blocked: 'BLOCKED'
+    } as const;
+    export type UserStatusEnum = typeof UserStatusEnum[keyof typeof UserStatusEnum];
+}
+
 

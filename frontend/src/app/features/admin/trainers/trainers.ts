@@ -2,13 +2,14 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { Sidebar } from '../sidebar/sidebar';
 import { CommonModule } from '@angular/common';
 import { ToastService } from '../../../shared/services/toast-service';
-import { activeTrainers } from "./activeTrainers/activeTrainers";
-import { pendingTrainers } from "./pendingTrainers/pendingTrainers";
+import { activeTrainers } from "./active-trainers/active-trainers";
+import { pendingTrainers } from "./pending-trainers/pending-trainers";
 import { AdminControllerService, InstructorResponseDto } from '../../../api';
+import { deactiveTrainers } from "./deactivated-trainers/deactive-trainers";
 
 @Component({
   selector: 'app-trainers',
-  imports: [Sidebar, CommonModule, activeTrainers, pendingTrainers],
+  imports: [Sidebar, CommonModule, activeTrainers, pendingTrainers, deactiveTrainers],
   templateUrl: './trainers.html',
   styleUrl: './trainers.css',
 })
@@ -18,11 +19,11 @@ export class Trainers implements OnInit{
   pendingTrainingList = signal<InstructorResponseDto[]>([]);
   trainersList = signal<InstructorResponseDto[]>([]);
   private readonly toast = inject(ToastService);
-  activeTab = signal<'active' | 'pending'>('active');
+  activeTab = signal<'active' | 'pending' | 'deactivated'>('active');
 
-  // Methods to switch tabs
   showActive() { this.activeTab.set('active'); }
   showPending() { this.activeTab.set('pending'); }
+  showDeactivated() {this.activeTab.set('deactivated');}
   
 
   ngOnInit(): void {

@@ -6,7 +6,7 @@ import { AdminControllerService, InstructorResponseDto } from "../../../../api";
 @Component({
   selector: 'app-active-trainers',
   imports: [CommonModule],
-  templateUrl: './activeTrainers.html',
+  templateUrl: './active-trainers.html',
 })
 export class activeTrainers implements OnInit{
 private adminService = inject(AdminControllerService);
@@ -35,7 +35,7 @@ private adminService = inject(AdminControllerService);
     if (!instructorId) {
       throw new Error('InstructorId is required');
     }
-    /*this.adminService.updateInstructorStatus(instructorId, {userStatus: 'BLOCKED'} as any).subscribe({
+    this.adminService.toggleAccountAccess(instructorId, {userStatus: 'BLOCKED'} as any).subscribe({
       next: () => {
         this.toast.show('Trainer deactivated successfully!', 'success');
         this.getActiveTrainers();
@@ -44,7 +44,7 @@ private adminService = inject(AdminControllerService);
         this.toast.show('Failed to deactivate trainer', 'error');
         console.error('[!] Deactivate error:', err);
       }
-    });*/
+    });
   }
 
 }

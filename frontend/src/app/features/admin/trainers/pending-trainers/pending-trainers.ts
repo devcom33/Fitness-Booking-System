@@ -8,7 +8,7 @@ import { AdminControllerService, InstructorResponseDto } from "../../../../api";
 @Component({
   selector: 'app-pending-trainers',
   imports: [CommonModule],
-  templateUrl: './pendingTrainers.html',
+  templateUrl: './pending-trainers.html',
 })
 export class pendingTrainers implements OnInit{
   private adminService = inject(AdminControllerService);
@@ -24,7 +24,7 @@ export class pendingTrainers implements OnInit{
 
 
   getPendingTrainers() {
-        this.adminService.getPendingInstructor().subscribe({
+        this.adminService.getInstructors("PENDING").subscribe({
         next: (data) => this.pendingTrainingList.set(data),
         error: (err) => {
             this.errorMsg.set('Failed to load bookings. Please check your connection.');
@@ -37,7 +37,7 @@ export class pendingTrainers implements OnInit{
     if (!instructorId) {
         throw new Error('InstructorId is required');
       }
-    this.adminService.updateInstructorStatus(instructorId, {userStatus: 'ACTIVE'} as any).subscribe(
+    this.adminService.approveInstructor(instructorId, {userStatus: 'ACTIVE'} as any).subscribe(
       {
       next: () => {
           this.toast.show('Trainer Approved Succcessfully!', 'success');
@@ -52,7 +52,7 @@ export class pendingTrainers implements OnInit{
     if (!instructorId) {
         throw new Error('InstructorId is required');
     }
-    this.adminService.updateInstructorStatus(instructorId, {userStatus: 'REJECTED'} as any).subscribe(
+    this.adminService.approveInstructor(instructorId, {userStatus: 'REJECTED'} as any).subscribe(
       {
       next: () => {
           this.toast.show('Trainer Rejected Succcessfully!', 'success');
