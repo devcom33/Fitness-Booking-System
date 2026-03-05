@@ -1,4 +1,7 @@
 package org.heymouad.bookingmanagementsystem.dtos;
 
-public record UserStatusUpdateRequest(String userStatus) {
+import jakarta.validation.constraints.NotNull;
+import org.heymouad.bookingmanagementsystem.enums.UserStatus;
+
+public record UserStatusUpdateRequest(@NotNull(message = "Status is required") UserStatus userStatus) {
 }
