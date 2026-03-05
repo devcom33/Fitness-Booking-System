@@ -17,15 +17,9 @@ import { Observable }                                        from 'rxjs';
 import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 
 // @ts-ignore
-import { ApplicationResponseDto } from '../model/applicationResponseDto';
+import { InstructorResponseDto } from '../model/instructorResponseDto';
 // @ts-ignore
-import { AuthRequestDto } from '../model/authRequestDto';
-// @ts-ignore
-import { AuthResponseDto } from '../model/authResponseDto';
-// @ts-ignore
-import { InstructorApplicationRequest } from '../model/instructorApplicationRequest';
-// @ts-ignore
-import { UserRegistrationRequestDto } from '../model/userRegistrationRequestDto';
+import { UserStatusUpdateRequest } from '../model/userStatusUpdateRequest';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -37,26 +31,22 @@ import { BaseService } from '../api.base.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthenticationControllerService extends BaseService {
+export class AdminControllerService extends BaseService {
 
     constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: Configuration) {
         super(basePath, configuration);
     }
 
     /**
-     * @endpoint post /api/v1/auth/register-instructor
-     * @param instructorApplicationRequest 
+     * @endpoint get /api/v1/admin/instructors
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public applyAsInstructor(instructorApplicationRequest: InstructorApplicationRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ApplicationResponseDto>;
-    public applyAsInstructor(instructorApplicationRequest: InstructorApplicationRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ApplicationResponseDto>>;
-    public applyAsInstructor(instructorApplicationRequest: InstructorApplicationRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ApplicationResponseDto>>;
-    public applyAsInstructor(instructorApplicationRequest: InstructorApplicationRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (instructorApplicationRequest === null || instructorApplicationRequest === undefined) {
-            throw new Error('Required parameter instructorApplicationRequest was null or undefined when calling applyAsInstructor.');
-        }
+    public getInstructors(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<InstructorResponseDto>>;
+    public getInstructors(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<InstructorResponseDto>>>;
+    public getInstructors(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<InstructorResponseDto>>>;
+    public getInstructors(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -72,15 +62,6 @@ export class AuthenticationControllerService extends BaseService {
         const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -92,12 +73,11 @@ export class AuthenticationControllerService extends BaseService {
             }
         }
 
-        let localVarPath = `/api/v1/auth/register-instructor`;
+        let localVarPath = `/api/v1/admin/instructors`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<ApplicationResponseDto>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<Array<InstructorResponseDto>>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: instructorApplicationRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
@@ -109,19 +89,15 @@ export class AuthenticationControllerService extends BaseService {
     }
 
     /**
-     * @endpoint post /api/v1/auth/login
-     * @param authRequestDto 
+     * @endpoint get /api/v1/admin/instructors/pending
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public login(authRequestDto: AuthRequestDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<AuthResponseDto>;
-    public login(authRequestDto: AuthRequestDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AuthResponseDto>>;
-    public login(authRequestDto: AuthRequestDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AuthResponseDto>>;
-    public login(authRequestDto: AuthRequestDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (authRequestDto === null || authRequestDto === undefined) {
-            throw new Error('Required parameter authRequestDto was null or undefined when calling login.');
-        }
+    public getPendingInstructor(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<InstructorResponseDto>>;
+    public getPendingInstructor(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<InstructorResponseDto>>>;
+    public getPendingInstructor(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<InstructorResponseDto>>>;
+    public getPendingInstructor(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -137,15 +113,6 @@ export class AuthenticationControllerService extends BaseService {
         const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -157,12 +124,11 @@ export class AuthenticationControllerService extends BaseService {
             }
         }
 
-        let localVarPath = `/api/v1/auth/login`;
+        let localVarPath = `/api/v1/admin/instructors/pending`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<AuthResponseDto>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<Array<InstructorResponseDto>>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: authRequestDto,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
@@ -174,24 +140,27 @@ export class AuthenticationControllerService extends BaseService {
     }
 
     /**
-     * @endpoint post /api/v1/auth/register
-     * @param userRegistrationRequestDto 
+     * @endpoint patch /api/v1/admin/instructors/{instructorId}/status
+     * @param instructorId 
+     * @param userStatusUpdateRequest 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public register(userRegistrationRequestDto: UserRegistrationRequestDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<AuthResponseDto>;
-    public register(userRegistrationRequestDto: UserRegistrationRequestDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AuthResponseDto>>;
-    public register(userRegistrationRequestDto: UserRegistrationRequestDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AuthResponseDto>>;
-    public register(userRegistrationRequestDto: UserRegistrationRequestDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (userRegistrationRequestDto === null || userRegistrationRequestDto === undefined) {
-            throw new Error('Required parameter userRegistrationRequestDto was null or undefined when calling register.');
+    public updateInstructorStatus(instructorId: string, userStatusUpdateRequest: UserStatusUpdateRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public updateInstructorStatus(instructorId: string, userStatusUpdateRequest: UserStatusUpdateRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public updateInstructorStatus(instructorId: string, userStatusUpdateRequest: UserStatusUpdateRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public updateInstructorStatus(instructorId: string, userStatusUpdateRequest: UserStatusUpdateRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (instructorId === null || instructorId === undefined) {
+            throw new Error('Required parameter instructorId was null or undefined when calling updateInstructorStatus.');
+        }
+        if (userStatusUpdateRequest === null || userStatusUpdateRequest === undefined) {
+            throw new Error('Required parameter userStatusUpdateRequest was null or undefined when calling updateInstructorStatus.');
         }
 
         let localVarHeaders = this.defaultHeaders;
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            'application/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -222,12 +191,12 @@ export class AuthenticationControllerService extends BaseService {
             }
         }
 
-        let localVarPath = `/api/v1/auth/register`;
+        let localVarPath = `/api/v1/admin/instructors/${this.configuration.encodeParam({name: "instructorId", value: instructorId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/status`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<AuthResponseDto>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<any>('patch', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: userRegistrationRequestDto,
+                body: userStatusUpdateRequest,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

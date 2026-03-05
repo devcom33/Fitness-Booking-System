@@ -1,4 +1,5 @@
 <app-navbar></app-navbar>
+
 @if (role.includes('ROLE_INSTRUCTOR')) {
   <div class="min-h-screen bg-[#020617] p-4">
     <div class="max-w-7xl mx-auto">
@@ -46,7 +47,7 @@
       </div>
     </div>
   </div>
-} @else {
+} @else if (role.includes('ROLE_CLIENT')) {
   <div class="min-h-screen bg-[#020617] p-4">
     <div class="max-w-7xl mx-auto">
       <div class="bg-[#111827] rounded-lg shadow-xl p-8 mb-6">
@@ -88,6 +89,118 @@
           >
             Edit Profile
           </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+@else if (role.includes('ROLE_ADMIN'))
+{
+  <app-sidebar></app-sidebar>
+  <div class="min-h-screen bg-gray-50 ml-64 pt-20">
+    <div class="max-w-7xl mx-auto p-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Stats Cards -->
+        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-500 text-sm font-medium">Total Trainers</p>
+              <h3 class="text-3xl font-bold text-gray-800 mt-2">24</h3>
+            </div>
+            <div class="bg-blue-100 p-3 rounded-lg">
+              <span class="text-3xl">👨‍🏫</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-500 text-sm font-medium">Total Clients</p>
+              <h3 class="text-3xl font-bold text-gray-800 mt-2">156</h3>
+            </div>
+            <div class="bg-green-100 p-3 rounded-lg">
+              <span class="text-3xl">🧑‍💼</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-500 text-sm font-medium">Active Classes</p>
+              <h3 class="text-3xl font-bold text-gray-800 mt-2">42</h3>
+            </div>
+            <div class="bg-purple-100 p-3 rounded-lg">
+              <span class="text-3xl">📅</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-500 text-sm font-medium">Total Bookings</p>
+              <h3 class="text-3xl font-bold text-gray-800 mt-2">328</h3>
+            </div>
+            <div class="bg-orange-100 p-3 rounded-lg">
+              <span class="text-3xl">✅</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition-shadow">
+          <div class="text-center">
+            <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-3xl">👥</span>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Manage Trainers</h3>
+            <p class="text-gray-600 mb-4">View, add, or remove trainers</p>
+            <button
+              routerLink="/admin/trainers"
+              type="button"
+              class="w-full bg-[#F97316] hover:bg-[#E11D48] text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200"
+            >
+              Manage Trainers
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition-shadow">
+          <div class="text-center">
+            <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-3xl">🧑‍💼</span>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Manage Clients</h3>
+            <p class="text-gray-600 mb-4">View and manage client accounts</p>
+            <button
+              routerLink="/admin/clients"
+              type="button"
+              class="w-full bg-[#F97316] hover:bg-[#E11D48] text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200"
+            >
+              Manage Clients
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition-shadow">
+          <div class="text-center">
+            <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-3xl">📅</span>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Manage Classes</h3>
+            <p class="text-gray-600 mb-4">Oversee all fitness classes</p>
+            <button
+              routerLink="/admin/classes"
+              type="button"
+              class="w-full bg-[#F97316] hover:bg-[#E11D48] text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200"
+            >
+              Manage Classes
+            </button>
+          </div>
         </div>
       </div>
     </div>

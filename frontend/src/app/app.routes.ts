@@ -9,7 +9,7 @@ import { Landing } from './landing/landing';
 import { Schedule } from './trainer/schedule/schedule';
 import { Unauthorized } from './shared/unauthorized/unauthorized';
 import { FitnessClassStepper } from './trainer/fitness-class-stepper/fitness-class-stepper';
-import { Trainers } from './admin/trainers/trainers';
+import { Trainers } from './features/admin/trainers/trainers';
 
 export const routes: Routes = [
   {
