@@ -18,10 +18,10 @@ private adminService = inject(AdminControllerService);
 
 
   ngOnInit(): void {
-    this.getTrainersList();
+    this.getActiveTrainers();
   }
 
-  getTrainersList() {
+  getActiveTrainers() {
     this.adminService.getInstructors().subscribe({
       next: (data) => this.trainersList.set(data),
       error: (err) => {
@@ -29,6 +29,22 @@ private adminService = inject(AdminControllerService);
         console.error('[!] Fetch error:', err);
       },
     });
+  }
+
+  deactivateTrainer(instructorId: string | undefined) {
+    if (!instructorId) {
+      throw new Error('InstructorId is required');
+    }
+    /*this.adminService.updateInstructorStatus(instructorId, {userStatus: 'BLOCKED'} as any).subscribe({
+      next: () => {
+        this.toast.show('Trainer deactivated successfully!', 'success');
+        this.getActiveTrainers();
+      },
+      error: (err) => {
+        this.toast.show('Failed to deactivate trainer', 'error');
+        console.error('[!] Deactivate error:', err);
+      }
+    });*/
   }
 
 }
