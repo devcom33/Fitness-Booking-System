@@ -1,8 +1,9 @@
 import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { ClassSchedulesControllerService } from '../../../api';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Calendar } from '../../../shared/calendar/calendar';
-import { Navbar } from '../../../components/navbar/navbar';
+import { Calendar } from '../../../shared/components/calendar/calendar';
+import { Navbar } from '../../../shared/components/navbar/navbar';
+
 
 @Component({
   selector: 'app-schedule',

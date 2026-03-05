@@ -6,8 +6,9 @@ import {
   ClassScheduleResponseDto,
   ClassSchedulesControllerService,
 } from '../../../api';
-import { ToastService } from '../../../services/toast-service';
-import { Navbar } from '../../../components/navbar/navbar';
+import { ToastService } from '../../../shared/services/toast-service';
+import { Navbar } from '../../../shared/components/navbar/navbar';
+
 
 @Component({
   selector: 'app-class-list',

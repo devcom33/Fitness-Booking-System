@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
-import { Login } from './shared/login/login';
-import { Register } from './shared/register/register';
-import { Dashboard } from './shared/dashboard/dashboard';
+import { Login } from './shared/components/login/login';
+import { Register } from './shared/components/register/register';
+import { Dashboard } from './shared/components/dashboard/dashboard';
 import { authGuard } from './core/guards/auth-guard';
 import { ClassList } from './features/client/class-list/class-list';
 import { MyBookings } from './features/client/my-bookings/my-bookings';
 import { Landing } from './features/landing/landing';
 import { Schedule } from './features/trainer/schedule/schedule';
-import { Unauthorized } from './shared/unauthorized/unauthorized';
+import { Unauthorized } from './shared/components/unauthorized/unauthorized';
 import { FitnessClassStepper } from './features/trainer/fitness-class-stepper/fitness-class-stepper';
 import { Trainers } from './features/admin/trainers/trainers';
 

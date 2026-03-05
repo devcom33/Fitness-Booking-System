@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Sidebar } from '../sidebar/sidebar';
 import { CommonModule } from '@angular/common';
-import { ToastService } from '../../../services/toast-service';
+import { ToastService } from '../../../shared/services/toast-service';
 import { activeTrainers } from "./activeTrainers/activeTrainers";
 import { pendingTrainers } from "./pendingTrainers/pendingTrainers";
 import { AdminControllerService, InstructorResponseDto } from '../../../api';

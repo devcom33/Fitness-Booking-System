@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Navbar } from '../../components/navbar/navbar';
-import { AuthService } from '../../services/AuthService';
-import { Sidebar } from "../../features/admin/sidebar/sidebar";
+import { AuthService } from '../../../core/services/auth-service';
+import { Sidebar } from "../../../features/admin/sidebar/sidebar";
+import { Navbar } from '../navbar/navbar';
 
 @Component({
   selector: 'app-dashboard',

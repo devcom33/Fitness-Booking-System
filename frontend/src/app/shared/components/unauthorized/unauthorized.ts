@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Navbar } from '../../components/navbar/navbar';
+import { Navbar } from '../navbar/navbar';
 
 @Component({
   selector: 'app-unauthorized',

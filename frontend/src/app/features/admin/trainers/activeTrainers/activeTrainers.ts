@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject, OnInit, signal } from "@angular/core";
-import { ToastService } from "../../../../services/toast-service";
+import { ToastService } from "../../../../shared/services/toast-service";
 import { AdminControllerService, InstructorResponseDto } from "../../../../api";
 
 @Component({

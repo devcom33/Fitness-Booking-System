@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { Navbar } from '../../../components/navbar/navbar';
 import {
   ClassScheduleRequestDto,
   ClassSchedulesControllerService,
@@ -10,6 +9,7 @@ import {
 } from '../../../api';
 import { FormsModule } from '@angular/forms';
 import { RRule, Weekday } from 'rrule';
+import { Navbar } from '../../../shared/components/navbar/navbar';
 
 @Component({
   selector: 'app-fitness-class-stepper',
