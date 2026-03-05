@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Navbar } from '../../components/navbar/navbar';
+import { Navbar } from '../../../components/navbar/navbar';
 import {
   ClassScheduleRequestDto,
   ClassSchedulesControllerService,
@@ -7,7 +7,7 @@ import {
   FitnessClassesDto,
   FitnessClassesResponseDto,
   RecurringScheduleTemplateDto,
-} from '../../api';
+} from '../../../api';
 import { FormsModule } from '@angular/forms';
 import { RRule, Weekday } from 'rrule';
 
