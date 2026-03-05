@@ -47,8 +47,17 @@ export class pendingTrainers implements OnInit{
     
   }
 
-  rejectTrainer(id: number) {
-    console.log('Reject trainer:', id);
+  rejectTrainer(instructorId : string | undefined) {
+    if (!instructorId) {
+        throw new Error('InstructorId is required');
+      }
+    this.adminService.updateInstructorStatus(instructorId, {userStatus: 'REJECT'} as any).subscribe(
+      {
+      next: () => {
+          this.toast.show('Trainer Rejected Succcessfully!', 'error');
+      },
+      }
+    );
   }
 
 }
