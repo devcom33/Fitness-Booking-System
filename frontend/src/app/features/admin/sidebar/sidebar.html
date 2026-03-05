@@ -1,22 +1,23 @@
+// filepath: /home/heymouad/IdeaProjects/booking-management-system/frontend/src/app/features/admin/sidebar/sidebar.html
 <!-- Sidebar -->
-<aside class="h-screen w-64 bg-white shadow-lg fixed left-0 top-0 flex flex-col z-20">
+<aside class="h-screen w-64 bg-slate-800 shadow-xl fixed left-0 top-0 flex flex-col z-20">
   <!-- Header -->
-  <div class="p-6 border-b border-gray-200">
-    <h2 class="text-2xl font-bold text-gray-800">Admin Panel</h2>
-    <p class="text-xs text-gray-500 mt-1">Management Console</p>
+  <div class="p-6 border-b border-slate-700">
+    <h2 class="text-2xl font-bold text-white">Admin Panel</h2>
+    <p class="text-xs text-slate-400 mt-1">Management Console</p>
   </div>
 
   <!-- Navigation Menu -->
   <nav class="flex-1 overflow-y-auto py-4">
-    <ul class="space-y-2 px-3">
+    <ul class="space-y-1 px-3">
       @for (item of menuItems; track item.route) {
         <li>
           <a
             [routerLink]="item.route"
-            routerLinkActive="bg-gray-100 text-gray-900 font-semibold"
-            class="flex items-center gap-3 px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+            routerLinkActive="bg-[#F97316] text-white font-semibold shadow-md"
+            class="flex items-center gap-3 px-4 py-3 text-slate-300 rounded-lg hover:bg-slate-700 hover:text-white transition-all duration-200"
           >
-            <span class="text-xl">{{ item.icon }}</span>
+            <i class="text-lg" [class]="item.icon"></i>
             <span>{{ item.label }}</span>
           </a>
         </li>
@@ -25,20 +26,20 @@
   </nav>
 
   <!-- Footer -->
-  <div class="p-4 border-t border-gray-200">
-    <button class="w-full px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
-      <span>🚪</span>
+  <div class="p-4 border-t border-slate-700">
+    <button class="w-full px-4 py-3 text-slate-300 bg-slate-700 hover:bg-red-600 hover:text-white rounded-lg transition-all duration-200 flex items-center justify-center gap-2 font-medium">
+      <i class="fas fa-sign-out-alt"></i>
       <span>Logout</span>
     </button>
   </div>
 </aside>
 
 <!-- Top Navigation Bar -->
-<nav class="bg-white border-b border-gray-200 px-6 py-4 fixed top-0 left-0 right-0 z-10">
+<nav class="bg-white border-b border-gray-200 shadow-sm px-6 py-4 fixed top-0 left-0 right-0 z-10">
   <div class="flex justify-between items-center ml-64">
     <a
       [routerLink]="'/dashboard'"
-      class="text-2xl font-bold text-gray-800 hover:text-[#F97316] transition-colors"
+      class="text-2xl font-bold text-slate-800 hover:text-[#F97316] transition-colors"
     >
       FitBook Admin
     </a>
@@ -46,22 +47,22 @@
     <div class="flex items-center space-x-6">
       <a
         [routerLink]="'/dashboard'"
-        routerLinkActive="text-[#F97316]"
-        class="text-gray-700 hover:text-[#F97316] font-medium transition-colors"
+        routerLinkActive="text-[#F97316] border-b-2 border-[#F97316]"
+        class="text-slate-700 hover:text-[#F97316] font-medium transition-colors pb-1"
       >
         Dashboard
       </a>
       <a
         [routerLink]="'/admin/reports'"
-        routerLinkActive="text-[#F97316]"
-        class="text-gray-700 hover:text-[#F97316] font-medium transition-colors"
+        routerLinkActive="text-[#F97316] border-b-2 border-[#F97316]"
+        class="text-slate-700 hover:text-[#F97316] font-medium transition-colors pb-1"
       >
         Reports
       </a>
       <a
         [routerLink]="'/admin/settings'"
-        routerLinkActive="text-[#F97316]"
-        class="text-gray-700 hover:text-[#F97316] font-medium transition-colors"
+        routerLinkActive="text-[#F97316] border-b-2 border-[#F97316]"
+        class="text-slate-700 hover:text-[#F97316] font-medium transition-colors pb-1"
       >
         Settings
       </a>
