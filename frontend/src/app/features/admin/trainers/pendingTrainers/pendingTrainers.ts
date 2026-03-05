@@ -41,6 +41,7 @@ export class pendingTrainers implements OnInit{
       {
       next: () => {
           this.toast.show('Trainer Approved Succcessfully!', 'success');
+          this.getPendingTrainers()
       },
       }
     );
@@ -50,12 +51,17 @@ export class pendingTrainers implements OnInit{
   rejectTrainer(instructorId : string | undefined) {
     if (!instructorId) {
         throw new Error('InstructorId is required');
-      }
-    this.adminService.updateInstructorStatus(instructorId, {userStatus: 'REJECT'} as any).subscribe(
+    }
+    this.adminService.updateInstructorStatus(instructorId, {userStatus: 'REJECTED'} as any).subscribe(
       {
       next: () => {
-          this.toast.show('Trainer Rejected Succcessfully!', 'error');
+          this.toast.show('Trainer Rejected Succcessfully!', 'success');
+          this.getPendingTrainers()
       },
+      error: (err) => {
+        this.toast.show('Failed to reject trainer', 'error');
+        console.error('[!] Reject error:', err);
+      }
       }
     );
   }
