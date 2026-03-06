@@ -2,7 +2,8 @@
 README.md
 api.base.service.ts
 api.module.ts
-api/adminController.service.ts
+api/adminClientController.service.ts
+api/adminInstructorController.service.ts
 api/api.ts
 api/authenticationController.service.ts
 api/bookingController.service.ts
@@ -19,6 +20,7 @@ model/bookingRequestDto.ts
 model/bookingResponseDto.ts
 model/classScheduleRequestDto.ts
 model/classScheduleResponseDto.ts
+model/clientResponseDto.ts
 model/fitnessClassesDto.ts
 model/fitnessClassesResponseDto.ts
 model/instructorApplicationRequest.ts
