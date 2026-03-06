@@ -1,1 +1,48 @@
-<p>clients works!</p>
+<app-sidebar></app-sidebar>
+
+<div class="min-h-screen bg-gray-50 ml-64 pt-20">
+  <div class="max-w-7xl mx-auto p-6">
+    <!-- Header Section -->
+    <div class="mb-6">
+      <h1 class="text-3xl font-bold text-gray-800">Client Management</h1>
+      <p class="text-gray-600 mt-2">Manage active and pending client requests</p>
+    </div>
+
+    <!-- Tabs Navigation -->
+    <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+      <div role="tablist" class="flex border-b border-gray-200">
+        <button
+          (click)="showActive()"
+          [class]="activeTab() === 'active' 
+            ? 'border-[#F97316] text-[#F97316] border-b-2 font-semibold' 
+            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+          class="px-6 py-4 text-sm font-medium focus:outline-none transition-all"
+        >
+          <i class="fas fa-user-check mr-2"></i>
+          Active clients
+        </button>
+        
+        
+        <button
+          (click)="showDeactivated()"
+          [class]="activeTab() === 'deactivated' 
+            ? 'border-[#F97316] text-[#F97316] border-b-2 font-semibold' 
+            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+          class="px-6 py-4 text-sm font-medium focus:outline-none transition-all"
+        >
+          <i class="fas fa-user-slash mr-2"></i>
+          Deactivated clients
+        </button>
+      </div>
+
+      <!-- Tab Content -->
+      <div class="p-6">
+        @if (activeTab() === 'active') {
+          <app-active-clients></app-active-clients>
+        } @else {
+          <app-deactivated-clients></app-deactivated-clients>
+        }
+      </div>
+    </div>
+  </div>
+</div>
