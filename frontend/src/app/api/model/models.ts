@@ -5,6 +5,7 @@ export * from './bookingRequestDto';
 export * from './bookingResponseDto';
 export * from './classScheduleRequestDto';
 export * from './classScheduleResponseDto';
+export * from './clientResponseDto';
 export * from './fitnessClassesDto';
 export * from './fitnessClassesResponseDto';
 export * from './instructorApplicationRequest';
