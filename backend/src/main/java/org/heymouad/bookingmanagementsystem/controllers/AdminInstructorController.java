@@ -19,7 +19,7 @@ import java.util.UUID;
 @RestController
 @PreAuthorize("hasRole('ADMIN')")
 @RequiredArgsConstructor
-public class AdminController {
+public class AdminInstructorController {
     private final AdminService adminService;
 
     @GetMapping

@@ -1,5 +1,6 @@
 package org.heymouad.bookingmanagementsystem.services;
 
+import org.heymouad.bookingmanagementsystem.dtos.client.ClientResponseDto;
 import org.heymouad.bookingmanagementsystem.dtos.instructor.InstructorResponseDto;
 import org.heymouad.bookingmanagementsystem.enums.UserStatus;
 
@@ -12,4 +13,9 @@ public interface AdminService {
     List<InstructorResponseDto> getPendingInstructors();
     List<InstructorResponseDto> getActivatedInstructors();
     List<InstructorResponseDto> getDeactivatedInstructors();
+
+    //client
+    void updateClientAccountState(UUID id, UserStatus status);
+    List<ClientResponseDto> getActivatedClients();
+    List<ClientResponseDto> getDeactivatedClients();
 }
