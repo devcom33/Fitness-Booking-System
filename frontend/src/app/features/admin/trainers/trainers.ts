@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ToastService } from '../../../shared/services/toast-service';
 import { activeTrainers } from "./active-trainers/active-trainers";
 import { pendingTrainers } from "./pending-trainers/pending-trainers";
-import { AdminControllerService, InstructorResponseDto } from '../../../api';
+import { AdminClientControllerService, InstructorResponseDto } from '../../../api';
 import { deactiveTrainers } from "./deactivated-trainers/deactive-trainers";
 
 @Component({
@@ -14,11 +14,7 @@ import { deactiveTrainers } from "./deactivated-trainers/deactive-trainers";
   styleUrl: './trainers.css',
 })
 export class Trainers implements OnInit{
-  private adminService = inject(AdminControllerService);
   errorMsg = signal<string>('');
-  pendingTrainingList = signal<InstructorResponseDto[]>([]);
-  trainersList = signal<InstructorResponseDto[]>([]);
-  private readonly toast = inject(ToastService);
   activeTab = signal<'active' | 'pending' | 'deactivated'>('active');
 
   showActive() { this.activeTab.set('active'); }

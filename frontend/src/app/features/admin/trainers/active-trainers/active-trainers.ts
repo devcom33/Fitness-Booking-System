@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject, OnInit, signal } from "@angular/core";
 import { ToastService } from "../../../../shared/services/toast-service";
-import { AdminControllerService, InstructorResponseDto } from "../../../../api";
+import { AdminInstructorControllerService, InstructorResponseDto } from "../../../../api";
 
 @Component({
   selector: 'app-active-trainers',
@@ -9,7 +9,7 @@ import { AdminControllerService, InstructorResponseDto } from "../../../../api";
   templateUrl: './active-trainers.html',
 })
 export class activeTrainers implements OnInit{
-private adminService = inject(AdminControllerService);
+private adminService = inject(AdminInstructorControllerService);
   errorMsg = signal<string>('');
   pendingTrainingList = signal<InstructorResponseDto[]>([]);
   trainersList = signal<InstructorResponseDto[]>([]);
