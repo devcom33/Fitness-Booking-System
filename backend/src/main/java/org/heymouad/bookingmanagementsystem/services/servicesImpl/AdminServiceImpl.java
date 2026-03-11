@@ -102,6 +102,7 @@ public class AdminServiceImpl implements AdminService {
         );
     }
 
+    @Transactional
     @Override
     public void updateClientAccountState(UUID id, UserStatus newStatus) {
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found ", id));
@@ -144,6 +145,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<ClientResponseDto> getDeactivatedClients() {
         Role role = roleRepository.findByName(UserRole.CLIENT).orElseThrow(() -> new ResourceNotFoundException("Role not found : ", String.valueOf(UserRole.CLIENT)));
+        log.info("clients Results is : {}", userRepository.findByRoleAndUserStatus(role, UserStatus.BLOCKED));
         return userRepository.findByRoleAndUserStatus(role, UserStatus.BLOCKED).stream().map(c ->
                 new ClientResponseDto(
                         c.getId(),
