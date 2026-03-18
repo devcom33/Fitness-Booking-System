@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.heymouad.bookingmanagementsystem.dtos.UserStatusUpdateRequest;
 import org.heymouad.bookingmanagementsystem.dtos.instructor.InstructorResponseDto;
 import org.heymouad.bookingmanagementsystem.enums.UserStatus;
-import org.heymouad.bookingmanagementsystem.services.AdminService;
+import org.heymouad.bookingmanagementsystem.services.AdminInstructorService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -20,15 +20,15 @@ import java.util.UUID;
 @PreAuthorize("hasRole('ADMIN')")
 @RequiredArgsConstructor
 public class AdminInstructorController {
-    private final AdminService adminService;
+    private final AdminInstructorService adminInstructorService;
 
     @GetMapping
     public ResponseEntity<List<InstructorResponseDto>> getInstructors(@RequestParam(required = false, defaultValue = "ACTIVE") UserStatus status)
     {
         List<InstructorResponseDto> instructors = switch (status) {
-            case PENDING -> adminService.getPendingInstructors();
-            case BLOCKED -> adminService.getDeactivatedInstructors();
-            default -> adminService.getActivatedInstructors();
+            case PENDING -> adminInstructorService.getPendingInstructors();
+            case BLOCKED -> adminInstructorService.getDeactivatedInstructors();
+            default -> adminInstructorService.getActivatedInstructors();
         };
 
         return ResponseEntity.ok(instructors);
@@ -38,7 +38,7 @@ public class AdminInstructorController {
     public ResponseEntity<Void> approveInstructor(@PathVariable UUID instructorId, @RequestBody @Valid UserStatusUpdateRequest userStatusUpdateRequest)
     {
         UserStatus userStatus = userStatusUpdateRequest.userStatus();
-        adminService.updateInstructorStatus(instructorId, userStatus);
+        adminInstructorService.updateInstructorStatus(instructorId, userStatus);
         return ResponseEntity.noContent().build();
     }
 
@@ -46,7 +46,7 @@ public class AdminInstructorController {
     public ResponseEntity<Void> toggleAccountAccess(@PathVariable UUID instructorId, @RequestBody @Valid UserStatusUpdateRequest userStatusUpdateRequest)
     {
         UserStatus userStatus = userStatusUpdateRequest.userStatus();
-        adminService.updateAccountState(instructorId, userStatus);
+        adminInstructorService.updateAccountState(instructorId, userStatus);
         return ResponseEntity.noContent().build();
     }
 

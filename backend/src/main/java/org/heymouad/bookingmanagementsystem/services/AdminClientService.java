@@ -7,13 +7,7 @@ import org.heymouad.bookingmanagementsystem.enums.UserStatus;
 import java.util.List;
 import java.util.UUID;
 
-public interface AdminService {
-    void updateInstructorStatus(UUID instructorId, UserStatus newStatus);
-    void updateAccountState(UUID id, UserStatus status);
-    List<InstructorResponseDto> getPendingInstructors();
-    List<InstructorResponseDto> getActivatedInstructors();
-    List<InstructorResponseDto> getDeactivatedInstructors();
-
+public interface AdminClientService {
     //client
     void updateClientAccountState(UUID id, UserStatus status);
     List<ClientResponseDto> getActivatedClients();
