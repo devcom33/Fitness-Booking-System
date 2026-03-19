@@ -1,6 +1,5 @@
 package org.heymouad.bookingmanagementsystem.services;
 
-import org.heymouad.bookingmanagementsystem.dtos.client.ClientResponseDto;
 import org.heymouad.bookingmanagementsystem.dtos.instructor.InstructorResponseDto;
 import org.heymouad.bookingmanagementsystem.enums.UserStatus;
 

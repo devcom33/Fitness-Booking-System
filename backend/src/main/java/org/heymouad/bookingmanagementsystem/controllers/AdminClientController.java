@@ -3,11 +3,12 @@ package org.heymouad.bookingmanagementsystem.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.heymouad.bookingmanagementsystem.dtos.UserStatusUpdateRequest;
 import org.heymouad.bookingmanagementsystem.dtos.client.ClientResponseDto;
-import org.heymouad.bookingmanagementsystem.dtos.instructor.InstructorResponseDto;
 import org.heymouad.bookingmanagementsystem.enums.UserStatus;
-import org.heymouad.bookingmanagementsystem.services.AdminService;
+import org.heymouad.bookingmanagementsystem.services.AdminClientService;
+import org.heymouad.bookingmanagementsystem.services.AdminInstructorService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -19,22 +20,24 @@ import java.util.UUID;
 @RestController
 @PreAuthorize("hasRole('ADMIN')")
 @RequiredArgsConstructor
+@Slf4j
 public class AdminClientController {
-    private final AdminService adminService;
+    private final AdminClientService adminClientService;
 
     @PatchMapping("/{id}/access")
     public ResponseEntity<Void> toggleClientAccess(
             @PathVariable UUID id,
             @RequestBody @Valid UserStatusUpdateRequest request) {
-        adminService.updateClientAccountState(id, request.userStatus());
+        adminClientService.updateClientAccountState(id, request.userStatus());
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping
     public ResponseEntity<List<ClientResponseDto>> getClients(@RequestParam(required = false, defaultValue = "ACTIVE") UserStatus status)
     {
+        log.info("status is {}", status);
         List<ClientResponseDto> clients = (status == UserStatus.BLOCKED) ?
-                adminService.getDeactivatedClients() : adminService.getActivatedClients();
+                adminClientService.getDeactivatedClients() : adminClientService.getActivatedClients();
         return ResponseEntity.ok(clients);
     }
 }
