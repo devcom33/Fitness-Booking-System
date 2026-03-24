@@ -49,6 +49,7 @@ public class FitnessClassesController {
         return ResponseEntity.ok(fitnessClassesMapper.toFitnessClassesDto(fitnessClass));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'INSTRUCTOR')")
     @GetMapping
     public ResponseEntity<List<FitnessClassesDto>> getAllFitnessClasses()
     {
