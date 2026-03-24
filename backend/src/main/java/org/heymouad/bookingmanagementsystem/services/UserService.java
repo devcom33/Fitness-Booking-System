@@ -13,4 +13,5 @@ public interface UserService {
     User registerClient(UserRegistrationRequestDto registrationRequestDto);
     User applyAsInstructor(InstructorApplicationRequest request);
     User getUserByEmail(String email);
+    User getUserById(UUID id);
 }
