@@ -4,17 +4,20 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.fortuna.ical4j.model.Recur;
+import org.heymouad.bookingmanagementsystem.dtos.admin.AdminClassScheduleResponseDto;
 import org.heymouad.bookingmanagementsystem.entities.*;
+import org.heymouad.bookingmanagementsystem.enums.BookingStatus;
+import org.heymouad.bookingmanagementsystem.enums.ScheduleStatus;
 import org.heymouad.bookingmanagementsystem.enums.UserRole;
 import org.heymouad.bookingmanagementsystem.exceptions.InstructorBusyException;
 import org.heymouad.bookingmanagementsystem.exceptions.InvalidScheduleException;
 import org.heymouad.bookingmanagementsystem.exceptions.ResourceNotFoundException;
-import org.heymouad.bookingmanagementsystem.repositories.ClassScheduleRepository;
-import org.heymouad.bookingmanagementsystem.repositories.FitnessClassRepository;
-import org.heymouad.bookingmanagementsystem.repositories.InstructorRepository;
-import org.heymouad.bookingmanagementsystem.repositories.RecurringScheduleTemplateRepository;
+import org.heymouad.bookingmanagementsystem.mappers.ClassScheduleMapper;
+import org.heymouad.bookingmanagementsystem.repositories.*;
 import org.heymouad.bookingmanagementsystem.services.ClassScheduleService;
 import org.heymouad.bookingmanagementsystem.services.UserService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,12 +36,13 @@ public class ClassScheduleServiceImpl implements ClassScheduleService {
     private final ClassScheduleRepository classScheduleRepository;
     private final InstructorRepository instructorRepository;
     private final FitnessClassRepository fitnessClassRepository;
-    private final UserService userService;
     private final RecurringScheduleTemplateRepository recurringScheduleTemplateRepository;
+    private final ClassScheduleMapper classScheduleMapper;
+    private final BookingRepository bookingRepository;
 
     /**
      * Handles the creation of a new Class Schedule, managing both single, one-off classes
-     * and long running recurring class series.
+     * and long-running recurring class series.
      * @param classSchedules the entity
      * @return A list of created entities
      */
@@ -180,5 +184,16 @@ public class ClassScheduleServiceImpl implements ClassScheduleService {
     @Override
     public List<ClassSchedules> getMyClassSchedules(String userEmail) {
         return classScheduleRepository.findAllByUserEmail(userEmail);
+    }
+
+
+    public Page<AdminClassScheduleResponseDto> getAllSchedulesForAdmin(UUID instructorId, ScheduleStatus status, Pageable pageable) {
+        return classScheduleRepository.findAllWithFilters(instructorId, status, pageable)
+                .map(cs -> {
+                    int bookedCount = bookingRepository.countByClassSchedulesIdAndStatus(
+                            cs.getId(), BookingStatus.CONFIRMED
+                    );
+                    return classScheduleMapper.toAdminResponseDto(cs, bookedCount);
+                });
     }
 }
