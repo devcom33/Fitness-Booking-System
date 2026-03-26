@@ -14,7 +14,6 @@ import java.util.UUID;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, UUID> {
-    long findByStatus(BookingStatus status);
     @Query("""
     SELECT b FROM Booking b
     JOIN FETCH b.user u
@@ -28,4 +27,5 @@ public interface BookingRepository extends JpaRepository<Booking, UUID> {
 
     List<Booking> findByUser(User user, Pageable pageable);
 
+    int countByClassSchedulesIdAndStatus(UUID classSchedulesId, BookingStatus status);
 }
