@@ -8,6 +8,9 @@ import org.heymouad.bookingmanagementsystem.enums.ScheduleStatus;
 import org.heymouad.bookingmanagementsystem.mappers.ClassScheduleMapper;
 import org.heymouad.bookingmanagementsystem.services.ClassScheduleService;
 import org.heymouad.bookingmanagementsystem.services.UserService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -26,32 +29,11 @@ public class AdminScheduleController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<AdminClassScheduleResponseDto>> getAllSchedules(
+    public ResponseEntity<Page<AdminClassScheduleResponseDto>> getAllSchedules(
             @RequestParam(required = false) UUID instructorId,
-            @RequestParam(required = false) ScheduleStatus status) {
-
-        List<ClassScheduleResponseDto> classScheduleResponseDtoList = classScheduleService.getAllClassSchedules()
-                .stream()
-                .map(classScheduleMapper::toResponseDto)
-                .toList();
-
-
-
-        return ResponseEntity.ok(classScheduleResponseDtoList
-                .stream()
-                .map(cs -> (
-                    new AdminClassScheduleResponseDto(
-                            cs.id(),
-                            cs.fitnessClassDto(),
-                            userService.getUserById(cs.instructorDto().userID()).getName(),
-                            cs.status(),
-                            cs.startTime(),
-                            cs.endTime(),
-                            cs.templateDto()
-                    )
-                ))
-                .toList()
-        );
+            @RequestParam(required = false) ScheduleStatus status,
+            @PageableDefault(sort = "id") Pageable pageable) {
+        return ResponseEntity.ok(classScheduleService.getAllSchedulesForAdmin(instructorId, status, pageable));
     }
 
 
