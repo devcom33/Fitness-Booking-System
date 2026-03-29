@@ -9,19 +9,20 @@
  */
 import { RecurringScheduleTemplateDto } from './recurringScheduleTemplateDto';
 import { FitnessClassesDto } from './fitnessClassesDto';
-import { InstructorDto } from './instructorDto';
 
 
-export interface ClassScheduleResponseDto { 
+export interface AdminClassScheduleResponseDto { 
     id?: string;
     fitnessClassDto?: FitnessClassesDto;
-    instructorDto?: InstructorDto;
-    status?: ClassScheduleResponseDto.StatusEnum;
+    instructorName?: string;
+    status?: AdminClassScheduleResponseDto.StatusEnum;
     startTime?: string;
     endTime?: string;
     templateDto?: RecurringScheduleTemplateDto;
+    capacity?: number;
+    bookedCount?: number;
 }
-export namespace ClassScheduleResponseDto {
+export namespace AdminClassScheduleResponseDto {
     export const StatusEnum = {
         Scheduled: 'SCHEDULED',
         Cancelled: 'CANCELLED'

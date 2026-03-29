@@ -1,3 +1,4 @@
+export * from './adminClassScheduleResponseDto';
 export * from './applicationResponseDto';
 export * from './authRequestDto';
 export * from './authResponseDto';
@@ -11,9 +12,12 @@ export * from './fitnessClassesResponseDto';
 export * from './instructorApplicationRequest';
 export * from './instructorDto';
 export * from './instructorResponseDto';
+export * from './pageAdminClassScheduleResponseDto';
 export * from './pageable';
+export * from './pageableObject';
 export * from './recurringScheduleTemplateDto';
 export * from './roleDto';
+export * from './sortObject';
 export * from './statusUpdateRequest';
 export * from './userRegistrationRequestDto';
 export * from './userStatusUpdateRequest';

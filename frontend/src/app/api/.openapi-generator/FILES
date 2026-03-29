@@ -4,6 +4,7 @@ api.base.service.ts
 api.module.ts
 api/adminClientController.service.ts
 api/adminInstructorController.service.ts
+api/adminScheduleController.service.ts
 api/api.ts
 api/authenticationController.service.ts
 api/bookingController.service.ts
@@ -13,6 +14,7 @@ configuration.ts
 encoder.ts
 git_push.sh
 index.ts
+model/adminClassScheduleResponseDto.ts
 model/applicationResponseDto.ts
 model/authRequestDto.ts
 model/authResponseDto.ts
@@ -27,9 +29,12 @@ model/instructorApplicationRequest.ts
 model/instructorDto.ts
 model/instructorResponseDto.ts
 model/models.ts
+model/pageAdminClassScheduleResponseDto.ts
 model/pageable.ts
+model/pageableObject.ts
 model/recurringScheduleTemplateDto.ts
 model/roleDto.ts
+model/sortObject.ts
 model/statusUpdateRequest.ts
 model/userRegistrationRequestDto.ts
 model/userStatusUpdateRequest.ts
