@@ -11,6 +11,7 @@ import { Unauthorized } from './shared/components/unauthorized/unauthorized';
 import { FitnessClassStepper } from './features/trainer/fitness-class-stepper/fitness-class-stepper';
 import { Trainers } from './features/admin/trainers/trainers';
 import { Clients } from './features/admin/clients/clients';
+import { Classes } from './features/admin/classes/classes';
 
 export const routes: Routes = [
   {
@@ -66,6 +67,12 @@ export const routes: Routes = [
   {
     path: 'admin/clients',
     component: Clients,
+    canActivate: [authGuard],
+    data: { expectedRole: 'ROLE_ADMIN' },
+  },
+  {
+    path: 'admin/classes',
+    component: Classes,
     canActivate: [authGuard],
     data: { expectedRole: 'ROLE_ADMIN' },
   },
