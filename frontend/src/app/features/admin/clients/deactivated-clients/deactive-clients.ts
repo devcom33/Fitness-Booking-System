@@ -17,10 +17,10 @@ private adminService = inject(AdminClientControllerService);
 
 
   ngOnInit(): void {
-    this.getActiveClients();
+    this.getDeactiveClients();
   }
 
-  getActiveClients() {
+  getDeactiveClients() {
     this.adminService.getClients("BLOCKED").subscribe({
       next: (data) => this.clientsList.set(data),
       error: (err) => {
@@ -37,7 +37,7 @@ private adminService = inject(AdminClientControllerService);
     this.adminService.toggleClientAccess(clientId, {userStatus: 'ACTIVE'} as any).subscribe({
       next: () => {
         this.toast.show('Client deactivated successfully!', 'success');
-        this.getActiveClients();
+        this.getDeactiveClients();
       },
       error: (err) => {
         this.toast.show('Failed to deactivate Client', 'error');

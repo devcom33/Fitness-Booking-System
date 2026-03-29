@@ -25,7 +25,7 @@ private adminService = inject(AdminInstructorControllerService);
     this.adminService.getInstructors().subscribe({
       next: (data) => this.trainersList.set(data),
       error: (err) => {
-        this.errorMsg.set('Failed to load bookings. Please check your connection.');
+        this.errorMsg.set('Failed to load instructors. Please check your connection.');
         console.error('[!] Fetch error:', err);
       },
     });
