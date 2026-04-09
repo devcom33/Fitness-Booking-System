@@ -38,4 +38,6 @@ public interface ClassScheduleRepository extends JpaRepository<ClassSchedules, U
             @Param("status")ScheduleStatus status,
             Pageable pageable
             );
+
+    Long countAllByStatus(ScheduleStatus status);
 }

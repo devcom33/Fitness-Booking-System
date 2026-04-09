@@ -14,18 +14,13 @@ import java.util.UUID;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, UUID> {
-    @Query("""
-    SELECT b FROM Booking b
-    JOIN FETCH b.user u
-    JOIN FETCH b.classSchedules cs
-    JOIN FETCH cs.fitnessClass fc
-    JOIN FETCH cs.instructor i
-""")
-    List<Booking> findAllWithDetails();
+
     long countByClassSchedulesIdAndStatusIn(UUID scheduleId, List<BookingStatus> bookingStatusList);
     boolean existsByClassSchedulesAndUserAndStatusIn(ClassSchedules classSchedules, User user, List<BookingStatus> status);
 
     List<Booking> findByUser(User user, Pageable pageable);
 
     int countByClassSchedulesIdAndStatus(UUID classSchedulesId, BookingStatus status);
+
+    long countAllByStatus(BookingStatus status);
 }
