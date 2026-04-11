@@ -1,6 +1,7 @@
 package org.heymouad.bookingmanagementsystem.services.servicesImpl;
 
 import lombok.RequiredArgsConstructor;
+import org.heymouad.bookingmanagementsystem.dtos.admin.BookingMonthlyCountDTO;
 import org.heymouad.bookingmanagementsystem.dtos.admin.DashboardStatsDTO;
 import org.heymouad.bookingmanagementsystem.enums.BookingStatus;
 import org.heymouad.bookingmanagementsystem.enums.ScheduleStatus;
@@ -10,6 +11,11 @@ import org.heymouad.bookingmanagementsystem.repositories.ClassScheduleRepository
 import org.heymouad.bookingmanagementsystem.repositories.UserRepository;
 import org.heymouad.bookingmanagementsystem.services.AdminDashboardService;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -28,5 +34,11 @@ public class AdminDashboardServiceImpl implements AdminDashboardService {
                 .totalConfirmedBookings(bookingRepository.countAllByStatus(BookingStatus.CONFIRMED))
                 .totalScheduledSessions(classSchedulesRepository.countAllByStatus(ScheduleStatus.SCHEDULED))
                 .build();
+    }
+
+    @Override
+    public List<BookingMonthlyCountDTO> getLastMonthsStats(int months) {
+        LocalDateTime startDate = LocalDateTime.now().minusMonths(months);
+        return bookingRepository.countBookingsPerMonth(startDate);
     }
 }
