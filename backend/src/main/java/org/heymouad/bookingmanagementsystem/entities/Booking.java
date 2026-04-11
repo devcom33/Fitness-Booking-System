@@ -8,6 +8,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Builder
@@ -36,5 +38,5 @@ public class Booking {
     private BookingStatus status;
 
     @CreatedDate
-    private Instant createdAt;
+    private LocalDateTime createdAt;
 }
