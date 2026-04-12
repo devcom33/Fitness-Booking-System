@@ -2,6 +2,7 @@ package org.heymouad.bookingmanagementsystem.entities;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -28,9 +29,11 @@ public class FitnessClass {
     private String description;
 
     @Column(nullable = false)
+    @Min(value = 1, message = "Duration must be at least 1 minute")
     private int durationMinutes;
 
     @Column(nullable = false)
+    @Min(value = 1, message = "Capacity must be at least 1 person")
     private int capacity;
 
     @Column(nullable = false, length = 50)
