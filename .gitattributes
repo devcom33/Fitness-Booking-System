@@ -1,4 +1,7 @@
-/mvnw text eol=lf
+mvnw text eol=lf
 *.cmd text eol=crlf
 
-frontend/src/* linguist-generated
+# Ignore frontend build artifacts only
+frontend/node_modules/* linguist-vendored
+frontend/dist/* linguist-vendored
+frontend/.angular/* linguist-vendored
