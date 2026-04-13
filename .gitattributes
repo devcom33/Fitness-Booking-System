@@ -1,7 +1,4 @@
 /mvnw text eol=lf
 *.cmd text eol=crlf
 
-frontend/src/app/api/* linguist-generated
-frontend/src/app/features/* linguist-generated
-frontend/src/app/shared/* linguist-generated
-frontend/src/app/core/* linguist-generated
+frontend/src/app/* linguist-generated
