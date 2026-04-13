@@ -1,0 +1,2 @@
+ALTER TABLE booking
+ALTER COLUMN created_at TYPE TIMESTAMP;
