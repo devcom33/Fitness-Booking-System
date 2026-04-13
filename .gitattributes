@@ -3,3 +3,5 @@
 
 frontend/src/app/api/* linguist-generated
 frontend/src/app/features/* linguist-generated
+frontend/src/app/shared/* linguist-generated
+frontend/src/app/core/* linguist-generated
