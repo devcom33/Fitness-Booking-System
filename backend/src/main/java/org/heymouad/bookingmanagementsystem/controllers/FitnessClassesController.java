@@ -1,6 +1,7 @@
 package org.heymouad.bookingmanagementsystem.controllers;
 
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.heymouad.bookingmanagementsystem.dtos.FitnessClassesDto;
 import org.heymouad.bookingmanagementsystem.dtos.FitnessClassesResponseDto;
@@ -24,21 +25,25 @@ public class FitnessClassesController {
 
     @PreAuthorize("hasRole('INSTRUCTOR')")
     @PostMapping
-    public ResponseEntity<FitnessClassesResponseDto> createFitnessClass(@RequestBody FitnessClassesDto fitnessClassesDto)
-    {
-        FitnessClass fitnessClass = fitnessClassesMapper.toFitnessClasses(fitnessClassesDto);
-        FitnessClass createdClass = fitnessClassService.createFitnessClasses(fitnessClass);
-        FitnessClassesResponseDto fitnessClassesResponseDto = fitnessClassesMapper.toFitnessClassesResponseDto(createdClass);
+    public ResponseEntity<FitnessClassesResponseDto> createFitnessClass(
+            @RequestBody @Valid FitnessClassesDto dto) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(fitnessClassesResponseDto);
+        FitnessClass fitnessClass = fitnessClassesMapper.toFitnessClasses(dto);
+        FitnessClass created = fitnessClassService.createFitnessClasses(fitnessClass, dto.category());
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(fitnessClassesMapper.toFitnessClassesResponseDto(created));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<FitnessClassesDto> updateFitnessClass(@PathVariable UUID id, @RequestBody FitnessClassesDto fitnessClassesDto)
-    {
-        FitnessClass updatedClass = fitnessClassService.updateFitnessClasses(id, fitnessClassesMapper.toFitnessClasses(fitnessClassesDto));
+    public ResponseEntity<FitnessClassesResponseDto> updateFitnessClass(
+            @PathVariable UUID id,
+            @RequestBody @Valid FitnessClassesDto dto) {
 
-        return ResponseEntity.ok(fitnessClassesMapper.toFitnessClassesDto(updatedClass));
+        FitnessClass fitnessClass = fitnessClassesMapper.toFitnessClasses(dto);
+        FitnessClass updated = fitnessClassService.updateFitnessClasses(id, fitnessClass, dto.category());
+
+        return ResponseEntity.ok(fitnessClassesMapper.toFitnessClassesResponseDto(updated));
     }
 
     @GetMapping("/{id}")
