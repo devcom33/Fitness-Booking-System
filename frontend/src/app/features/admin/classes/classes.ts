@@ -1,5 +1,5 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { AdminClassScheduleResponseDto, AdminInstructorControllerService, AdminScheduleControllerService, ClassScheduleResponseDto, ClassSchedulesControllerService, FitnessClassesControllerService, FitnessClassesResponseDto, InstructorResponseDto, Pageable, PageAdminClassScheduleResponseDto } from '../../../api';
+import { AdminClassScheduleResponseDto, AdminInstructorControllerService, AdminScheduleControllerService, InstructorResponseDto, Pageable } from '../../../api';
 import { Sidebar } from "../sidebar/sidebar";
 import { FormsModule } from '@angular/forms';
 
