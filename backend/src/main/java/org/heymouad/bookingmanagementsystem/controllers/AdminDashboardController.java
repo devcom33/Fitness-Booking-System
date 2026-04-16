@@ -3,6 +3,7 @@ package org.heymouad.bookingmanagementsystem.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.heymouad.bookingmanagementsystem.dtos.admin.BookingMonthlyCountDTO;
+import org.heymouad.bookingmanagementsystem.dtos.admin.CategoriesStatsDTO;
 import org.heymouad.bookingmanagementsystem.dtos.admin.DashboardStatsDTO;
 import org.heymouad.bookingmanagementsystem.services.AdminDashboardService;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,11 @@ public class AdminDashboardController {
     @GetMapping("/last-months-stats")
     public ResponseEntity<List<BookingMonthlyCountDTO>> getLastMonthsStats() {
         return ResponseEntity.ok(adminDashboardService.getLastMonthsStats(7));
+    }
+
+    @GetMapping("/categories-stats")
+    public ResponseEntity<List<CategoriesStatsDTO>> getCategoriesStats() {
+        return ResponseEntity.ok(adminDashboardService.getCategoriesStats());
     }
 
 }
