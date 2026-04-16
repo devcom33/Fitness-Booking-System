@@ -36,9 +36,21 @@ public class FitnessClass {
     @Min(value = 1, message = "Capacity must be at least 1 person")
     private int capacity;
 
-    @Column(nullable = false, length = 50)
-    private String category;
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     @CreatedDate
     private Instant createdAt;
 }
+
+/*
+    @Column(nullable = false)
+    @PositiveOrZero
+    private BigDecimal price;
+    The Logic
+        The Rule: 1 Booking = 1 Session Price.
+
+        - The Calculation: Total Revenue = Sum of price
+        for all FitnessClass records associated with successful bookings.
+*/
