@@ -1,5 +1,7 @@
 export * from './adminClientController.service';
 import { AdminClientControllerService } from './adminClientController.service';
+export * from './adminDashboardController.service';
+import { AdminDashboardControllerService } from './adminDashboardController.service';
 export * from './adminInstructorController.service';
 import { AdminInstructorControllerService } from './adminInstructorController.service';
 export * from './adminScheduleController.service';
@@ -12,4 +14,4 @@ export * from './classSchedulesController.service';
 import { ClassSchedulesControllerService } from './classSchedulesController.service';
 export * from './fitnessClassesController.service';
 import { FitnessClassesControllerService } from './fitnessClassesController.service';
-export const APIS = [AdminClientControllerService, AdminInstructorControllerService, AdminScheduleControllerService, AuthenticationControllerService, BookingControllerService, ClassSchedulesControllerService, FitnessClassesControllerService];
+export const APIS = [AdminClientControllerService, AdminDashboardControllerService, AdminInstructorControllerService, AdminScheduleControllerService, AuthenticationControllerService, BookingControllerService, ClassSchedulesControllerService, FitnessClassesControllerService];

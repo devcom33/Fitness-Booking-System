@@ -216,9 +216,9 @@ export class FitnessClassesControllerService extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public updateFitnessClass(id: string, fitnessClassesDto: FitnessClassesDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<FitnessClassesDto>;
-    public updateFitnessClass(id: string, fitnessClassesDto: FitnessClassesDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<FitnessClassesDto>>;
-    public updateFitnessClass(id: string, fitnessClassesDto: FitnessClassesDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<FitnessClassesDto>>;
+    public updateFitnessClass(id: string, fitnessClassesDto: FitnessClassesDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<FitnessClassesResponseDto>;
+    public updateFitnessClass(id: string, fitnessClassesDto: FitnessClassesDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<FitnessClassesResponseDto>>;
+    public updateFitnessClass(id: string, fitnessClassesDto: FitnessClassesDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<FitnessClassesResponseDto>>;
     public updateFitnessClass(id: string, fitnessClassesDto: FitnessClassesDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling updateFitnessClass.');
@@ -263,7 +263,7 @@ export class FitnessClassesControllerService extends BaseService {
 
         let localVarPath = `/api/v1/fitnessClasses/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<FitnessClassesDto>('put', `${basePath}${localVarPath}`,
+        return this.httpClient.request<FitnessClassesResponseDto>('put', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: fitnessClassesDto,

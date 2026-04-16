@@ -96,113 +96,154 @@
 }
 @else if (role.includes('ROLE_ADMIN'))
 {
-  <app-sidebar></app-sidebar>
+   <app-sidebar></app-sidebar>
   <div class="min-h-screen bg-gray-50 ml-64 pt-20">
     <div class="max-w-7xl mx-auto p-6">
+      <!-- Header -->
+      <div class="mb-8">
+        <div class="flex justify-between items-center">
+          <div>
+            <h1 class="text-4xl font-bold text-gray-900">Admin Dashboard</h1>
+            <p class="text-gray-600 mt-2">Welcome back! Here's your platform overview</p>
+          </div>
+          <div class="flex gap-3">
+            <button class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mr-2 inline-block">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 9.75h18M4.5 6.75h15a1.5 1.5 0 0 1 1.5 1.5v10.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.75V8.25a1.5 1.5 0 0 1 1.5-1.5Z" />
+              </svg>This Month
+            </button>
+            <button class="px-4 py-2 bg-[#F97316] text-white rounded-lg hover:bg-[#E11D48] transition">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mr-2 inline-block">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+              </svg>Export
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Cards with Trends -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <!-- Stats Cards -->
-        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition-shadow">
-          <div class="flex items-center justify-between">
+        <!-- Trainers Card -->
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200 hover:shadow-md transition-all">
+          <div class="flex justify-between items-start mb-4">
             <div>
-              <p class="text-gray-500 text-sm font-medium">Total Trainers</p>
-              <h3 class="text-3xl font-bold text-gray-800 mt-2">24</h3>
+              <p class="text-gray-600 text-sm font-medium">Total Trainers</p>
+              <h3 class="text-3xl font-bold text-gray-900 mt-2">{{stats()?.totalInstructors}}</h3>
             </div>
-            <div class="bg-blue-100 p-3 rounded-lg">
-              <i class="fas fa-user-tie text-blue-600 text-2xl"></i>
+            <div class="bg-blue-50 p-3 rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8 text-blue-600">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+              </svg>
             </div>
+          </div>
+          <div class="pt-4 border-t border-gray-100">
+            <span class="text-xs font-semibold text-green-600 bg-green-50 px-2.5 py-1 rounded-full">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5 mr-1 inline-block">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.286 4.286a1.5 1.5 0 0 0 2.122 0L21.75 9M16.5 9h5.25v5.25" />
+              </svg>+8% this month
+            </span>
           </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition-shadow">
-          <div class="flex items-center justify-between">
+        <!-- Clients Card -->
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200 hover:shadow-md transition-all">
+          <div class="flex justify-between items-start mb-4">
             <div>
-              <p class="text-gray-500 text-sm font-medium">Total Clients</p>
-              <h3 class="text-3xl font-bold text-gray-800 mt-2">156</h3>
+              <p class="text-gray-600 text-sm font-medium">Total Clients</p>
+              <h3 class="text-3xl font-bold text-gray-900 mt-2">{{stats()?.totalClients}}</h3>
             </div>
-            <div class="bg-green-100 p-3 rounded-lg">
-              <i class="fas fa-users text-green-600 text-2xl"></i>
+            <div class="bg-green-50 p-3 rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8 text-green-600">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.75a3 3 0 0 0-3-3h-6a3 3 0 0 0-3 3M15.75 6.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Zm7.5 12a2.25 2.25 0 0 0-2.25-2.25h-1.5m.75-9a2.25 2.25 0 1 1 0 4.5" />
+              </svg>
             </div>
+          </div>
+          <div class="pt-4 border-t border-gray-100">
+            <span class="text-xs font-semibold text-green-600 bg-green-50 px-2.5 py-1 rounded-full">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5 mr-1 inline-block">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.286 4.286a1.5 1.5 0 0 0 2.122 0L21.75 9M16.5 9h5.25v5.25" />
+              </svg>+15% this month
+            </span>
           </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition-shadow">
-          <div class="flex items-center justify-between">
+        <!-- Active Classes Card -->
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200 hover:shadow-md transition-all">
+          <div class="flex justify-between items-start mb-4">
             <div>
-              <p class="text-gray-500 text-sm font-medium">Active Classes</p>
-              <h3 class="text-3xl font-bold text-gray-800 mt-2">42</h3>
+              <p class="text-gray-600 text-sm font-medium">Scheduled Sessions</p>
+              <h3 class="text-3xl font-bold text-gray-900 mt-2">{{stats()?.totalScheduledSessions}}</h3>
             </div>
-            <div class="bg-purple-100 p-3 rounded-lg">
-              <i class="fas fa-calendar-alt text-purple-600 text-2xl"></i>
+            <div class="bg-purple-50 p-3 rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8 text-purple-600">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 9.75h18M4.5 6.75h15a1.5 1.5 0 0 1 1.5 1.5v10.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.75V8.25a1.5 1.5 0 0 1 1.5-1.5Z" />
+              </svg>
             </div>
+          </div>
+          <div class="pt-4 border-t border-gray-100">
+            <p class="text-xs text-gray-600"><span class="font-semibold">Peak:</span> 6PM - 8PM</p>
           </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition-shadow">
-          <div class="flex items-center justify-between">
+        <!-- Total Bookings Card -->
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200 hover:shadow-md transition-all">
+          <div class="flex justify-between items-start mb-4">
             <div>
-              <p class="text-gray-500 text-sm font-medium">Total Bookings</p>
-              <h3 class="text-3xl font-bold text-gray-800 mt-2">328</h3>
+              <p class="text-gray-600 text-sm font-medium">Total Bookings</p>
+              <h3 class="text-3xl font-bold text-gray-900 mt-2">{{stats()?.totalConfirmedBookings}}</h3>
             </div>
-            <div class="bg-orange-100 p-3 rounded-lg">
-              <i class="fas fa-check-circle text-orange-600 text-2xl"></i>
+            <div class="bg-orange-50 p-3 rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8 text-[#F97316]">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+              </svg>
             </div>
+          </div>
+          <div class="pt-4 border-t border-gray-100">
+            <span class="text-xs font-semibold text-orange-600 bg-orange-50 px-2.5 py-1 rounded-full">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5 mr-1 inline-block">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.286 4.286a1.5 1.5 0 0 0 2.122 0L21.75 9M16.5 9h5.25v5.25" />
+              </svg>+22 this week
+            </span>
           </div>
         </div>
       </div>
 
-      <!-- Quick Actions -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition-shadow">
-          <div class="text-center">
-            <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-              <i class="fas fa-user-tie text-blue-600 text-2xl"></i>
-            </div>
-            <h3 class="text-xl font-bold text-gray-800 mb-2">Manage Trainers</h3>
-            <p class="text-gray-600 mb-4">View, add, or remove trainers</p>
-            <button
-              routerLink="/admin/trainers"
-              type="button"
-              class="w-full bg-[#F97316] hover:bg-[#E11D48] text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200"
-            >
-              Manage Trainers
-            </button>
+      <!-- Charts Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <!-- Bookings Trend Chart -->
+        <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div class="mb-6">
+            <h3 class="text-lg font-bold text-gray-900">Monthly Bookings Trend</h3>
+            <p class="text-sm text-gray-600 mt-1">Last 7 months overview</p>
+          </div>
+          <div class="h-80 relative">
+            <canvas id="bookingsTrendChart"></canvas>
           </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition-shadow">
-          <div class="text-center">
-            <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-              <i class="fas fa-users text-green-600 text-2xl"></i>
-            </div>
-            <h3 class="text-xl font-bold text-gray-800 mb-2">Manage Clients</h3>
-            <p class="text-gray-600 mb-4">View and manage client accounts</p>
-            <button
-              routerLink="/admin/clients"
-              type="button"
-              class="w-full bg-[#F97316] hover:bg-[#E11D48] text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200"
-            >
-              Manage Clients
-            </button>
+        <!-- User Distribution Pie Chart -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div class="mb-6">
+            <h3 class="text-lg font-bold text-gray-900">User Distribution</h3>
+            <p class="text-sm text-gray-600 mt-1">Platform breakdown</p>
           </div>
-        </div>
-
-        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition-shadow">
-          <div class="text-center">
-            <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-              <i class="fas fa-dumbbell text-purple-600 text-2xl"></i>
-            </div>
-            <h3 class="text-xl font-bold text-gray-800 mb-2">Manage Classes</h3>
-            <p class="text-gray-600 mb-4">Oversee all fitness classes</p>
-            <button
-              routerLink="/admin/classes"
-              type="button"
-              class="w-full bg-[#F97316] hover:bg-[#E11D48] text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200"
-            >
-              Manage Classes
-            </button>
+          <div class="h-80 relative flex items-center justify-center">
+            <canvas id="userDistributionChart"></canvas>
           </div>
         </div>
       </div>
+
+      <!-- Class Category Performance -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
+        <div class="mb-6">
+          <h3 class="text-lg font-bold text-gray-900">Class Category Performance</h3>
+          <p class="text-sm text-gray-600 mt-1">Bookings by fitness class type</p>
+        </div>
+        <div class="h-80 relative">
+          <canvas id="classCategoryChart"></canvas>
+        </div>
+      </div>
+     
     </div>
   </div>
 }
