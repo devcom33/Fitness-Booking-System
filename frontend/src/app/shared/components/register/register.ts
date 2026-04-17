@@ -7,6 +7,7 @@ import {
   UserRegistrationRequestDto,
 } from '../../../api';
 import { Router } from '@angular/router';
+import { ToastService } from '../../services/toast-service';
 
 @Component({
   selector: 'app-register',
@@ -17,6 +18,7 @@ import { Router } from '@angular/router';
 export class Register {
   private authService = inject(AuthenticationControllerService);
   private router = inject(Router);
+  private readonly toast = inject(ToastService);
 
   RoleName = RoleDto;
 
@@ -45,28 +47,35 @@ export class Register {
         specialization: this.instructorSpecialization ?? '',
       };
 
-
       this.authService.applyAsInstructor(instructorRequest).subscribe({
         next: () => {
+          this.toast.show('Application submitted. Awaiting admin approval.', 'success');
           this.router.navigate(['/application-under-review']);
         },
         error: (err) => {
           console.error(err);
-          alert('Failed to submit instructor application.');
+          this.toast.show('Failed to submit instructor application.', 'error');
         },
       });
       return;
-
     }
 
     this.authService.register(this.registerRequest).subscribe({
       next: (res: any) => {
         localStorage.setItem('token', res.accessToken);
+        this.toast.show('Account created successfully!', 'success');
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {
         console.error(err);
-        alert('Registration failed.');
+        const code = err?.error?.code;
+
+        if (code === 'EMAIL_ALREADY_EXISTS') {
+          this.toast.show('Email already exists. Try another one.', 'warning');
+          return;
+        }
+
+        this.toast.show('Registration failed. Please try again.', 'error');
       },
     });
   }
