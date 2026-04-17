@@ -12,6 +12,7 @@ import { FitnessClassStepper } from './features/trainer/fitness-class-stepper/fi
 import { Trainers } from './features/admin/trainers/trainers';
 import { Clients } from './features/admin/clients/clients';
 import { Classes } from './features/admin/classes/classes';
+import { ApplicationUnderReview } from './shared/components/application-under-review/application-under-review';
 
 export const routes: Routes = [
   {
@@ -57,6 +58,9 @@ export const routes: Routes = [
     component: FitnessClassStepper,
     canActivate: [authGuard],
     data: { expectedRole: 'ROLE_INSTRUCTOR' },
+  },
+  { path: 'application-under-review', 
+    component: ApplicationUnderReview,
   },
   {
     path: 'admin/trainers',
