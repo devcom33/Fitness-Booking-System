@@ -1,0 +1,58 @@
+services:
+  postgres:
+    container_name: postgres-sql-booking
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: booking_db
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - spring-demo
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  booking-api:
+    container_name: booking-api
+    build:
+      context: ../backend
+    networks:
+      - spring-demo
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/booking_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS}
+      SPRING_PROFILES_ACTIVE: prod
+    expose:
+      - "8080"
+
+  booking-ui:
+    container_name: booking-ui
+    build:
+      context: ../frontend
+    networks:
+      - spring-demo
+    depends_on:
+      - booking-api
+    restart: unless-stopped
+    expose:
+      - "80"
+
+networks:
+  spring-demo:
+    driver: bridge
+
+volumes:
+  postgres:
+    driver: local
