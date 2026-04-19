@@ -46,8 +46,8 @@ services:
     depends_on:
       - booking-api
     restart: unless-stopped
-    expose:
-      - "80"
+    ports:
+      - "80:80"
 
 networks:
   spring-demo:
