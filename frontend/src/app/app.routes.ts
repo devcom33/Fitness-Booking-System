@@ -31,6 +31,9 @@ export const routes: Routes = [
     path: 'unauthorized',
     component: Unauthorized,
   },
+  { path: 'application-under-review', 
+    component: ApplicationUnderReview,
+  },
   {
     path: 'dashboard',
     component: Dashboard
@@ -48,36 +51,13 @@ export const routes: Routes = [
     data: { expectedRole: 'ROLE_CLIENT' }
   },
   {
-    path: 'trainer/schedule',
-    component: Schedule,
-    canActivate: [authGuard],
-    data: { expectedRole: 'ROLE_INSTRUCTOR' },
+    path: 'trainer',
+    loadChildren: () =>
+      import('./features/trainer/trainer.routes').then(m => m.trainerRoutes)
   },
   {
-    path: 'trainer/create-class',
-    component: FitnessClassStepper,
-    canActivate: [authGuard],
-    data: { expectedRole: 'ROLE_INSTRUCTOR' },
-  },
-  { path: 'application-under-review', 
-    component: ApplicationUnderReview,
-  },
-  {
-    path: 'admin/trainers',
-    component: Trainers,
-    canActivate: [authGuard],
-    data: { expectedRole: 'ROLE_ADMIN' },
-  },
-  {
-    path: 'admin/clients',
-    component: Clients,
-    canActivate: [authGuard],
-    data: { expectedRole: 'ROLE_ADMIN' },
-  },
-  {
-    path: 'admin/classes',
-    component: Classes,
-    canActivate: [authGuard],
-    data: { expectedRole: 'ROLE_ADMIN' },
-  },
+    path: 'admin',
+    loadChildren: () =>
+      import('./features/admin/admin.routes').then(m => m.adminRoutes)
+  }
 ];
