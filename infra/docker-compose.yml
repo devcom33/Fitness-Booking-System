@@ -1,6 +1,5 @@
 services:
   postgres:
-    container_name: postgres-sql-booking
     image: postgres:15
     environment:
       POSTGRES_USER: postgres
@@ -19,7 +18,6 @@ services:
       retries: 5
 
   booking-api:
-    container_name: booking-api
     build:
       context: ../backend
     networks:
@@ -42,7 +40,6 @@ services:
       - "8080"
 
   booking-ui:
-    container_name: booking-ui
     build:
       context: ../frontend
     networks:
