@@ -1,6 +1,7 @@
 # Build Stage
 FROM maven:3.9.11-eclipse-temurin AS build
 WORKDIR /build
+
 COPY pom.xml .
 RUN mvn dependency:go-offline
 COPY src ./src
@@ -8,7 +9,7 @@ COPY src ./src
 RUN mvn clean package -Dmaven.test.skip=true
 
 # Runtime Stage
-FROM amazoncorretto:25
+FROM bellsoft/liberica-openjre-alpine:21
 ARG PROFILE=prod
 ARG APP_VERSION=1.0.0
 
