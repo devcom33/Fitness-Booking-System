@@ -9,4 +9,3 @@ coverage/
 .angular/
 *.md
 Dockerfile*
-nginx.conf
