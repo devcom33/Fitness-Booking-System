@@ -18,7 +18,7 @@ A full-stack scheduling and availability platform designed for fitness instructo
 ### Backend
 
 - **Framework**: Spring Boot 4.0.0
-- **Language**: Java 25
+- **Language**: Java 21
 - **Database**: PostgreSQL
 - **Security**: Spring Security with JWT (JSON Web Tokens)
 - **ORM**: Spring Data JPA
@@ -36,25 +36,25 @@ A full-stack scheduling and availability platform designed for fitness instructo
 - **State Management**: RxJS 7.8.0
 - **Package Manager**: npm 10.9.2
 
-## 📋 Prerequisites
+## Prerequisites
 
 Before you begin, ensure you have the following installed:
 
-- Java 25 or higher
+- Java 21 or higher
 - Node.js (with npm 10.9.2+)
 - PostgreSQL
 - Maven (or use the included Maven wrapper)
 - Docker (optional, for containerized database)
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Backend Setup
 
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/devcom33/Fitness-Class-Personal-Training-Booking-System.git
-   cd Fitness-Class-Personal-Training-Booking-System
+   git clone https://github.com/devcom33/Fitness-Booking-System.git
+   cd Fitness-Booking-System
    ```
 
 2. **Configure the database**
@@ -138,7 +138,7 @@ npm test
 npm run watch
 ```
 
-## 📦 Project Structure
+## Project Structure
 
 ```
 .
@@ -160,14 +160,14 @@ npm run watch
     └── tsconfig.json
 ```
 
-## 🔐 Security
+## Security
 
 - JWT-based authentication for secure API access
 - Spring Security configuration for endpoint protection
 - Password encryption and secure credential management
 - Role-based access control (RBAC) for different user types
 
-## 🗓️ Calendar Features
+## Calendar Features
 
 The system uses iCal4j for handling complex scheduling scenarios:
 
@@ -176,7 +176,7 @@ The system uses iCal4j for handling complex scheduling scenarios:
 - RRULE support for advanced recurrence patterns
 - iCalendar format import/export
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please follow these steps:
 
@@ -186,11 +186,11 @@ Contributions are welcome! Please follow these steps:
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 License
+## License
 
 This project is currently unlicensed. Please contact the repository owner for usage permissions.
 
-## 👥 Authors
+## Authors
 
 - **devcom33** - [GitHub Profile](https://github.com/devcom33)
 
@@ -198,17 +198,6 @@ This project is currently unlicensed. Please contact the repository owner for us
 
 - Please check the [Issues](https://github.com/devcom33/Fitness-Class-Personal-Training-Booking-System/issues) page for current known issues
 
-## 📞 Support
+## Support
 
 For support, please open an issue in the GitHub repository or contact the maintainers.
-
-## 🗺️ Roadmap
-
-- [ ] Payment integration
-- [ ] Email notifications for bookings
-- [ ] Waiting list functionality
-- [ ] Instructor dashboard with analytics
-
-## 🏷️ Tags
-
-`booking-system` `fitness-app` `fitness-booking` `gym-management` `java` `rest-api` `spring` `spring-boot` `angular` `typescript` `postgresql` `jwt-authentication`
