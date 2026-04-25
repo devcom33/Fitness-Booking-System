@@ -2,14 +2,12 @@ package org.heymouad.bookingmanagementsystem.config;
 
 
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +15,8 @@ import java.util.Map;
 import java.util.function.Function;
 
 import io.jsonwebtoken.Claims;
+
+import javax.crypto.SecretKey;
 
 
 @Service
@@ -54,11 +54,11 @@ public class JwtService {
     {
         return Jwts
                 .builder()
-                .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .claims(extraClaims)
+                .subject(userDetails.getUsername())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
+                .signWith(getSigningKey())
                 .compact();
     }
     private boolean isTokenExpired(String token) {
@@ -72,15 +72,15 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
+        return Jwts.parser()
+                .verifyWith(getSigningKey())
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
 
-    private Key getSigningKey() {
+    private SecretKey getSigningKey() {
         byte[] keybytes = Decoders.BASE64.decode(SECRET_KEY);
 
         return Keys.hmacShaKeyFor(keybytes);
