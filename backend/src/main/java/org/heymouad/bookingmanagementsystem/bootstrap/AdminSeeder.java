@@ -10,9 +10,12 @@ import org.heymouad.bookingmanagementsystem.repositories.RoleRepository;
 import org.heymouad.bookingmanagementsystem.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+
+@Profile("prod")
 @Component
 @RequiredArgsConstructor
 public class AdminSeeder implements CommandLineRunner {
