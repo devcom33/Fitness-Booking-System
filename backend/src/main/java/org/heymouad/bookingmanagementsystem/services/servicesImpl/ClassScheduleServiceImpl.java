@@ -8,14 +8,12 @@ import org.heymouad.bookingmanagementsystem.dtos.admin.AdminClassScheduleRespons
 import org.heymouad.bookingmanagementsystem.entities.*;
 import org.heymouad.bookingmanagementsystem.enums.BookingStatus;
 import org.heymouad.bookingmanagementsystem.enums.ScheduleStatus;
-import org.heymouad.bookingmanagementsystem.enums.UserRole;
 import org.heymouad.bookingmanagementsystem.exceptions.InstructorBusyException;
 import org.heymouad.bookingmanagementsystem.exceptions.InvalidScheduleException;
 import org.heymouad.bookingmanagementsystem.exceptions.ResourceNotFoundException;
 import org.heymouad.bookingmanagementsystem.mappers.ClassScheduleMapper;
 import org.heymouad.bookingmanagementsystem.repositories.*;
 import org.heymouad.bookingmanagementsystem.services.ClassScheduleService;
-import org.heymouad.bookingmanagementsystem.services.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -67,7 +65,9 @@ public class ClassScheduleServiceImpl implements ClassScheduleService {
             throw new EntityNotFoundException("Fitness Class with ID " + classId + " not found.");
         }
 
-        if (classSchedules.getTemplate().getRrule().isBlank())
+        RecurringScheduleTemplate template = classSchedules.getTemplate();
+
+        if (template == null || template.getRrule() == null|| template.getRrule().isBlank())
         {
             return saveOneOffSchedule(classSchedules);
         }
