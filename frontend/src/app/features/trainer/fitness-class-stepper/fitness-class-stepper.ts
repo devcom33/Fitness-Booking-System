@@ -1,15 +1,17 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RRule, Weekday } from 'rrule';
 import {
+  CategoryControllerService,
   ClassScheduleRequestDto,
   ClassSchedulesControllerService,
   FitnessClassesControllerService,
   FitnessClassesDto,
-  FitnessClassesResponseDto,
   RecurringScheduleTemplateDto,
 } from '../../../api';
-import { FormsModule } from '@angular/forms';
-import { RRule, Weekday } from 'rrule';
 import { Navbar } from '../../../shared/components/navbar/navbar';
+import { Router } from '@angular/router';
+import { ToastService } from '../../../shared/services/toast-service';
 
 @Component({
   selector: 'app-fitness-class-stepper',
@@ -17,11 +19,20 @@ import { Navbar } from '../../../shared/components/navbar/navbar';
   templateUrl: './fitness-class-stepper.html',
   styleUrl: './fitness-class-stepper.css',
 })
-export class FitnessClassStepper {
+export class FitnessClassStepper implements OnInit {
   readonly WEEKLY = RRule.WEEKLY;
+
   currentStep = 1;
+  categories = signal<string[]>([]);
+
+  private readonly toast = inject(ToastService);
+  isSubmitting = false;
+  router = inject(Router);
+
   fitnessClassService = inject(FitnessClassesControllerService);
   scheduleClassService = inject(ClassSchedulesControllerService);
+  categoryClassService = inject(CategoryControllerService);
+
   fitnessClassesDto: FitnessClassesDto = {
     name: '',
     description: '',
@@ -29,144 +40,146 @@ export class FitnessClassStepper {
     capacity: 0,
     category: '',
   };
-  fitnessClassesResponseDto: FitnessClassesResponseDto = {
-    id: '',
-    name: '',
-    description: '',
-    durationMinutes: 0,
-    capacity: 0,
-    category: '',
-  };
+
   recurring: RecurringScheduleTemplateDto = {
     rrule: '',
-    startDateTime: new Date().toISOString(),
-    endDateTime: new Date().toISOString(),
+    startDateTime: '',
+    endDateTime: '',
   };
 
   scheduleClassDto: ClassScheduleRequestDto = {
     fitnessClassId: '',
     startTime: '',
     endTime: '',
-    templateDto: this.recurring,
+    templateDto: undefined,
   };
 
-  steps = [
-    { number: 1, label: 'Class Details' },
-    { number: 2, label: 'Schedule' },
-    { number: 3, label: 'Review' },
+  selectedRecurring: number | null = null;
+  selectedDays: string[] = [];
+  rruleDays: Weekday[] = [];
+
+  typeRecurringTime: Array<{ code: number | null; option: string }> = [
+    { code: null, option: 'None' },
+    { code: RRule.DAILY, option: 'DAILY' },
+    { code: RRule.WEEKLY, option: 'WEEKLY' },
   ];
 
-
-  DAY_MAP: { [key: string]: any } = {
-  'Mon': RRule.MO, 'Tue': RRule.TU, 'Wed': RRule.WE, 
-  'Thu': RRule.TH, 'Fri': RRule.FR, 'Sat': RRule.SA, 'Sun': RRule.SU
+  DAY_MAP: Record<string, Weekday> = {
+    Mon: RRule.MO,
+    Tue: RRule.TU,
+    Wed: RRule.WE,
+    Thu: RRule.TH,
+    Fri: RRule.FR,
+    Sat: RRule.SA,
+    Sun: RRule.SU,
   };
 
-  selectedDays: string[] = [];
+  ngOnInit(): void {
+    this.loadCategories();
+  }
+
+  loadCategories(): void {
+    this.categoryClassService.getCategories().subscribe({
+      next: (data) => this.categories.set(data),
+      error: (err) => console.error('[!] Fetch categories error:', err),
+    });
+  }
+
+  nextStep(): void {
+    if (this.currentStep === 1) {
+      this.createFitnessClass();
+      return;
+    }
+    if (this.currentStep < 3) this.currentStep++;
+  }
+
+  previousStep(): void {
+    if (this.currentStep > 1) this.currentStep--;
+  }
+
+  createFitnessClass(): void {
+    this.fitnessClassService.createFitnessClass(this.fitnessClassesDto).subscribe({
+      next: (data) => {
+        if (!data?.id) return;
+        this.scheduleClassDto.fitnessClassId = data.id;
+        this.currentStep = 2;
+      },
+      error: (err) => console.error('Error creating class:', err),
+    });
+  }
 
   toggleDay(day: string): void {
     const index = this.selectedDays.indexOf(day);
-    if (index > -1) {
-      this.selectedDays.splice(index, 1);
-    } else {
-      this.selectedDays.push(day);
-    }
+    if (index > -1) this.selectedDays.splice(index, 1);
+    else this.selectedDays.push(day);
   }
 
-  rruleDays : Weekday[] = [];
-
-  toRrule(selectedDays: string[])
-  {
-   this.rruleDays = selectedDays
-    .map(day => this.DAY_MAP[day])
-    .filter(day => day !== undefined);
+  toRrule(days: string[]): void {
+    this.rruleDays = days
+      .map((d) => this.DAY_MAP[d])
+      .filter((d): d is Weekday => !!d);
   }
 
-
-  selectedRecurring = RRule.DAILY;
-  typeRecurringTime = [
-    {'code': null, 'option': "None"},
-    {'code': RRule.DAILY, 'option': "DAILY" },
-    {'code': RRule.WEEKLY, 'option': "WEEKLY"}
-  ] ; 
-
-
-  nextStep() {
-    if (this.currentStep == 1) {
-      this.createFitnessClass();
-    }
-    if (this.currentStep < 3) {
-      this.currentStep++;
-    }
-  }
-
-  previousStep() {
-    if (this.currentStep > 1) {
-      this.currentStep--;
-    }
-  }
-
-  createFitnessClass() {
-    this.fitnessClassService.createFitnessClass(this.fitnessClassesDto).subscribe({
-      next: (data) => {
-        this.scheduleClassDto.fitnessClassId = data.id;
-        console.log('data : ', data);
-      },
-    });
-  }
-
-  createClassSchedule() {
-    let rule: RRule | null = null;
-
-    // Build the Rule
-    const options: any = { freq: this.selectedRecurring };
-
-    console.log("this.selectedRecurring", this.selectedRecurring.toString())
-
-    if (this.selectedRecurring == RRule.WEEKLY) {
-      this.toRrule(this.selectedDays);
-      options.byweekday = this.rruleDays;
-      rule = new RRule(options);
-      console.log("pass weekly");
-    } else if (this.selectedRecurring == RRule.DAILY) {
-      rule = new RRule(options);
-      console.log("pass daily");
-
-    }
-
-    if (!rule) {
-      console.error("No recurrence rule generated.");
+  createClassSchedule(): void {
+    if (this.isSubmitting) return;
+    
+    if (!this.scheduleClassDto.fitnessClassId) {
+      console.error('Missing class id');
       return;
     }
 
-    // Format the string by Removing 'RRULE:' prefix
-    const ruleString = rule.toString();
-    const ruleFormatted = ruleString.includes(':') 
-      ? ruleString.split(':')[1] 
-      : ruleString;
+    if (!this.scheduleClassDto.startTime || !this.scheduleClassDto.endTime) {
+      console.error('Start/End time is required');
+      return;
+    }
 
-    // Construct Payload
-    const recurring: RecurringScheduleTemplateDto = {
-      rrule: ruleFormatted,
-      startDateTime: new Date(this.recurring?.startDateTime ?? new Date()).toISOString(),
-      endDateTime: new Date(this.recurring?.endDateTime ?? new Date()).toISOString(),
-    };
+    let templateDto: RecurringScheduleTemplateDto | undefined = undefined;
+
+    if (this.selectedRecurring !== null) {
+      const options: any = { freq: this.selectedRecurring };
+
+      if (this.selectedRecurring === RRule.WEEKLY) {
+        this.toRrule(this.selectedDays);
+        if (!this.rruleDays.length) {
+          console.error('Select at least one weekday for weekly recurrence');
+          return;
+        }
+        options.byweekday = this.rruleDays;
+      }
+
+      const rule = new RRule(options);
+      const ruleText = rule.toString().replace('RRULE:', '');
+
+      if (!this.recurring.startDateTime || !this.recurring.endDateTime) {
+        console.error('Recurring start/end date is required');
+        return;
+      }
+
+      templateDto = {
+        rrule: ruleText,
+        startDateTime: new Date(this.recurring.startDateTime).toISOString(),
+        endDateTime: new Date(this.recurring.endDateTime).toISOString(),
+      };
+    }
 
     const payload: ClassScheduleRequestDto = {
       fitnessClassId: this.scheduleClassDto.fitnessClassId,
-      startTime: new Date(this.scheduleClassDto.startTime ?? new Date()).toISOString(),
-      endTime: new Date(this.scheduleClassDto.endTime ?? new Date()).toISOString(),
-      templateDto: recurring,
+      startTime: new Date(this.scheduleClassDto.startTime).toISOString(),
+      endTime: new Date(this.scheduleClassDto.endTime).toISOString(),
+      templateDto,
     };
-
-    console.log("Payload Prepared:", payload);
-
-    // API Call
+    this.isSubmitting = true;
     this.scheduleClassService.createClassSchedules(payload).subscribe({
-      next: (data) => console.log('Success:', data),
-      error: (err) => console.error('Error creating schedule:', err)
+      next: (data) => {
+        this.toast.show('Class Created Successfully!', 'success');
+        this.isSubmitting = false;
+        setTimeout(() => this.router.navigate(['/dashboard']), 800);
+      },
+      error: (err) => {
+        console.error('Error creating schedule:', err);
+        this.isSubmitting = false;
+        this.toast.show('Failed to create class', 'error');
+      },
     });
   }
-
-
 }
