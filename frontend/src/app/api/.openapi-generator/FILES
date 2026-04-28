@@ -9,6 +9,7 @@ api/adminScheduleController.service.ts
 api/api.ts
 api/authenticationController.service.ts
 api/bookingController.service.ts
+api/categoryController.service.ts
 api/classSchedulesController.service.ts
 api/fitnessClassesController.service.ts
 configuration.ts
