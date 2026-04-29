@@ -288,6 +288,8 @@
 
       @if (currentStep === 1) {
         <button
+          type="button"
+          (click)="cancelForm()"
           class="px-6 py-3 bg-[#111827] text-gray-300 rounded-lg hover:bg-gray-800 transition border border-gray-700 font-medium"
         >
           Cancel
@@ -295,22 +297,24 @@
       }
 
       @if (currentStep < 3) {
+        {{ isSubmitting | json }}
         <button
           (click)="nextStep()"
-          class="px-6 py-3 bg-[#F97316] text-white rounded-lg hover:bg-[#E11D48] transition font-semibold shadow-lg ml-auto"
+          [disabled]="isSubmitting()"
+          class="px-6 py-3 bg-[#F97316] text-white rounded-lg hover:bg-[#E11D48] transition font-semibold shadow-lg ml-auto disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Next Step
+          {{ isSubmitting() ? 'Creating...' : 'Next Step' }}
         </button>
       }
 
       @if (currentStep === 3) {
         <button
           (click)="createClassSchedule()"
-          [disabled]="isSubmitting"
-          [attr.aria-busy]="isSubmitting"
+          [disabled]="isSubmitting()"
+          [attr.aria-busy]="isSubmitting()"
           class="px-6 py-3 bg-[#F97316] text-white rounded-lg hover:bg-[#E11D48] transition font-semibold shadow-lg ml-auto"
         >
-          {{ isSubmitting ? 'Creating...' : 'Create Class' }}
+          {{ isSubmitting() ? 'Creating...' : 'Create Class' }}
         </button>
       }
     </div>

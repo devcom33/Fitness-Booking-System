@@ -12,10 +12,12 @@ import {
 import { Navbar } from '../../../shared/components/navbar/navbar';
 import { Router } from '@angular/router';
 import { ToastService } from '../../../shared/services/toast-service';
+import { JsonPipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-fitness-class-stepper',
-  imports: [Navbar, FormsModule],
+  imports: [Navbar, FormsModule, JsonPipe],
   templateUrl: './fitness-class-stepper.html',
   styleUrl: './fitness-class-stepper.css',
 })
@@ -26,7 +28,7 @@ export class FitnessClassStepper implements OnInit {
   categories = signal<string[]>([]);
 
   private readonly toast = inject(ToastService);
-  isSubmitting = false;
+  isSubmitting = signal(false);
   router = inject(Router);
 
   fitnessClassService = inject(FitnessClassesControllerService);
@@ -98,13 +100,26 @@ export class FitnessClassStepper implements OnInit {
   }
 
   createFitnessClass(): void {
+    this.isSubmitting.set(true);
     this.fitnessClassService.createFitnessClass(this.fitnessClassesDto).subscribe({
       next: (data) => {
-        if (!data?.id) return;
+        
+        console.log('API Response:', data);
+        
+        if (!data?.id) {
+          console.error('Missing ID in response:', data);
+          this.toast.show('Error: Class ID not received', 'error');
+          return;
+        }
         this.scheduleClassDto.fitnessClassId = data.id;
-        this.currentStep = 2;
+        this.isSubmitting.set(false);
+        this.currentStep++;
       },
-      error: (err) => console.error('Error creating class:', err),
+      error: (err) => {
+        this.isSubmitting.set(false);
+        console.error('Error creating class:', err);
+        this.toast.show('Failed to create class', 'error');
+      },
     });
   }
 
@@ -121,7 +136,7 @@ export class FitnessClassStepper implements OnInit {
   }
 
   createClassSchedule(): void {
-    if (this.isSubmitting) return;
+    if (this.isSubmitting()) return;
     
     if (!this.scheduleClassDto.fitnessClassId) {
       console.error('Missing class id');
@@ -168,18 +183,24 @@ export class FitnessClassStepper implements OnInit {
       endTime: new Date(this.scheduleClassDto.endTime).toISOString(),
       templateDto,
     };
-    this.isSubmitting = true;
+    this.isSubmitting.set(true);
     this.scheduleClassService.createClassSchedules(payload).subscribe({
       next: (data) => {
         this.toast.show('Class Created Successfully!', 'success');
-        this.isSubmitting = false;
+        this.isSubmitting.set(false);
         setTimeout(() => this.router.navigate(['/dashboard']), 800);
       },
       error: (err) => {
         console.error('Error creating schedule:', err);
-        this.isSubmitting = false;
+        this.isSubmitting.set(false);
         this.toast.show('Failed to create class', 'error');
       },
     });
   }
+
+
+  cancelForm(): void {
+  this.router.navigate(['/dashboard']);
+
+}
 }
