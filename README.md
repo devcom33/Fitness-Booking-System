@@ -2,7 +2,7 @@
 
 A full-stack scheduling and availability platform designed for fitness instructors and small gyms. Clients can reserve spots in group classes or book 1-on-1 training sessions, while the system enforces instructor availability, class capacities, recurring schedules, and conflict-free reservations.
 
-## 🏋️ Features
+## Features
 
 - **Group Class Management**: Create and manage group fitness classes with capacity limits
 - **Personal Training Sessions**: Schedule one-on-one training appointments
@@ -13,12 +13,12 @@ A full-stack scheduling and availability platform designed for fitness instructo
 - **Interactive Calendar**: FullCalendar integration for visual schedule management
 - **Real-time Updates**: Dynamic booking system with instant feedback
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Backend
 
 - **Framework**: Spring Boot 4.0.0
-- **Language**: Java 21
+- **Language**: Java 25
 - **Database**: PostgreSQL
 - **Security**: Spring Security with JWT (JSON Web Tokens)
 - **ORM**: Spring Data JPA
@@ -182,22 +182,15 @@ Contributions are welcome! Please follow these steps:
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+3. Commit your changes (`git commit -m 'feat: Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-
-## License
-
-This project is currently unlicensed. Please contact the repository owner for usage permissions.
 
 ## Authors
 
 - **devcom33** - [GitHub Profile](https://github.com/devcom33)
 
-## 🐛 Known Issues
+## Known Issues
 
 - Please check the [Issues](https://github.com/devcom33/Fitness-Class-Personal-Training-Booking-System/issues) page for current known issues
 
-## Support
-
-For support, please open an issue in the GitHub repository or contact the maintainers.
