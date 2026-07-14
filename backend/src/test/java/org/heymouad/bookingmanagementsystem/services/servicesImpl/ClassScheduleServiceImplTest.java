@@ -6,12 +6,16 @@ import org.heymouad.bookingmanagementsystem.enums.UserRole;
 import org.heymouad.bookingmanagementsystem.repositories.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
@@ -23,6 +27,8 @@ public class ClassScheduleServiceImplTest {
     private InstructorRepository instructorRepository;
     @Mock
     private FitnessClassRepository fitnessClassRepository;
+    @InjectMocks
+    private ClassScheduleServiceImpl classScheduleService;
     @Mock
     private RecurringScheduleTemplateRepository recurringScheduleTemplateRepository;
     @Mock
@@ -43,7 +49,7 @@ public class ClassScheduleServiceImplTest {
         UUID classId = UUID.randomUUID();
 
         Role role = Role.builder()
-                .id(UUID.randomUUID())
+                .id(roleId)
                 .name(UserRole.CLIENT)
                 .build();
 
@@ -65,7 +71,7 @@ public class ClassScheduleServiceImplTest {
                 .build();
 
         FitnessClass fitnessClass = FitnessClass.builder()
-                .id(UUID.randomUUID())
+                .id(classId)
                 .name("class name 1")
                 .capacity(20)
                 .description("class description")
@@ -76,11 +82,24 @@ public class ClassScheduleServiceImplTest {
         ClassSchedules classSchedules = ClassSchedules.builder()
                 .id(UUID.randomUUID())
                 .instructor(instructor)
+                .fitnessClass(fitnessClass)
+                .startTime(startTime)
+                .endTime(endTime)
+                .template(null)
                 .build();
 
         when(instructorRepository.existsById(instructorId)).thenReturn(true);
         when(fitnessClassRepository.existsById(classId)).thenReturn(true);
+        when(classScheduleRepository.existsClassSchedulesByInstructorIdAndOverlap(startTime, endTime, instructorId))
+                .thenReturn(false);
+        when(classScheduleRepository.save(classSchedules)).thenReturn(classSchedules);
+        List<ClassSchedules> results = classScheduleService.createClassSchedules(classSchedules);
 
+        assertThat(results)
+                .hasSize(1)
+                .containsExactly(classSchedules);
+
+        verify(classScheduleRepository).save(classSchedules);
     }
 
 
